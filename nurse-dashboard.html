@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nurse Dashboard | U5 HMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><link rel="stylesheet" href="asset/css/u5-ui.css">
+</head>
+<body class="u5-staff-shell" onload="U5StaffDashboard.init('nurse')">
+    <div class="u5-topbar"><div><span class="u5-role-badge" id="roleBadge"></span><h1 id="roleTitle" class="mt-3 mb-1"></h1><p class="text-muted mb-0"><span id="staffName"></span> - <span id="staffDept"></span></p></div><button class="btn btn-outline-light" onclick="U5StaffDashboard.logout()">Logout</button></div>
+    <div class="row g-3 mb-4" id="metrics"></div><div id="workspace"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="asset/js/u5-db.js"></script><script src="asset/js/u5-announcements.js"></script><script src="asset/js/u5-ui.js"></script><script src="asset/js/staff-dashboard.js"></script>
+</body>
+</html>

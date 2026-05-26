@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - U5 HMS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="stylesheet" href="asset/css/Landing.css">
+    <link rel="stylesheet" href="asset/css/u5-ai.css">
+    <link rel="stylesheet" href="asset/css/u5-ui.css">
+
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #052e24;
+            --accent: #34d399;
+            --bg: #0b1f17;
+            --card: rgba(255,255,255,0.06);
+            --border: rgba(16,185,129,0.25);
+            --text: #d1fae5;
+            --muted: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg) !important;
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .patient-header {
+            background: rgba(11,31,23,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .patient-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            background: rgba(16,185,129,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        /* STAT CARDS */
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 22px;
+            backdrop-filter: blur(12px);
+            transition: 0.3s;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(16,185,129,0.1);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon.primary { background: rgba(16,185,129,0.2); color: #34d399; }
+        .stat-icon.blue { background: rgba(59,130,246,0.2); color: #60a5fa; }
+        .stat-icon.orange { background: rgba(251,146,60,0.2); color: #fb923c; }
+        .stat-icon.purple { background: rgba(167,139,250,0.2); color: #a78bfa; }
+        .stat-icon.red { background: rgba(248,113,113,0.2); color: #f87171; }
+        .stat-icon.pink { background: rgba(244,114,182,0.2); color: #f472b6; }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* MAIN CARDS */
+        .main-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            margin-bottom: 20px;
+        }
+
+        .card-header-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card-header-custom h5 {
+            color: #fff;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* TABLE */
+        .table-custom {
+            color: var(--text);
+            margin: 0;
+            width: 100%;
+        }
+
+        .table-custom thead th {
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 15px;
+        }
+
+        .table-custom tbody td {
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .table-custom tbody tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* BADGES */
+        .badge-status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        .bg-pending { background: rgba(251,191,36,0.2); color: #fbbf24; }
+        .bg-accepted { background: rgba(59,130,246,0.2); color: #60a5fa; }
+        .bg-completed { background: rgba(16,185,129,0.2); color: #34d399; }
+        .bg-declined { background: rgba(248,113,113,0.2); color: #f87171; }
+        .bg-cancelled { background: rgba(148,163,184,0.2); color: #94a3b8; }
+        .bg-active { background: rgba(16,185,129,0.2); color: #34d399; }
+        .bg-dispensed { background: rgba(59,130,246,0.2); color: #60a5fa; }
+
+        /* BUTTONS */
+        .btn-primary-custom {
+            background: var(--primary) !important;
+            border: none !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--accent) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-custom {
+            border: 1px solid var(--border) !important;
+            color: var(--accent) !important;
+            background: transparent !important;
+            border-radius: 12px !important;
+            padding: 10px 20px;
+            transition: 0.3s;
+        }
+
+        .btn-outline-custom:hover {
+            background: rgba(16,185,129,0.1) !important;
+        }
+
+        .btn-sm-custom {
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            border-radius: 8px !important;
+        }
+
+        /* FORM CONTROLS - FIXED DROPDOWN ARROWS */
+        .form-control-custom {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid var(--border) !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 12px 16px;
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.15) !important;
+            outline: none;
+        }
+
+        /* FIXED: Dropdown Arrow - Emerald Green */
+        .form-select-custom {
+            background-color: rgba(255,255,255,0.05) !important;
+            border: 1px solid var(--border) !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 12px 40px 12px 16px !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2334d399' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 12px center !important;
+            background-size: 16px 12px !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .form-select-custom:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.15) !important;
+            outline: none;
+        }
+
+        .form-select-custom:hover {
+            border-color: var(--primary) !important;
+        }
+
+        .form-select-custom option {
+            background: #0b1f17 !important;
+            color: #d1fae5 !important;
+            padding: 10px !important;
+        }
+
+        /* Date input icon */
+        input[type="date"].form-control-custom {
+            color-scheme: dark;
+        }
+
+        input[type="date"].form-control-custom::-webkit-calendar-picker-indicator {
+            filter: invert(0.7);
+            cursor: pointer;
+        }
+
+        /* Checkbox */
+        .form-check-input {
+            background-color: rgba(255,255,255,0.1) !important;
+            border-color: var(--border) !important;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+
+        /* APPOINTMENT CARD */
+        .appointment-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .appointment-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--primary);
+        }
+
+        .appointment-time {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* TABS */
+        .nav-pills-custom {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .nav-pills-custom .nav-link {
+            color: var(--muted) !important;
+            border-radius: 12px;
+            padding: 10px 20px;
+            margin-right: 8px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-pills-custom .nav-link.active {
+            background: rgba(16,185,129,0.2) !important;
+            color: var(--accent) !important;
+            font-weight: 600;
+        }
+
+        .nav-pills-custom .nav-link:hover:not(.active) {
+            background: rgba(255,255,255,0.05);
+            color: #fff !important;
+        }
+
+        /* AI Tab special styling */
+        .nav-pills-custom .nav-link.ai-tab {
+            background: rgba(139,92,246,0.1) !important;
+            border: 1px solid rgba(139,92,246,0.3) !important;
+            color: #a78bfa !important;
+        }
+
+        .nav-pills-custom .nav-link.ai-tab.active {
+            background: rgba(139,92,246,0.25) !important;
+            border-color: rgba(139,92,246,0.5) !important;
+            color: #c4b5fd !important;
+        }
+
+        .nav-pills-custom .nav-link.ai-tab:hover {
+            background: rgba(139,92,246,0.2) !important;
+        }
+
+        /* Time Slots */
+        .time-slot-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text);
+        }
+
+        .time-slot-option:hover {
+            border-color: var(--primary);
+            background: rgba(16,185,129,0.1);
+        }
+
+        .time-slot-option input[type="radio"]:checked + label {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .patient-header { padding: 12px 15px; }
+            .stat-value { font-size: 1.4rem; }
+            .nav-pills-custom { flex-wrap: nowrap; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body onload="initPatientDashboard()">
+
+<!-- ================= PATIENT HEADER ================= -->
+<div class="patient-header">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <div class="patient-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <h5 class="text-white mb-0" id="patientNameDisplay">Patient</h5>
+                    <small class="text-muted" id="patientSince"></small>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <span id="greetingDisplay" class="text-muted d-none d-md-inline"></span>
+                <button class="btn btn-outline-custom btn-sm" onclick="refreshDashboard()">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="patientLogout()">
+                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container-fluid py-4 px-4">
+
+    <!-- STAT CARDS -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('appointments')">
+                <div class="stat-icon primary"><i class="bi bi-calendar-check-fill"></i></div>
+                <h3 class="stat-value" id="totalMyAppointments">0</h3>
+                <p class="stat-label">My Appointments</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('appointments')">
+                <div class="stat-icon blue"><i class="bi bi-hourglass-split"></i></div>
+                <h3 class="stat-value" id="upcomingApps">0</h3>
+                <p class="stat-label">Upcoming</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('prescriptions')">
+                <div class="stat-icon purple"><i class="bi bi-capsule-pill"></i></div>
+                <h3 class="stat-value" id="activePrescriptions">0</h3>
+                <p class="stat-label">Prescriptions</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('lab-results')">
+                <div class="stat-icon red"><i class="bi bi-droplet-fill"></i></div>
+                <h3 class="stat-value" id="labResultsCount">0</h3>
+                <p class="stat-label">Lab Results</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('billing')">
+                <div class="stat-icon orange"><i class="bi bi-credit-card-fill"></i></div>
+                <h3 class="stat-value" id="pendingBills">$0</h3>
+                <p class="stat-label">Pending Bills</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('ai-assistant')">
+                <div class="stat-icon pink"><i class="bi bi-robot"></i></div>
+                <h3 class="stat-value" id="aiSuggestionsCount">0</h3>
+                <p class="stat-label">AI Suggestions</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI WIDGET (always visible above tabs) -->
+    <div class="ai-widget mb-4" id="aiWidget">
+        <div class="ai-header">
+            <div class="ai-header-left">
+                <i class="bi bi-robot"></i>
+                <h6>U5 AI Health Assistant</h6>
+            </div>
+            <div class="ai-status">
+                <span class="ai-status-dot"></span>
+                <span id="aiStatusText">Analyzing...</span>
+            </div>
+        </div>
+        <div class="ai-body" id="aiSuggestionsBody">
+            <div class="text-center text-muted py-3">
+                <i class="bi bi-hourglass-split" style="font-size: 2rem;"></i>
+                <p class="mt-2">AI analyzing your health data...</p>
+            </div>
+        </div>
+        <div class="ai-footer">
+            <div class="ai-quick-stats" id="aiQuickStats"></div>
+            <button class="ai-toggle" onclick="toggleAIChat()" title="Chat with AI">
+                <i class="bi bi-chat-dots-fill"></i> Ask AI
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Chat Panel (hidden by default) -->
+    <div class="ai-chat-mode" id="aiChatMode">
+        <div class="ai-header" style="cursor: pointer;" onclick="toggleAIChat()">
+            <div class="ai-header-left">
+                <i class="bi bi-robot"></i>
+                <h6>AI Health Assistant Chat</h6>
+            </div>
+            <button class="btn-close btn-close-white" style="font-size: 0.7rem;"></button>
+        </div>
+        <div class="ai-chat-messages" id="aiChatMessages">
+            <div class="ai-chat-message">
+                <div class="ai-chat-avatar ai"><i class="bi bi-robot"></i></div>
+                <div class="ai-chat-bubble">
+                    Hello! I'm your personal health assistant. I can help you book appointments, remind you about medications, explain lab results, and provide health tips. How can I assist you today?
+                </div>
+            </div>
+        </div>
+        <div class="ai-chat-input-area">
+            <input type="text" class="ai-chat-input" id="aiChatInput" 
+                   placeholder="Ask me anything about your health..." 
+                   onkeypress="if(event.key==='Enter')sendAIMessage()">
+            <button class="ai-chat-send" onclick="sendAIMessage()">
+                <i class="bi bi-send-fill"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <ul class="nav nav-pills-custom mb-4" id="patientTabs">
+        <li class="nav-item">
+            <a class="nav-link active" onclick="switchTab('dashboard')" href="javascript:void(0)">
+                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('book-appointment')" href="javascript:void(0)">
+                <i class="bi bi-calendar-plus-fill me-1"></i> Book Appointment
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('appointments')" href="javascript:void(0)">
+                <i class="bi bi-calendar-check-fill me-1"></i> Appointments
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('prescriptions')" href="javascript:void(0)">
+                <i class="bi bi-capsule-pill me-1"></i> Prescriptions
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('lab-results')" href="javascript:void(0)">
+                <i class="bi bi-droplet-fill me-1"></i> Lab Results
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('billing')" href="javascript:void(0)">
+                <i class="bi bi-cash-stack me-1"></i> Billing
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link ai-tab" onclick="switchTab('ai-assistant')" href="javascript:void(0)">
+                <i class="bi bi-robot me-1"></i> AI Assistant
+            </a>
+        </li>
+    </ul>
+
+    <!-- TAB CONTENT -->
+    <div id="tabContent"></div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="asset/js/u5-db.js"></script>
+<script src="asset/js/u5-announcements.js"></script>
+<script src="asset/js/u5-ui.js"></script>
+<script src="asset/js/u5-ai.js"></script>
+<script src="asset/js/u5-auth-guard.js"></script>
+
+<script>
+// ================= SESSION CHECK =================
+let currentPatient = null;
+
+function initPatientDashboard() {
+    const session = JSON.parse(localStorage.getItem("u5_session"));
+
+    if (!session) {
+        alert("Please login to access your dashboard.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    if (session.role !== 'patient') {
+        alert("This dashboard is for patients only. Redirecting...");
+        window.location.href = session.role + "-dashboard.html";
+        return;
+    }
+
+    currentPatient = session;
+
+    document.getElementById("patientNameDisplay").textContent = session.name;
+    document.getElementById("patientSince").textContent =
+        "Patient ID: " + (session.id || 'N/A').toString().slice(-8);
+
+    const hour = new Date().getHours();
+    let greeting = "Good Morning";
+    if (hour >= 12 && hour < 17) greeting = "Good Afternoon";
+    if (hour >= 17) greeting = "Good Evening";
+    document.getElementById("greetingDisplay").textContent = greeting + ", " + session.name;
+
+    // Initialize AI
+    if (typeof U5AIAssistant !== 'undefined') {
+        window.aiAssistant = new U5AIAssistant('patient', 'patient-dashboard');
+        window.aiAssistant.trackAction('dashboard_loaded');
+    }
+
+    switchTab('dashboard');
+    updateAllStats();
+    renderAISuggestions();
+    renderAIQuickStats();
+
+    // Refresh AI every 45 seconds
+    setInterval(() => {
+        renderAISuggestions();
+        renderAIQuickStats();
+    }, 45000);
+}
+
+// ================= TAB SWITCHING =================
+function switchTab(tab) {
+    document.querySelectorAll('#patientTabs .nav-link').forEach(link => link.classList.remove('active'));
+
+    const clickedLink = document.querySelector(`#patientTabs .nav-link[onclick*="${tab}"]`);
+    if (clickedLink) clickedLink.classList.add('active');
+
+    const container = document.getElementById('tabContent');
+
+    switch(tab) {
+        case 'dashboard': renderDashboard(container); break;
+        case 'book-appointment': renderBookAppointment(container); break;
+        case 'appointments': renderMyAppointments(container); break;
+        case 'prescriptions': renderMyPrescriptions(container); break;
+        case 'lab-results': renderMyLabResults(container); break;
+        case 'billing': renderMyBilling(container); break;
+        case 'ai-assistant': renderAIAssistantTab(container); break;
+        default: renderDashboard(container);
+    }
+
+    updateAllStats();
+    renderAISuggestions();
+    renderAIQuickStats();
+
+    if (window.aiAssistant) {
+        window.aiAssistant.trackAction('view_' + tab);
+    }
+}
+
+// ================= DASHBOARD VIEW =================
+function renderDashboard(container) {
+    const appointments = getMyAppointments();
+    const upcoming = appointments
+        .filter(a => ['pending', 'accepted'].includes(a.status))
+        .sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time))
+        .slice(0, 5);
+    const recent = appointments
+        .filter(a => ['completed', 'declined', 'cancelled'].includes(a.status))
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 5);
+
+    container.innerHTML = `
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="main-card">
+                    <div class="card-header-custom">
+                        <h5><i class="bi bi-calendar-check-fill me-2"></i>Upcoming Appointments</h5>
+                        <button class="btn btn-outline-custom btn-sm" onclick="switchTab('book-appointment')">
+                            <i class="bi bi-plus-lg"></i> Book New
+                        </button>
+                    </div>
+                    ${upcoming.length === 0 ? `
+                        <div class="text-center py-4">
+                            <i class="bi bi-calendar2-x" style="font-size: 3rem; color: var(--muted);"></i>
+                            <p class="text-muted mt-2">No upcoming appointments</p>
+                            <button class="btn btn-primary-custom btn-sm" onclick="switchTab('book-appointment')">
+                                Book Your First Appointment
+                            </button>
+                        </div>
+                    ` : upcoming.map(a => `
+                        <div class="appointment-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="appointment-time">${a.time}</span>
+                                        <span class="badge-status bg-${a.status}">${a.status}</span>
+                                    </div>
+                                    <h6 class="text-white mb-1">${a.doctorName}</h6>
+                                    <p class="text-muted small mb-1">${a.specialization}</p>
+                                    <small class="text-muted"><i class="bi bi-calendar3 me-1"></i> ${a.date}</small>
+                                </div>
+                                <div>
+                                    ${a.status === 'pending' ? `
+                                        <button class="btn btn-outline-custom btn-sm-custom text-danger"
+                                            onclick="cancelMyAppointment('${a.id}')">Cancel</button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="main-card">
+                    <div class="card-header-custom">
+                        <h5><i class="bi bi-clock-history me-2"></i>Recent History</h5>
+                        <button class="btn btn-outline-custom btn-sm" onclick="switchTab('appointments')">View All</button>
+                    </div>
+                    ${recent.length === 0 ? `
+                        <div class="text-center py-4">
+                            <i class="bi bi-clipboard2" style="font-size: 3rem; color: var(--muted);"></i>
+                            <p class="text-muted mt-2">No recent activity</p>
+                        </div>
+                    ` : recent.map(a => `
+                        <div class="appointment-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="text-white mb-1">${a.doctorName}</h6>
+                                    <p class="text-muted small mb-1">${a.specialization}</p>
+                                    <small class="text-muted">${a.date} at ${a.time}</small>
+                                </div>
+                                <span class="badge-status bg-${a.status}">${a.status}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ================= BOOK APPOINTMENT VIEW =================
+function renderBookAppointment(container) {
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-calendar-plus-fill me-2"></i>Book New Appointment</h5>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-clipboard2-pulse me-1"></i>Select Specialty <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select-custom" id="bookingSpecialty" onchange="loadDoctorsBySpecialty()" required>
+                        <option value="">Choose specialty...</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-heart-pulse me-1"></i>Select Doctor <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select-custom" id="bookingDoctor" onchange="loadDoctorAvailability()" required>
+                        <option value="">Choose doctor...</option>
+                    </select>
+                </div>
+                <div class="col-12"><div id="selectedDoctorInfo"></div></div>
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-calendar3 me-1"></i>Preferred Date <span class="text-danger">*</span>
+                    </label>
+                    <input type="date" class="form-control-custom" id="bookingDate"
+                           min="${new Date().toISOString().split('T')[0]}"
+                           onchange="loadDoctorsBySpecialty(); loadDoctorAvailability()" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><i class="bi bi-clock me-1"></i>Available Time Slots</label>
+                    <div id="timeSlotsContainer" class="p-2" style="max-height: 200px; overflow-y: auto;">
+                        <p class="text-muted small">👆 Select a doctor and date first</p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">
+                        <i class="bi bi-journal-medical me-1"></i>Symptoms / Reason for Visit
+                    </label>
+                    <textarea class="form-control-custom" id="bookingSymptoms" rows="3"
+                              placeholder="Describe your symptoms or reason for consultation..."></textarea>
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="bookingEmergency">
+                        <label class="form-check-label text-muted" for="bookingEmergency">
+                            <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>This is an emergency
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary-custom btn-lg w-100" onclick="confirmBooking()">
+                        <i class="bi bi-check-lg me-2"></i> Confirm Booking
+                    </button>
+                    <p class="text-muted small text-center mt-2">
+                        <i class="bi bi-info-circle me-1"></i>Your appointment will be reviewed by the doctor
+                    </p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Load specializations AFTER DOM is ready
+    setTimeout(() => {
+        loadSpecializations();
+    }, 150);
+}
+
+// ================= MY APPOINTMENTS VIEW =================
+function renderMyAppointments(container) {
+    const appointments = getMyAppointments();
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-calendar-check-fill me-2"></i>My Appointments</h5>
+                <div>
+                    <select class="form-select-custom d-inline-block w-auto" onchange="filterMyAppointments(this.value)">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table-custom" id="appointmentsTable">
+                    <thead>
+                        <tr><th>Date</th><th>Time</th><th>Doctor</th><th>Specialty</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody>
+                        ${appointments.length === 0 ? `
+                            <tr><td colspan="6" class="text-center text-muted py-4">No appointments found</td></tr>
+                        ` : appointments.map(a => `
+                            <tr data-status="${a.status}">
+                                <td>${a.date}</td>
+                                <td><strong>${a.time}</strong></td>
+                                <td>${a.doctorName}</td>
+                                <td>${a.specialization}</td>
+                                <td><span class="badge-status bg-${a.status}">${a.status}</span></td>
+                                <td>
+                                    ${a.status === 'pending' ? `
+                                        <button class="btn btn-outline-custom btn-sm-custom text-danger"
+                                            onclick="cancelMyAppointment('${a.id}')"><i class="bi bi-x-lg"></i> Cancel</button>
+                                    ` : '--'}
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+// ================= PRESCRIPTIONS VIEW =================
+function renderMyPrescriptions(container) {
+    const prescriptions = (U5DB && U5DB.prescriptions) ? U5DB.prescriptions.getAll().filter(p =>
+        p.patientEmail === currentPatient.email || p.patientName === currentPatient.name
+    ) : [];
+
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-capsule-pill me-2"></i>My Prescriptions</h5>
+            </div>
+            ${prescriptions.length === 0 ? `
+                <div class="text-center py-5">
+                    <i class="bi bi-prescription2" style="font-size: 4rem; color: var(--muted);"></i>
+                    <p class="text-muted mt-3">No prescriptions yet</p>
+                    <small class="text-muted">Prescriptions will appear here after your doctor visits</small>
+                </div>
+            ` : prescriptions.map(p => `
+                <div class="appointment-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="text-white mb-2">${p.medicineName}</h6>
+                            <p class="text-muted small mb-1"><strong>Dosage:</strong> ${p.dosage} | <strong>Duration:</strong> ${p.duration}</p>
+                            <p class="text-muted small mb-1"><strong>Instructions:</strong> ${p.instructions || 'As directed'}</p>
+                            <small class="text-muted">Prescribed by ${p.doctorName} on ${new Date(p.prescribedAt).toLocaleDateString()}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge-status bg-${p.status || 'active'}">${p.status || 'Active'}</span>
+                            <div class="small text-muted mt-2">Pharmacy: ${p.pharmacyStatus || 'pending'}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+// ================= LAB RESULTS VIEW =================
+function renderMyLabResults(container) {
+    const labTests = (U5DB && U5DB.laboratory) ? U5DB.laboratory.getTests().filter(t =>
+        t.patientEmail === currentPatient.email || t.patientName === currentPatient.name
+    ) : [];
+
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-droplet-fill me-2"></i>My Lab Results</h5>
+            </div>
+            ${labTests.length === 0 ? `
+                <div class="text-center py-5">
+                    <i class="bi bi-droplet" style="font-size: 4rem; color: var(--muted);"></i>
+                    <p class="text-muted mt-3">No lab results available</p>
+                </div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead><tr><th>Test Name</th><th>Ordered Date</th><th>Status</th><th>Result</th></tr></thead>
+                        <tbody>
+                            ${labTests.map(t => `
+                                <tr>
+                                    <td><strong>${t.testName}</strong></td>
+                                    <td>${new Date(t.orderedAt).toLocaleDateString()}</td>
+                                    <td><span class="badge-status bg-${t.status === 'completed' ? 'completed' : 'pending'}">${t.status}</span></td>
+                                    <td>${t.result ? t.result : '<span class="text-muted">Pending</span>'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+// ================= BILLING VIEW =================
+function renderMyBilling(container) {
+    const invoices = (U5DB && U5DB.billing) ? U5DB.billing.getAll().filter(i =>
+        i.patientEmail === currentPatient.email || i.patientName === currentPatient.name
+    ) : [];
+
+    const totalPending = invoices
+        .filter(i => i.status === 'pending' || i.status === 'partial')
+        .reduce((sum, i) => sum + (i.totalAmount - (i.paidAmount || 0)), 0);
+
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-cash-stack me-2"></i>Billing & Payments</h5>
+                ${totalPending > 0 ? `<span class="badge-status bg-pending">$${totalPending} Pending</span>` : ''}
+            </div>
+            ${invoices.length === 0 ? `
+                <div class="text-center py-5">
+                    <i class="bi bi-receipt" style="font-size: 4rem; color: var(--muted);"></i>
+                    <p class="text-muted mt-3">No bills or invoices</p>
+                </div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead><tr><th>Invoice #</th><th>Date</th><th>Description</th><th>Amount</th><th>Paid</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody>
+                            ${invoices.map(i => `
+                                <tr>
+                                    <td><strong>${i.invoiceNumber}</strong></td>
+                                    <td>${new Date(i.createdAt).toLocaleDateString()}</td>
+                                    <td>${i.description}</td>
+                                    <td>$${i.totalAmount}</td>
+                                    <td>$${i.paidAmount || 0}</td>
+                                    <td><span class="badge-status bg-${i.status === 'paid' ? 'completed' : i.status === 'partial' ? 'accepted' : 'pending'}">${i.status}</span></td>
+                                    <td>
+                                        ${i.status !== 'paid' ? `
+                                            <button class="btn btn-outline-custom btn-sm-custom" onclick="processPayment('${i.id}')">
+                                                Pay Balance
+                                            </button>
+                                        ` : '--'}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                ${totalPending > 0 ? `
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary-custom" onclick="payAllPending()">
+                            <i class="bi bi-credit-card-fill me-2"></i> Pay Now ($${totalPending})
+                        </button>
+                    </div>
+                ` : ''}
+            `}
+        </div>
+    `;
+}
+
+// ================= AI ASSISTANT TAB =================
+function renderAIAssistantTab(container) {
+    container.innerHTML = `
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="main-card" style="min-height: 400px;">
+                    <div class="card-header-custom">
+                        <h5><i class="bi bi-robot me-2"></i>AI Health Assistant</h5>
+                    </div>
+                    <div id="aiTabChatMessages" style="max-height: 400px; overflow-y: auto; padding: 10px;">
+                        <div class="ai-chat-message">
+                            <div class="ai-chat-avatar ai"><i class="bi bi-robot"></i></div>
+                            <div class="ai-chat-bubble">
+                                <strong>Welcome to your AI Health Assistant!</strong><br><br>
+                                I can help you with:<br>
+                                • 📅 Booking & managing appointments<br>
+                                • 💊 Medication reminders & info<br>
+                                • 🧪 Understanding lab results<br>
+                                • 💡 Health tips & advice<br>
+                                • 💰 Billing questions<br><br>
+                                How can I assist you today?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3" style="display: flex; gap: 10px;">
+                        <input type="text" class="form-control-custom" id="aiTabChatInput"
+                               placeholder="Ask me about your health..."
+                               onkeypress="if(event.key==='Enter')sendAITabMessage()"
+                               style="flex: 1;">
+                        <button class="btn btn-primary-custom" onclick="sendAITabMessage()">
+                            <i class="bi bi-send-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="main-card">
+                    <div class="card-header-custom">
+                        <h5><i class="bi bi-lightbulb-fill me-2"></i>Quick Actions</h5>
+                    </div>
+                    <div id="aiQuickActions">
+                        <button class="btn btn-outline-custom w-100 mb-2" onclick="aiQuickAction('book')">
+                            <i class="bi bi-calendar-plus-fill me-2"></i> Book an Appointment
+                        </button>
+                        <button class="btn btn-outline-custom w-100 mb-2" onclick="aiQuickAction('reminders')">
+                            <i class="bi bi-alarm-fill me-2"></i> Set Medication Reminders
+                        </button>
+                        <button class="btn btn-outline-custom w-100 mb-2" onclick="aiQuickAction('health_tips')">
+                            <i class="bi bi-heart-pulse-fill me-2"></i> Get Health Tips
+                        </button>
+                        <button class="btn btn-outline-custom w-100 mb-2" onclick="aiQuickAction('find_doctor')">
+                            <i class="bi bi-search-heart me-2"></i> Find a Specialist
+                        </button>
+                        <button class="btn btn-outline-custom w-100" onclick="aiQuickAction('emergency')">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> Emergency Info
+                        </button>
+                    </div>
+                </div>
+                <div class="main-card mt-3">
+                    <div class="card-header-custom">
+                        <h5><i class="bi bi-shield-check me-2"></i>Health Insights</h5>
+                    </div>
+                    <div id="aiHealthInsights">
+                        <p class="text-muted">Loading insights...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    // Load health insights
+    setTimeout(() => loadHealthInsights(), 200);
+}
+
+// ================= AI FUNCTIONS =================
+function renderAISuggestions() {
+    if (!window.aiAssistant) return;
+    const suggestions = window.aiAssistant.getSuggestions();
+    const container = document.getElementById('aiSuggestionsBody');
+    if (!container) return;
+
+    document.getElementById('aiSuggestionsCount').textContent = suggestions.length;
+    document.getElementById('aiStatusText').textContent = suggestions.length > 0 ? 
+        suggestions.length + ' suggestions' : 'All Clear ✓';
+
+    if (suggestions.length === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted py-3">
+                <i class="bi bi-check-circle-fill" style="font-size: 2rem; color: #34d399;"></i>
+                <p class="mt-2">All systems optimal. No alerts.</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = suggestions.map(s => `
+        <div class="ai-suggestion" onclick="${s.action && s.action.tab ? `switchTab('${s.action.tab}')` : ''}">
+            <div class="ai-suggestion-header">
+                <div class="ai-suggestion-icon ${s.color || 'info'}">
+                    <i class="bi ${s.icon}"></i>
+                </div>
+                <p class="ai-suggestion-title">${s.title}</p>
+            </div>
+            <p class="ai-suggestion-message">${s.message}</p>
+            ${s.action ? `
+                <a href="javascript:void(0)" class="ai-suggestion-action" 
+                   onclick="event.stopPropagation(); ${s.action.tab ? `switchTab('${s.action.tab}')` : ''}">
+                    ${s.action.text} <i class="bi bi-arrow-right-short"></i>
+                </a>` : ''}
+        </div>
+    `).join('');
+}
+
+function renderAIQuickStats() {
+    if (!window.aiAssistant) return;
+    const stats = window.aiAssistant.getQuickStats();
+    const container = document.getElementById('aiQuickStats');
+    if (!container) return;
+    container.innerHTML = `
+        <span class="ai-stat"><i class="bi bi-hourglass-split"></i> ${stats.pendingApps} pending</span>
+        <span class="ai-stat"><i class="bi bi-calendar-check"></i> ${stats.todayApps} today</span>
+        <span class="ai-stat"><i class="bi bi-heart-pulse"></i> Active</span>`;
+}
+
+function loadHealthInsights() {
+    const container = document.getElementById('aiHealthInsights');
+    if (!container) return;
+    const appointments = getMyAppointments();
+    const completed = appointments.filter(a => a.status === 'completed').length;
+    container.innerHTML = `
+        <div class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> ${completed} visits completed</div>
+        <div class="mb-2"><i class="bi bi-calendar-heart text-info me-2"></i> Regular check-ups recommended</div>
+        <div><i class="bi bi-water text-primary me-2"></i> Stay hydrated - 8 glasses/day</div>`;
+}
+
+function toggleAIChat() {
+    const chatMode = document.getElementById('aiChatMode');
+    chatMode.classList.toggle('open');
+    if (chatMode.classList.contains('open')) {
+        document.getElementById('aiChatInput').focus();
+    }
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('aiChatInput');
+    const message = input.value.trim();
+    if (!message) return;
+    const chatMessages = document.getElementById('aiChatMessages');
+    chatMessages.innerHTML += `
+        <div class="ai-chat-message user">
+            <div class="ai-chat-avatar user"><i class="bi bi-person-fill"></i></div>
+            <div class="ai-chat-bubble">${message}</div>
+        </div>`;
+    input.value = '';
+    setTimeout(() => {
+        const response = generatePatientAIResponse(message);
+        chatMessages.innerHTML += `
+            <div class="ai-chat-message">
+                <div class="ai-chat-avatar ai"><i class="bi bi-robot"></i></div>
+                <div class="ai-chat-bubble">${response}</div>
+            </div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 800);
+}
+
+function sendAITabMessage() {
+    const input = document.getElementById('aiTabChatInput');
+    if (!input) return;
+    const message = input.value.trim();
+    if (!message) return;
+    const chatMessages = document.getElementById('aiTabChatMessages');
+    chatMessages.innerHTML += `
+        <div class="ai-chat-message user">
+            <div class="ai-chat-avatar user"><i class="bi bi-person-fill"></i></div>
+            <div class="ai-chat-bubble">${message}</div>
+        </div>`;
+    input.value = '';
+    setTimeout(() => {
+        const response = generatePatientAIResponse(message);
+        chatMessages.innerHTML += `
+            <div class="ai-chat-message">
+                <div class="ai-chat-avatar ai"><i class="bi bi-robot"></i></div>
+                <div class="ai-chat-bubble">${response}</div>
+            </div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 800);
+}
+
+function generatePatientAIResponse(message) {
+    const msg = message.toLowerCase();
+    if (msg.includes('appointment') || msg.includes('book')) {
+        return '📅 I can help you book an appointment! Click <strong onclick="switchTab(\'book-appointment\')" style="color:#34d399;cursor:pointer;">here</strong> to go to the booking page. Select your preferred specialty and doctor.';
+    }
+    if (msg.includes('prescription') || msg.includes('medicine') || msg.includes('medication')) {
+        return '💊 You can view all your prescriptions in the <strong onclick="switchTab(\'prescriptions\')" style="color:#34d399;cursor:pointer;">Prescriptions tab</strong>. Remember to take medications as prescribed by your doctor.';
+    }
+    if (msg.includes('lab') || msg.includes('test') || msg.includes('result')) {
+        return '🧪 Your lab results are available in the <strong onclick="switchTab(\'lab-results\')" style="color:#34d399;cursor:pointer;">Lab Results tab</strong>. If you need help understanding any results, feel free to ask!';
+    }
+    if (msg.includes('bill') || msg.includes('payment') || msg.includes('invoice')) {
+        return '💰 Check your billing status in the <strong onclick="switchTab(\'billing\')" style="color:#34d399;cursor:pointer;">Billing tab</strong>. You can view all invoices and make payments there.';
+    }
+    if (msg.includes('doctor') || msg.includes('specialist')) {
+        return '👨‍⚕️ We have specialists across 12+ departments. Go to <strong onclick="switchTab(\'book-appointment\')" style="color:#34d399;cursor:pointer;">Book Appointment</strong> to browse available doctors by specialty.';
+    }
+    if (msg.includes('emergency') || msg.includes('urgent')) {
+        return '🚨 If this is a medical emergency, please call <strong>911</strong> immediately or visit your nearest emergency room. For urgent appointments, check the "Emergency" box when booking.';
+    }
+    if (msg.includes('health') || msg.includes('tip') || msg.includes('advice')) {
+        return '💡 <strong>Health Tips:</strong><br>• Stay hydrated (8 glasses of water daily)<br>• Get 7-8 hours of sleep<br>• Exercise 30 minutes daily<br>• Schedule regular check-ups<br>• Eat a balanced diet rich in fruits and vegetables';
+    }
+    return `Thank you for your question about "${message}". I'm here to help with appointments, prescriptions, lab results, billing, and health advice. What specific health concern can I assist you with?`;
+}
+
+function aiQuickAction(action) {
+    switch(action) {
+        case 'book': switchTab('book-appointment'); break;
+        case 'reminders': alert('💊 Medication Reminder:\n\nSet reminders for your prescriptions in the Prescriptions tab. Take medications at the same time daily for best results!'); break;
+        case 'health_tips': alert('💡 Daily Health Tips:\n\n• Drink 8 glasses of water\n• Walk 10,000 steps\n• Eat 5 servings of fruits/vegetables\n• Get 7-8 hours of sleep\n• Practice stress management'); break;
+        case 'find_doctor': switchTab('book-appointment'); break;
+        case 'emergency': alert('🚨 EMERGENCY INFO:\n\n• Call 911 for life-threatening emergencies\n• Nearest ER: City General Hospital\n• Poison Control: 1-800-222-1222\n• Always check "Emergency" when booking urgent appointments'); break;
+    }
+}
+
+// ================= BOOKING FUNCTIONS =================
+function loadSpecializations() {
+    const select = document.getElementById("bookingSpecialty");
+    if (!select) return;
+
+    let specs = (U5DB && U5DB.getStore) ? U5DB.getStore("specializations") : [];
+
+    if (specs.length === 0) {
+        const defaultSpecs = [
+            "Cardiology", "Dermatology", "Dentistry", "Ophthalmology",
+            "Physiotherapy", "Neurology", "Urology", "Pediatrics",
+            "ENT", "Orthopedics", "Psychiatry", "Gynecology",
+            "Radiology", "Oncology", "Emergency Medicine"
+        ];
+        specs = defaultSpecs.map((name, i) => ({ id: i + 1, name, description: name + " Department" }));
+        if (U5DB && U5DB.setStore) U5DB.setStore("specializations", specs);
+    }
+
+    select.innerHTML = '<option value="">Choose specialty...</option>' +
+        specs.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+}
+
+function loadDoctorsBySpecialty() {
+    const specialtySelect = document.getElementById("bookingSpecialty");
+    const doctorSelect = document.getElementById("bookingDoctor");
+    const infoDiv = document.getElementById("selectedDoctorInfo");
+    const slotsContainer = document.getElementById("timeSlotsContainer");
+
+    if (!specialtySelect || !doctorSelect) return;
+
+    doctorSelect.innerHTML = '<option value="">Choose doctor...</option>';
+    if (infoDiv) infoDiv.innerHTML = '';
+    if (slotsContainer) slotsContainer.innerHTML = '<p class="text-muted small">👆 Select a doctor and date first</p>';
+
+    const specialty = specialtySelect.value;
+    if (!specialty) return;
+
+    const date = document.getElementById("bookingDate")?.value;
+    const matchingDoctors = (U5DB && U5DB.doctors)
+        ? U5DB.doctors.getAvailableBySpecialty(specialty, date)
+        : [];
+
+    if (matchingDoctors.length === 0) {
+        doctorSelect.innerHTML = '<option value="">No doctors available</option>';
+        return;
+    }
+
+    doctorSelect.innerHTML = '<option value="">Choose doctor...</option>' +
+        matchingDoctors.map(d =>
+            `<option value="${d.id}" data-name="${d.name}" data-email="${d.email || ''}" data-fee="${d.fee || 100}" data-exp="${d.experience || 0}">
+                ${d.name} - $${d.fee || 100} (${d.experience || 0} yrs)
+            </option>`
+        ).join('');
+}
+
+function loadDoctorAvailability() {
+    const doctorSelect = document.getElementById("bookingDoctor");
+    const dateInput = document.getElementById("bookingDate");
+    const infoDiv = document.getElementById("selectedDoctorInfo");
+    const slotsContainer = document.getElementById("timeSlotsContainer");
+
+    if (!doctorSelect || !dateInput || !slotsContainer) return;
+
+    const doctorId = doctorSelect.value;
+    const date = dateInput.value;
+
+    if (doctorId && infoDiv) {
+        const option = doctorSelect.selectedOptions[0];
+        const availability = (U5DB && U5DB.doctors) ? U5DB.doctors.getAvailability(doctorId) : { status: 'available' };
+        const onDate = date ? (U5DB && U5DB.doctors ? U5DB.doctors.isAvailableOn(doctorId, date) : true) : true;
+        const availabilityLabel = date ? (onDate ? 'Available on date' : 'Unavailable on date') : (availability.status === 'available' ? 'Available' : 'Unavailable');
+        const availabilityClass = onDate ? 'text-success' : 'text-danger';
+        infoDiv.innerHTML = `
+            <div class="p-3 rounded" style="background: rgba(16,185,129,0.08); border: 1px solid var(--border);">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-heart-pulse-fill ${availabilityClass}" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <strong class="text-white">${option.dataset.name}</strong><br>
+                        <small class="text-muted">Fee: $${option.dataset.fee} | Exp: ${option.dataset.exp} years | <span class="${availabilityClass}">${availabilityLabel}</span></small>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    if (!doctorId || !date) {
+        slotsContainer.innerHTML = '<p class="text-muted small">👆 Select a doctor and date first</p>';
+        return;
+    }
+
+    const isAvailable = (U5DB && U5DB.doctors) ? U5DB.doctors.isAvailableOn(doctorId, date) : true;
+    if (!isAvailable) {
+        const availability = (U5DB && U5DB.doctors) ? U5DB.doctors.getAvailability(doctorId) : { status: 'unavailable' };
+        const message = availability.status === 'available'
+            ? 'This doctor is not available on the selected date.'
+            : 'This doctor is currently marked unavailable.';
+        slotsContainer.innerHTML = `<p class="text-danger small">${message} Please choose another date or doctor.</p>`;
+        return;
+    }
+
+    const allAppointments = (U5DB && U5DB.appointments) ? U5DB.appointments.getAll() : [];
+    const bookedSlots = allAppointments
+        .filter(a => a.doctorId === doctorId && a.date === date && a.status !== 'cancelled')
+        .map(a => a.time);
+
+    const timeSlots = [];
+    for (let h = 9; h < 17; h++) {
+        for (let m = 0; m < 60; m += 30) {
+            const time24 = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+            const display12 = `${h > 12 ? h - 12 : h}:${m.toString().padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`;
+            if (!bookedSlots.includes(display12) && !bookedSlots.includes(time24)) {
+                timeSlots.push({ value: display12, label: display12 });
+            }
+        }
+    }
+
+    if (timeSlots.length === 0) {
+        slotsContainer.innerHTML = '<p class="text-danger small">No slots available. Try another date.</p>';
+        return;
+    }
+
+    slotsContainer.innerHTML = timeSlots.map((slot, i) => `
+        <div class="time-slot-option mb-1">
+            <input class="form-check-input" type="radio" name="timeSlot" id="slot${i}" value="${slot.value}">
+            <label for="slot${i}" style="cursor: pointer; margin: 0;">${slot.label}</label>
+        </div>
+    `).join('');
+}
+
+function confirmBooking() {
+    const specialty = document.getElementById("bookingSpecialty")?.value;
+    const doctorSelect = document.getElementById("bookingDoctor");
+    const date = document.getElementById("bookingDate")?.value;
+    const symptoms = document.getElementById("bookingSymptoms")?.value;
+    const isEmergency = document.getElementById("bookingEmergency")?.checked;
+    const selectedSlot = document.querySelector('input[name="timeSlot"]:checked');
+
+    if (!specialty || !doctorSelect?.value || !date || !selectedSlot) {
+        alert("Please fill all required fields and select a time slot!");
+        return;
+    }
+
+    const doctorId = doctorSelect.value;
+    const isAvailable = (U5DB && U5DB.doctors) ? U5DB.doctors.isAvailableOn(doctorId, date) : true;
+    if (!isAvailable) {
+        alert("Selected doctor is unavailable on this date. Please choose another date or provider.");
+        return;
+    }
+
+    const selectedDoctor = doctorSelect.selectedOptions[0];
+    const doctorName = selectedDoctor?.dataset.name || "Doctor";
+    const doctorEmail = selectedDoctor?.dataset.email || "";
+    const fee = Number(selectedDoctor?.dataset.fee || 0);
+    const time = selectedSlot.value;
+
+    if (U5DB && U5DB.appointments) {
+        const result = U5DB.appointments.create({
+            patientName: currentPatient.name,
+            patientEmail: currentPatient.email,
+            patientId: currentPatient.id,
+            doctorId: doctorId,
+            doctorName: doctorName,
+            doctorEmail: doctorEmail,
+            specialization: specialty,
+            date: date,
+            time: time,
+            fee: fee,
+            symptomsDescription: symptoms,
+            isEmergency: isEmergency
+        });
+
+        if (result.error) {
+            alert("❌ " + result.error);
+            return;
+        }
+    } else {
+        // Fallback: save directly
+        let appointments = JSON.parse(localStorage.getItem("u5_appointments") || "[]");
+        appointments.push({
+            id: Date.now().toString(36),
+            patientName: currentPatient.name,
+            patientEmail: currentPatient.email,
+            doctorId, doctorName, doctorEmail, specialization: specialty,
+            date, time, symptomsDescription: symptoms,
+            isEmergency, fee, status: 'pending',
+            createdAt: new Date().toISOString()
+        });
+        localStorage.setItem("u5_appointments", JSON.stringify(appointments));
+    }
+
+    alert("✅ Appointment booked successfully!\n\nDoctor: " + doctorName + "\nDate: " + date + "\nTime: " + time);
+    switchTab('dashboard');
+    updateAllStats(); 
+    renderAISuggestions();
+}
+
+// ================= HELPERS =================
+function getMyAppointments() {
+    if (U5DB && U5DB.appointments) {
+        return U5DB.appointments.getAll().filter(a =>
+            a.patientEmail === currentPatient.email || a.patientName === currentPatient.name
+        );
+    }
+    return JSON.parse(localStorage.getItem("u5_appointments") || "[]").filter(a =>
+        a.patientEmail === currentPatient.email || a.patientName === currentPatient.name
+    );
+}
+
+function cancelMyAppointment(appointmentId) {
+    if (!confirm("Cancel this appointment?")) return;
+    if (U5DB && U5DB.appointments) {
+        U5DB.appointments.updateStatus(appointmentId, 'cancelled', 'Cancelled by patient');
+    }
+    alert("Appointment cancelled.");
+    switchTab('appointments');
+    updateAllStats();
+    renderAISuggestions();
+}
+
+function filterMyAppointments(filter) {
+    const rows = document.querySelectorAll('#appointmentsTable tbody tr');
+    rows.forEach(row => {
+        row.style.display = (filter === 'all' || row.dataset.status === filter) ? '' : 'none';
+    });
+}
+
+function processPayment() {
+    alert("✅ Payment processed successfully! (Simulated)\n\nThank you for your payment.");
+    switchTab('billing');
+    updateAllStats();
+}
+
+function processPayment(invoiceId) {
+    if (!invoiceId || !U5DB?.billing) {
+        alert("Payment service unavailable.");
+        return;
+    }
+    const invoice = U5DB.billing.getAll().find(i => i.id === invoiceId);
+    if (!invoice) {
+        alert("Invoice not found.");
+        return;
+    }
+    const balance = Math.max(0, Number(invoice.totalAmount || 0) - Number(invoice.paidAmount || 0));
+    if (balance <= 0) {
+        alert("This invoice is already paid.");
+        return;
+    }
+    U5DB.billing.recordPayment(invoiceId, balance, 'Patient portal');
+    alert("Payment processed successfully.\n\nAmount paid: $" + balance);
+    switchTab('billing');
+    updateAllStats();
+}
+
+function payAllPending() {
+    const invoices = U5DB?.billing ? U5DB.billing.getAll().filter(i =>
+        (i.patientEmail === currentPatient.email || i.patientName === currentPatient.name) &&
+        i.status !== 'paid'
+    ) : [];
+    invoices.forEach(i => {
+        const balance = Math.max(0, Number(i.totalAmount || 0) - Number(i.paidAmount || 0));
+        if (balance > 0) U5DB.billing.recordPayment(i.id, balance, 'Patient portal');
+    });
+    alert("All pending balances have been paid.");
+    switchTab('billing');
+    updateAllStats();
+}
+
+function updateAllStats() {
+    const appointments = getMyAppointments();
+    const prescriptions = (U5DB && U5DB.prescriptions) ? U5DB.prescriptions.getAll().filter(p =>
+        p.patientEmail === currentPatient.email || p.patientName === currentPatient.name
+    ) : [];
+    const labTests = (U5DB && U5DB.laboratory) ? U5DB.laboratory.getTests().filter(t =>
+        t.patientEmail === currentPatient.email || t.patientName === currentPatient.name
+    ) : [];
+
+    const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+
+    el("totalMyAppointments", appointments.length);
+    el("upcomingApps", appointments.filter(a => ['pending', 'accepted'].includes(a.status)).length);
+    el("activePrescriptions", prescriptions.filter(p => p.status === 'active').length);
+    el("labResultsCount", labTests.filter(t => t.status === 'completed').length);
+
+    const pendingBills = (U5DB && U5DB.billing) ? U5DB.billing.getAll()
+        .filter(i => (i.patientEmail === currentPatient.email) && (i.status === 'pending' || i.status === 'partial'))
+        .reduce((sum, i) => sum + (i.totalAmount - (i.paidAmount || 0)), 0) : 0;
+    el("pendingBills", '$' + pendingBills);
+
+    const completedApps = appointments.filter(a => a.status === 'completed').length;
+    el("healthScore", Math.min(100, (completedApps * 10) + (prescriptions.length * 2)) + '%');
+
+    if (window.aiAssistant) {
+        el("aiSuggestionsCount", window.aiAssistant.getSuggestions().length);
+    }
+}
+
+function refreshDashboard() {
+    const activeTab = document.querySelector('#patientTabs .nav-link.active');
+    const tabText = activeTab?.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || 'dashboard';
+    switchTab(tabText);
+    updateAllStats();
+    renderAISuggestions();
+    renderAIQuickStats();
+}
+
+function patientLogout() {
+    if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem("u5_session");
+        window.location.href = "index.html";
+    }
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPatientDashboard);
+} else {
+    initPatientDashboard();
+}
+</script>
+
+</body>
+</html>

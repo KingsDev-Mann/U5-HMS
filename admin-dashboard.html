@@ -1,0 +1,2633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - U5 HMS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="stylesheet" href="asset/css/Landing.css">
+    <link rel="stylesheet" href="asset/css/u5-ui.css">
+
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #052e24;
+            --accent: #34d399;
+            --bg: #0b1f17;
+            --card: rgba(255,255,255,0.06);
+            --border: rgba(16,185,129,0.25);
+            --text: #d1fae5;
+            --muted: #94a3b8;
+        }
+
+        body {
+            background: var(--bg) !important;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* ADMIN HEADER */
+        .admin-header {
+            background: rgba(11,31,23,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* STAT CARDS */
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            transition: 0.3s;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon.blue { background: rgba(59,130,246,0.2); color: #60a5fa; }
+        .stat-icon.green { background: rgba(16,185,129,0.2); color: #34d399; }
+        .stat-icon.orange { background: rgba(251,146,60,0.2); color: #fb923c; }
+        .stat-icon.purple { background: rgba(167,139,250,0.2); color: #a78bfa; }
+        .stat-icon.red { background: rgba(248,113,113,0.2); color: #f87171; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* NAV PILLS */
+        .nav-pills .nav-link {
+            color: var(--muted) !important;
+            border-radius: 12px;
+            padding: 10px 20px;
+            margin-right: 8px;
+            transition: 0.3s;
+        }
+
+        .nav-pills .nav-link.active {
+            background: rgba(16,185,129,0.2) !important;
+            color: var(--accent) !important;
+        }
+
+        .nav-pills .nav-link:hover:not(.active) {
+            background: rgba(255,255,255,0.05);
+            color: #fff !important;
+        }
+
+        /* TABLE */
+        .table-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+        }
+
+        .table {
+            color: var(--text);
+            margin: 0;
+        }
+
+        .table thead th {
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 15px;
+        }
+
+        .table tbody td {
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* BADGES */
+        .badge-status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .bg-pending { background: rgba(251,191,36,0.2); color: #fbbf24; }
+        .bg-accepted { background: rgba(59,130,246,0.2); color: #60a5fa; }
+        .bg-completed { background: rgba(16,185,129,0.2); color: #34d399; }
+        .bg-declined { background: rgba(248,113,113,0.2); color: #f87171; }
+        .bg-cancelled { background: rgba(148,163,184,0.2); color: #94a3b8; }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: var(--primary) !important;
+            border: none !important;
+            border-radius: 12px !important;
+            padding: 10px 20px;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent) !important;
+        }
+
+        .btn-outline-light {
+            border: 1px solid var(--border) !important;
+            color: var(--accent) !important;
+            background: transparent !important;
+            border-radius: 12px !important;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(16,185,129,0.1) !important;
+        }
+
+        .btn-sm-action {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: 8px !important;
+        }
+
+        /* MODAL OVERRIDES */
+        .modal-content {
+            background: rgba(8,20,15,0.97) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 24px !important;
+            backdrop-filter: blur(30px);
+            color: #fff;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--border) !important;
+            padding: 22px 28px;
+        }
+
+        .modal-body {
+            padding: 28px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--border) !important;
+            padding: 20px 28px;
+        }
+
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid var(--border) !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 12px 16px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.15) !important;
+        }
+
+        .form-label {
+            color: #cbd5e1;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        /* SPECIALTY CARDS */
+        .specialty-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            height: 100%;
+            transition: 0.3s;
+        }
+
+        .specialty-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .specialty-card h6 {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .specialty-card .doctor-count {
+            color: var(--accent);
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        /* SEARCH */
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 15px 10px 40px;
+            color: #fff;
+            width: 280px;
+            outline: none;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .admin-header { padding: 12px 15px; }
+            .search-box input { width: 200px; }
+        }
+    </style>
+</head>
+<body onload="initAdmin()">
+
+<!-- ================= ADMIN HEADER ================= -->
+<div class="admin-header d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-3">
+        <h4 class="mb-0 text-white fw-bold">⚕️ U5 HMS</h4>
+        <span class="badge bg-success ms-2">Admin Panel</span>
+    </div>
+
+    <!-- anouncement section -->
+    <div id="announcementBar"></div>
+
+    <div id="announcementManager"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.U5Announcements) U5Announcements.renderManager('announcementManager');
+});
+</script>
+    
+    <div class="d-flex align-items-center gap-3">
+        <div class="search-box d-none d-md-block">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Search doctors, patients..." id="globalSearch" onkeyup="handleGlobalSearch()">
+        </div>
+        
+        <span class="text-muted" id="adminGreeting"></span>
+        
+        <button class="btn btn-outline-light btn-sm" onclick="window.location.reload()">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+        
+        <button class="btn btn-danger btn-sm" onclick="logout()">
+            <i class="bi bi-box-arrow-right me-1"></i> Logout
+        </button>
+    </div>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container-fluid py-4 px-4">
+
+    <!-- STAT CARDS -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card text-center">
+                <div class="stat-icon green mx-auto"><i class="bi bi-people-fill"></i></div>
+                <h3 class="stat-value" id="totalPatients">0</h3>
+                <p class="stat-label">Patients</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card text-center">
+                <div class="stat-icon blue mx-auto"><i class="bi bi-heart-pulse"></i></div>
+                <h3 class="stat-value" id="totalDoctors">0</h3>
+                <p class="stat-label">Doctors</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card text-center">
+                <div class="stat-icon orange mx-auto"><i class="bi bi-calendar-check"></i></div>
+                <h3 class="stat-value" id="todayAppointments">0</h3>
+                <p class="stat-label">Today</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card text-center">
+                <div class="stat-icon purple mx-auto"><i class="bi bi-cash-stack"></i></div>
+                <h3 class="stat-value" id="totalRevenue">$0</h3>
+                <p class="stat-label">Revenue</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card text-center">
+                <div class="stat-icon red mx-auto"><i class="bi bi-hourglass-split"></i></div>
+                <h3 class="stat-value" id="pendingApps">0</h3>
+                <p class="stat-label">Pending</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card text-center">
+                <div class="stat-icon green mx-auto"><i class="bi bi-clipboard2-pulse"></i></div>
+                <h3 class="stat-value" id="totalSpecs">0</h3>
+                <p class="stat-label">Specialties</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <ul class="nav nav-pills mb-4" id="adminTabs">
+        <li class="nav-item">
+            <a class="nav-link active" onclick="showTab('doctors')" href="javascript:void(0)">
+                <i class="bi bi-heart-pulse me-1"></i> Doctors
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showTab('specializations')" href="javascript:void(0)">
+                <i class="bi bi-clipboard2-pulse me-1"></i> Specializations
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showTab('patients')" href="javascript:void(0)">
+                <i class="bi bi-people me-1"></i> Patients
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showTab('appointments')" href="javascript:void(0)">
+                <i class="bi bi-calendar-check me-1"></i> Appointments
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showTab('operations')" href="javascript:void(0)">
+                <i class="bi bi-hospital me-1"></i> Operations
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showTab('reports')" href="javascript:void(0)">
+                <i class="bi bi-graph-up me-1"></i> Reports
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showTab('payroll')" href="javascript:void(0)">
+                <i class="bi bi-wallet2 me-1"></i> Payroll
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showTab('finance')" href="javascript:void(0)">
+                <i class="bi bi-cash-stack me-1"></i> Finance
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="showTab('discipline')" href="javascript:void(0)">
+                <i class="bi bi-clipboard2-check me-1"></i> Discipline
+            </a>
+        </li>
+    </ul>
+
+    <!-- TAB CONTENT -->
+    <div id="tabContent"></div>
+
+</div>
+
+
+
+<!-- ================= DOCTOR MODAL ================= -->
+<div class="modal fade" id="doctorModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalTitle">
+                    <i class="bi bi-heart-pulse me-2"></i> Add Doctor
+                </h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="doctorForm">
+                    <input type="hidden" id="doctorId">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" id="docName" placeholder="Dr. John Smith" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="docEmail" placeholder="doctor@u5hms.com" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Specialization *</label>
+                            <select class="form-select" id="docSpecialization" required>
+                                <option value="">Select Specialization...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">License Number *</label>
+                            <input type="text" class="form-control" id="docLicense" placeholder="LIC-XXXX" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Consultation Fee ($) *</label>
+                            <input type="number" class="form-control" id="docFee" placeholder="150" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Annual Salary ($)</label>
+                            <input type="number" class="form-control" id="docSalary" placeholder="155000">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="docPhone" placeholder="+1234567890">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Bank / Account</label>
+                            <input type="text" class="form-control" id="docBankAccount" placeholder="Bank name - Account number">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Tax ID</label>
+                            <input type="text" class="form-control" id="docTaxId" placeholder="TIN / BVN">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Experience (Years)</label>
+                            <input type="number" class="form-control" id="docExperience" placeholder="5">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="docStatus">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Bio / Qualifications</label>
+                            <textarea class="form-control" id="docBio" rows="3" placeholder="MD, Cardiology Specialist..."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" onclick="saveDoctor()">
+                    <i class="bi bi-check-lg me-1"></i> Save Doctor
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= SPECIALIZATION MODAL ================= -->
+<div class="modal fade" id="specModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="specModalTitle">
+                    <i class="bi bi-clipboard2-pulse me-2"></i> Add Specialization
+                </h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="specForm">
+                    <input type="hidden" id="specId">
+                    <div class="mb-3">
+                        <label class="form-label">Specialization Name *</label>
+                        <input type="text" class="form-control" id="specName" placeholder="Cardiology" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="specDesc" rows="2" placeholder="Heart and cardiovascular system specialist"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" onclick="saveSpecialization()">
+                    <i class="bi bi-check-lg me-1"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="asset/js/u5-db.js"></script>
+<script src="asset/js/u5-announcements.js"></script>
+<script src="asset/js/u5-ui.js"></script>
+
+<script>
+// ================= SESSION PROTECTION =================
+(function protectAdmin() {
+    const session = JSON.parse(localStorage.getItem("u5_session"));
+    if (!session || session.role !== "admin") {
+        alert("Unauthorized access! Redirecting to login...");
+        window.location.replace("index.html");
+    }
+})();
+
+// ================= DATA HELPERS =================
+function getStore(key) {
+    return window.U5DB ? U5DB.getStore(key) : (JSON.parse(localStorage.getItem("u5_" + key)) || []);
+}
+
+function setStore(key, data) {
+    if (window.U5DB) {
+        U5DB.setStore(key, data);
+    } else {
+        localStorage.setItem("u5_" + key, JSON.stringify(data));
+    }
+}
+
+// ================= SEED DATA =================
+(function seedData() {
+    // Seed specializations
+    if (getStore("specializations").length === 0) {
+        const specs = [
+            { id: 1, name: "Cardiology", description: "Heart and cardiovascular system" },
+            { id: 2, name: "Dermatology", description: "Skin, hair, and nail disorders" },
+            { id: 3, name: "Dentistry", description: "Oral health and dental care" },
+            { id: 4, name: "Ophthalmology", description: "Eye and vision care" },
+            { id: 5, name: "Physiotherapy", description: "Physical rehabilitation therapy" },
+            { id: 6, name: "Neurology", description: "Brain and nervous system" },
+            { id: 7, name: "Urology", description: "Urinary tract and male reproductive" },
+            { id: 8, name: "Pediatrics", description: "Children's health and development" },
+            { id: 9, name: "ENT", description: "Ear, Nose, and Throat" },
+            { id: 10, name: "Orthopedics", description: "Bone and joint disorders" },
+            { id: 11, name: "Psychiatry", description: "Mental health and disorders" },
+            { id: 12, name: "Gynecology", description: "Women's reproductive health" }
+        ];
+        setStore("specializations", specs);
+    }
+
+    // Seed doctors
+    if (getStore("doctors").length === 0) {
+        const doctors = [
+            { id: 1, name: "Dr. James Wilson", email: "james@u5hms.com", specialization: "Cardiology", license: "LIC-001", fee: 150, experience: 12, status: "active", bio: "Senior Cardiologist with 12 years experience" },
+            { id: 2, name: "Dr. Sarah Chen", email: "sarah@u5hms.com", specialization: "Dermatology", license: "LIC-002", fee: 120, experience: 8, status: "active", bio: "Dermatology Specialist" },
+            { id: 3, name: "Dr. Michael Brown", email: "michael@u5hms.com", specialization: "Neurology", license: "LIC-003", fee: 200, experience: 15, status: "active", bio: "Neurology Expert" },
+            { id: 4, name: "Dr. Emily Davis", email: "emily@u5hms.com", specialization: "Pediatrics", license: "LIC-004", fee: 100, experience: 6, status: "active", bio: "Child Health Specialist" },
+            { id: 5, name: "Dr. Robert Kim", email: "robert@u5hms.com", specialization: "Ophthalmology", license: "LIC-005", fee: 180, experience: 10, status: "inactive", bio: "Eye Surgery Specialist" }
+        ];
+        setStore("doctors", doctors);
+    }
+
+    // Seed patients
+    if (getStore("patients").length === 0) {
+        const patients = [
+            { id: 1, name: "John Doe", email: "john@email.com", bloodGroup: "O+", phone: "555-0101" },
+            { id: 2, name: "Jane Smith", email: "jane@email.com", bloodGroup: "A+", phone: "555-0102" },
+            { id: 3, name: "Robert Johnson", email: "robert@email.com", bloodGroup: "B+", phone: "555-0103" }
+        ];
+        setStore("patients", patients);
+    }
+
+    // Seed appointments
+    if (getStore("appointments").length === 0) {
+        const today = new Date().toISOString().split('T')[0];
+        const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+        setStore("appointments", [
+            { id: 1, patientName: "John Doe", doctorName: "Dr. James Wilson", specialization: "Cardiology", date: today, time: "09:30 AM", status: "pending" },
+            { id: 2, patientName: "Jane Smith", doctorName: "Dr. Sarah Chen", specialization: "Dermatology", date: today, time: "10:00 AM", status: "accepted" },
+            { id: 3, patientName: "Robert Johnson", doctorName: "Dr. Michael Brown", specialization: "Neurology", date: today, time: "11:30 AM", status: "completed" },
+            { id: 4, patientName: "Alice Williams", doctorName: "Dr. Emily Davis", specialization: "Pediatrics", date: tomorrow, time: "02:00 PM", status: "pending" },
+            { id: 5, patientName: "Bob Anderson", doctorName: "Dr. James Wilson", specialization: "Cardiology", date: today, time: "03:00 PM", status: "declined" }
+        ]);
+    }
+})();
+
+// ================= INITIALIZATION =================
+function initAdmin() {
+    // Set greeting
+    const session = JSON.parse(localStorage.getItem("u5_session"));
+    const hour = new Date().getHours();
+    let greeting = "Good Morning";
+    if (hour >= 12 && hour < 17) greeting = "Good Afternoon";
+    if (hour >= 17) greeting = "Good Evening";
+    document.getElementById("adminGreeting").textContent = greeting + ", " + (session?.name || "Admin");
+
+    // If the admin page was loaded with a hash, open that tab
+    const validTabs = ['doctors','specializations','patients','appointments','operations','reports','payroll','finance','discipline'];
+    const initialTab = window.location.hash ? window.location.hash.replace('#', '') : null;
+    if (initialTab && validTabs.includes(initialTab)) {
+        showTab(initialTab);
+    } else {
+        showTab('doctors');
+    }
+
+    updateStats();
+}
+
+// ================= TAB NAVIGATION =================
+// ================= TAB NAVIGATION (FIXED) =================
+function showTab(tab) {
+    // Update active state
+    document.querySelectorAll('#adminTabs .nav-link').forEach(link => link.classList.remove('active'));
+    const activeLink = document.querySelector(`#adminTabs .nav-link[onclick*="${tab}"]`);
+    if (activeLink) activeLink.classList.add('active');
+
+    const container = document.getElementById('tabContent');
+
+    switch(tab) {
+        case 'doctors': renderDoctors(container); break;
+        case 'specializations': renderSpecializations(container); break;
+        case 'patients': renderPatients(container); break;
+        case 'appointments': renderAppointments(container); break;
+        case 'operations': renderOperations(container); break;
+        case 'reports': renderReports(container); break;
+        case 'payroll': renderPayrollTab(container); break;
+        case 'finance': renderFinanceTab(container); break;
+        case 'discipline': renderDisciplineTab(container); break;
+        default: renderDoctors(container);
+    }
+
+    if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', '#' + tab);
+    } else {
+        window.location.hash = tab;
+    }
+
+    updateStats();
+}
+
+
+// ================= PAYROLL TAB =================
+function renderPayrollTab(container) {
+    // Check auth
+    if (typeof U5AuthGuard !== 'undefined' && !U5AuthGuard.canAccess('payroll')) {
+        container.innerHTML = `
+            <div class="main-card text-center py-5">
+                <i class="bi bi-shield-lock" style="font-size: 4rem; color: var(--muted);"></i>
+                <p class="text-muted mt-3">Access Denied</p>
+                <small class="text-muted">You need admin privileges to view payroll.</small>
+            </div>`;
+        return;
+    }
+
+    const payroll = U5DB && U5DB.getPayrollStore ? U5DB.getPayrollStore() : getStore("payroll");
+    const summary = U5DB && U5DB.getPayrollSummary ? U5DB.getPayrollSummary() : getPayrollSummaryLocal(payroll);
+    summary.paidCount = summary.paidCount || payroll.filter(p => p.status === 'paid').length;
+    summary.pendingCount = summary.pendingCount || payroll.filter(p => p.status !== 'paid').length;
+    const recentPayroll = [...payroll]
+        .sort((a, b) => new Date(b.paidOn || b.createdAt || 0) - new Date(a.paidOn || a.createdAt || 0))
+        .slice(0, 7);
+
+    container.innerHTML = `
+        <!-- Summary Cards -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="bi bi-cash-coin"></i></div>
+                <h3 class="stat-value">$${summary.totalGross.toLocaleString()}</h3>
+                <p class="stat-label">Gross Pay</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple"><i class="bi bi-calculator"></i></div>
+                <h3 class="stat-value">$${summary.totalNet.toLocaleString()}</h3>
+                <p class="stat-label">Net Pay</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red"><i class="bi bi-receipt-cutoff"></i></div>
+                <h3 class="stat-value">$${summary.totalTax.toLocaleString()}</h3>
+                <p class="stat-label">Taxes</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="bi bi-check-circle"></i></div>
+                <h3 class="stat-value">${summary.paidCount}</h3>
+                <p class="stat-label">Paid Entries</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="bi bi-hourglass-split"></i></div>
+                <h3 class="stat-value">${summary.pendingCount}</h3>
+                <p class="stat-label">Pending Entries</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon yellow"><i class="bi bi-people-fill"></i></div>
+                <h3 class="stat-value">${payroll.length}</h3>
+                <p class="stat-label">Payroll Entries</p>
+            </div>
+        </div>
+
+        <!-- Payroll Table -->
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-wallet2 me-2"></i>Payroll & Disbursements</h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary-custom btn-sm" onclick="openPayrollModal()">
+                        <i class="bi bi-plus-lg me-1"></i> Add Entry
+                    </button>
+                    <button class="btn btn-outline-custom btn-sm" onclick="processAllPayroll()">
+                        <i class="bi bi-send-fill me-1"></i> Pay All Pending
+                    </button>
+                </div>
+            </div>
+
+            ${payroll.length === 0 ? `
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-receipt" style="font-size: 4rem;"></i>
+                    <p class="mt-3">No payroll records yet.</p>
+                    <button class="btn btn-primary-custom btn-sm" onclick="openPayrollModal()">
+                        <i class="bi bi-plus-lg"></i> Add First Entry
+                    </button>
+                </div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Role</th>
+                                <th>Period</th>
+                                <th>Gross</th>
+                                <th>Tax</th>
+                                <th>Net Pay</th>
+                                <th>Paid On</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${payroll.map(item => `
+                                <tr>
+                                    <td>
+                                        <strong>${item.name || 'Unknown'}</strong>
+                                        <br><small class="text-muted">${item.employeeId || ''}</small>
+                                    </td>
+                                    <td><span class="badge-status bg-accepted">${item.role || 'Staff'}</span></td>
+                                    <td>${item.month || ''} ${item.year || ''}</td>
+                                    <td>$${Number(item.grossPay || 0).toLocaleString()}</td>
+                                    <td class="text-danger">-$${Number(item.tax || 0).toLocaleString()}</td>
+                                    <td><strong class="text-success">$${Number(item.netPay || 0).toLocaleString()}</strong></td>
+                                    <td>${item.paidOn || 'Pending'}</td>
+                                    <td>
+                                        <span class="badge-status bg-${item.status === 'paid' ? 'completed' : 'pending'}">
+                                            ${item.status || 'pending'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            ${item.status !== 'paid' ? `
+                                                <button class="btn btn-sm-custom btn-accept" 
+                                                    onclick="markPayrollPaid('${item.id}')" title="Mark Paid">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            ` : ''}
+                                            <button class="btn btn-sm-custom btn-outline-custom" 
+                                                onclick="editPayrollEntry('${item.id}')" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm-custom btn-decline" 
+                                                onclick="deletePayrollEntry('${item.id}')" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="main-card mt-4">
+                    <div class="card-header-custom">
+                        <h5><i class="bi bi-clock-history me-2"></i>Recent Payment History</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Paid On</th>
+                                    <th>Employee</th>
+                                    <th>Period</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Bank</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${recentPayroll.map(item => `
+                                    <tr>
+                                        <td>${item.paidOn || 'Pending'}</td>
+                                        <td>${item.name || 'Unknown'}</td>
+                                        <td>${item.month || ''} ${item.year || ''}</td>
+                                        <td>$${Number(item.netPay || 0).toLocaleString()}</td>
+                                        <td><span class="badge-status bg-${item.status === 'paid' ? 'completed' : 'pending'}">${item.status || 'pending'}</span></td>
+                                        <td>${item.accountDetails?.bank || 'N/A'}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+// Payroll helper
+function getPayrollSummaryLocal(payroll) {
+    return payroll.reduce((acc, item) => {
+        acc.totalGross += item.grossPay || 0;
+        acc.totalNet += item.netPay || 0;
+        acc.totalTax += item.tax || 0;
+        if (item.status === 'paid') {
+            acc.totalPaid += item.netPay || 0;
+            acc.paidCount += 1;
+        } else {
+            acc.totalOutstanding += item.netPay || 0;
+            acc.pendingCount += 1;
+        }
+        return acc;
+    }, { totalGross: 0, totalNet: 0, totalTax: 0, totalPaid: 0, totalOutstanding: 0, paidCount: 0, pendingCount: 0 });
+}
+
+// ================= PAYROLL MODAL =================
+function openPayrollModal(editId = null) {
+    const staff = JSON.parse(localStorage.getItem('u5_staff') || '[]');
+    const doctors = getStore("doctors");
+    
+    // Combine staff and doctors for dropdown
+    const allEmployees = [
+        ...staff.map(s => ({ id: s.empId, name: s.name, role: s.role })),
+        ...doctors.map(d => ({ id: d.id, name: d.name, role: 'doctor' }))
+    ];
+
+    let existingEntry = null;
+    if (editId) {
+        const payroll = U5DB && U5DB.getPayrollStore ? U5DB.getPayrollStore() : getStore("payroll");
+        existingEntry = payroll.find(i => i.id === editId);
+    }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.id = 'payrollModalOverlay';
+    overlay.innerHTML = `
+        <div class="modal-dialog-custom">
+            <h5 class="text-white mb-3">
+                <i class="bi bi-wallet2 me-2"></i>${editId ? 'Edit' : 'Add'} Payroll Entry
+            </h5>
+            
+            <div class="mb-3">
+                <label class="form-label">Employee <span class="text-danger">*</span></label>
+                <select class="form-select-custom" id="payrollEmployee">
+                    <option value="">Select employee...</option>
+                    ${allEmployees.map(e => `
+                        <option value="${e.id}" data-name="${e.name}" data-role="${e.role}"
+                            ${existingEntry && existingEntry.employeeId === e.id ? 'selected' : ''}>
+                            ${e.name} (${e.id}) - ${e.role}
+                        </option>
+                    `).join('')}
+                </select>
+            </div>
+            
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Month</label>
+                    <select class="form-select-custom" id="payrollMonth">
+                        ${['January','February','March','April','May','June',
+                           'July','August','September','October','November','December']
+                           .map(m => `<option value="${m}" ${existingEntry && existingEntry.month === m ? 'selected' : ''}>${m}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Year</label>
+                    <input type="number" class="form-control-custom" id="payrollYear" 
+                           value="${existingEntry ? existingEntry.year : new Date().getFullYear()}">
+                </div>
+            </div>
+            
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Gross Pay ($)</label>
+                    <input type="number" class="form-control-custom" id="payrollGross" 
+                           value="${existingEntry ? existingEntry.grossPay : ''}" 
+                           placeholder="5000" oninput="calcNetPay()">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Tax ($)</label>
+                    <input type="number" class="form-control-custom" id="payrollTax" 
+                           value="${existingEntry ? existingEntry.tax : ''}" 
+                           placeholder="500" oninput="calcNetPay()">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Other Deductions ($)</label>
+                    <input type="number" class="form-control-custom" id="payrollDeductions" 
+                           value="${existingEntry ? (existingEntry.otherDeductions || 0) : '0'}" 
+                           placeholder="0" oninput="calcNetPay()">
+                </div>
+            </div>
+            
+            <div class="mb-3 p-3 rounded" style="background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);">
+                <label class="form-label">Net Pay</label>
+                <input type="number" class="form-control-custom" id="payrollNet" 
+                       value="${existingEntry ? existingEntry.netPay : ''}" 
+                       readonly style="font-weight: 700; color: #34d399 !important; font-size: 1.1rem;">
+            </div>
+            
+            <h6 class="text-white mb-3"><i class="bi bi-bank me-2"></i>Bank Details</h6>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Bank Name</label>
+                    <input type="text" class="form-control-custom" id="payrollBank" 
+                           value="${existingEntry?.accountDetails?.bank || ''}" placeholder="First Bank">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Account Number</label>
+                    <input type="text" class="form-control-custom" id="payrollAccount" 
+                           value="${existingEntry?.accountDetails?.accountNumber || ''}" placeholder="1234567890">
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2 justify-content-end mt-4">
+                <button class="btn btn-secondary" onclick="document.getElementById('payrollModalOverlay').remove()">Cancel</button>
+                <button class="btn btn-primary-custom" onclick="savePayrollEntry('${editId || ''}')">
+                    <i class="bi bi-check-lg me-1"></i> ${editId ? 'Update' : 'Save'} Entry
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) overlay.remove();
+    });
+    calcNetPay();
+}
+
+function calcNetPay() {
+    const gross = parseFloat(document.getElementById('payrollGross')?.value) || 0;
+    const tax = parseFloat(document.getElementById('payrollTax')?.value) || 0;
+    const deductions = parseFloat(document.getElementById('payrollDeductions')?.value) || 0;
+    const netInput = document.getElementById('payrollNet');
+    if (netInput) netInput.value = Math.max(0, gross - tax - deductions);
+}
+
+function savePayrollEntry(editId) {
+    const employeeSelect = document.getElementById('payrollEmployee');
+    const employeeId = employeeSelect?.value;
+    const name = employeeSelect?.selectedOptions[0]?.dataset.name || 'Unknown';
+    const role = employeeSelect?.selectedOptions[0]?.dataset.role || 'staff';
+    const month = document.getElementById('payrollMonth')?.value;
+    const year = parseInt(document.getElementById('payrollYear')?.value);
+    const grossPay = parseFloat(document.getElementById('payrollGross')?.value) || 0;
+    const tax = parseFloat(document.getElementById('payrollTax')?.value) || 0;
+    const otherDeductions = parseFloat(document.getElementById('payrollDeductions')?.value) || 0;
+    const netPay = parseFloat(document.getElementById('payrollNet')?.value) || 0;
+    const bank = document.getElementById('payrollBank')?.value.trim();
+    const accountNumber = document.getElementById('payrollAccount')?.value.trim();
+
+    if (!employeeId || !month || grossPay <= 0) {
+        alert('Please fill all required fields!');
+        return;
+    }
+
+    const entry = {
+        year, month, employeeId, name, role,
+        grossPay, tax, otherDeductions,
+        netPay: grossPay - tax - otherDeductions,
+        accountDetails: { bank, accountNumber, payMethod: 'transfer' }
+    };
+
+    if (editId && U5DB && U5DB.updatePayrollEntry) {
+        U5DB.updatePayrollEntry(editId, entry);
+    } else if (U5DB && U5DB.addPayrollEntry) {
+        U5DB.addPayrollEntry(entry);
+    } else {
+        let payroll = getStore("payroll");
+        if (editId) {
+            payroll = payroll.map(p => p.id === editId ? { ...p, ...entry } : p);
+        } else {
+            payroll.unshift({ id: 'PAY-' + Date.now(), status: 'pending', paidOn: null, createdAt: new Date().toISOString(), ...entry });
+        }
+        setStore("payroll", payroll);
+    }
+
+    document.getElementById('payrollModalOverlay')?.remove();
+    showTab('payroll');
+    updateStats();
+    alert('Payroll entry saved!');
+}
+
+function editPayrollEntry(id) { openPayrollModal(id); }
+
+function markPayrollPaid(id) {
+    if (!confirm('Mark this entry as paid?')) return;
+    if (U5DB && U5DB.markPayrollPaid) {
+        U5DB.markPayrollPaid(id, true);
+    } else {
+        let payroll = getStore("payroll");
+        payroll = payroll.map(p => p.id === id ? { ...p, status: 'paid', paidOn: new Date().toISOString().slice(0, 10) } : p);
+        setStore("payroll", payroll);
+    }
+    showTab('payroll');
+    updateStats();
+}
+
+function deletePayrollEntry(id) {
+    if (!confirm('Delete this payroll entry?')) return;
+    if (U5DB && U5DB.deletePayrollEntry) {
+        U5DB.deletePayrollEntry(id);
+    } else {
+        let payroll = getStore("payroll").filter(p => p.id !== id);
+        setStore("payroll", payroll);
+    }
+    showTab('payroll');
+    updateStats();
+}
+
+function processAllPayroll() {
+    const payroll = U5DB && U5DB.getPayrollStore ? U5DB.getPayrollStore() : getStore("payroll");
+    const pending = payroll.filter(p => p.status !== 'paid');
+    if (pending.length === 0) {
+        alert('No pending payments!');
+        return;
+    }
+    const total = pending.reduce((s, p) => s + (p.netPay || 0), 0);
+    if (confirm(`Process ALL ${pending.length} pending payments?\n\nTotal: $${total.toLocaleString()}`)) {
+        pending.forEach(p => {
+            if (U5DB && U5DB.markPayrollPaid) U5DB.markPayrollPaid(p.id, true);
+            else {
+                let pl = getStore("payroll");
+                pl = pl.map(pp => pp.id === p.id ? { ...pp, status: 'paid', paidOn: new Date().toISOString().slice(0, 10) } : pp);
+                setStore("payroll", pl);
+            }
+        });
+        showTab('payroll');
+        updateStats();
+        alert(`✅ ${pending.length} payments processed!`);
+    }
+}
+
+
+
+// ================= FINANCE TAB =================
+function renderFinanceTab(container) {
+    const invoices = getStore("invoices");
+    
+    const totalRevenue = invoices
+        .filter(i => i.status === 'paid')
+        .reduce((sum, i) => sum + Number(i.totalAmount || 0), 0);
+    
+    const pendingAmount = invoices
+        .filter(i => i.status === 'pending' || i.status === 'partial')
+        .reduce((sum, i) => sum + (Number(i.totalAmount || 0) - Number(i.paidAmount || 0)), 0);
+    
+    const paidCount = invoices.filter(i => i.status === 'paid').length;
+    const pendingCount = invoices.filter(i => i.status === 'pending' || i.status === 'partial').length;
+
+    container.innerHTML = `
+        <!-- Finance Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="bi bi-cash-stack"></i></div>
+                <h3 class="stat-value">$${totalRevenue.toLocaleString()}</h3>
+                <p class="stat-label">Total Revenue</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="bi bi-hourglass-split"></i></div>
+                <h3 class="stat-value">$${pendingAmount.toLocaleString()}</h3>
+                <p class="stat-label">Pending</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="bi bi-receipt"></i></div>
+                <h3 class="stat-value">${invoices.length}</h3>
+                <p class="stat-label">Total Invoices</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple"><i class="bi bi-check-circle"></i></div>
+                <h3 class="stat-value">${paidCount}</h3>
+                <p class="stat-label">Paid</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red"><i class="bi bi-exclamation-circle"></i></div>
+                <h3 class="stat-value">${pendingCount}</h3>
+                <p class="stat-label">Unpaid</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon yellow"><i class="bi bi-graph-up"></i></div>
+                <h3 class="stat-value">${invoices.length > 0 ? Math.round((paidCount / invoices.length) * 100) : 0}%</h3>
+                <p class="stat-label">Collection Rate</p>
+            </div>
+        </div>
+
+        <!-- Invoices Table -->
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-receipt me-2"></i>All Invoices</h5>
+                <button class="btn btn-primary-custom btn-sm" onclick="createInvoice()">
+                    <i class="bi bi-plus-lg me-1"></i> New Invoice
+                </button>
+            </div>
+            
+            ${invoices.length === 0 ? `
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-receipt" style="font-size: 4rem;"></i>
+                    <p class="mt-3">No invoices found.</p>
+                    <button class="btn btn-primary-custom btn-sm" onclick="createInvoice()">
+                        <i class="bi bi-plus-lg"></i> Create First Invoice
+                    </button>
+                </div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Invoice #</th>
+                                <th>Patient</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${invoices.map(i => {
+                                const balance = Math.max(0, Number(i.totalAmount || 0) - Number(i.paidAmount || 0));
+                                return `
+                                    <tr>
+                                        <td><strong>${i.invoiceNumber || 'INV-' + i.id}</strong></td>
+                                        <td>${i.patientName || 'N/A'}</td>
+                                        <td>${new Date(i.createdAt).toLocaleDateString()}</td>
+                                        <td><small>${i.description || 'N/A'}</small></td>
+                                        <td>$${Number(i.totalAmount || 0).toLocaleString()}</td>
+                                        <td>$${Number(i.paidAmount || 0).toLocaleString()}</td>
+                                        <td><strong class="${balance > 0 ? 'text-warning' : 'text-success'}">$${balance.toLocaleString()}</strong></td>
+                                        <td>
+                                            <span class="badge-status bg-${i.status === 'paid' ? 'completed' : i.status === 'partial' ? 'accepted' : 'pending'}">
+                                                ${i.status}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            ${i.status !== 'paid' ? `
+                                                <button class="btn btn-sm-custom btn-accept me-1" onclick="markInvoicePaid('${i.id}')">
+                                                    <i class="bi bi-check-lg"></i> Pay
+                                                </button>
+                                            ` : ''}
+                                            <button class="btn btn-sm-custom btn-decline" onclick="deleteInvoice('${i.id}')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+function createInvoice() {
+    const patients = getStore("patients");
+    if (patients.length === 0) {
+        alert("No patients registered! Add a patient first.");
+        return;
+    }
+    
+    const patientNames = patients.map(p => p.name).join("\n");
+    const patientName = prompt("Enter patient name:\n\nAvailable:\n" + patientNames);
+    if (!patientName) return;
+    
+    const patient = patients.find(p => p.name.toLowerCase() === patientName.toLowerCase());
+    if (!patient) { alert("Patient not found!"); return; }
+    
+    const description = prompt("Enter description:", "Consultation fee");
+    if (!description) return;
+    
+    const amount = parseFloat(prompt("Enter amount ($):", "150"));
+    if (!amount || amount <= 0) { alert("Invalid amount!"); return; }
+
+    if (U5DB && U5DB.billing && U5DB.billing.createInvoice) {
+        U5DB.billing.createInvoice({
+            patientName: patient.name,
+            patientEmail: patient.email,
+            description,
+            totalAmount: amount,
+            paidAmount: 0,
+            status: 'pending'
+        });
+    } else {
+        let invoices = getStore("invoices");
+        invoices.push({
+            id: Date.now().toString(),
+            invoiceNumber: 'INV-' + Date.now(),
+            patientName: patient.name,
+            patientEmail: patient.email,
+            description,
+            totalAmount: amount,
+            paidAmount: 0,
+            status: 'pending',
+            createdAt: new Date().toISOString()
+        });
+        setStore("invoices", invoices);
+    }
+    
+    showTab('finance');
+    updateStats();
+    alert("Invoice created!");
+}
+
+function markInvoicePaid(id) {
+    if (!confirm("Mark this invoice as paid?")) return;
+    
+    if (U5DB && U5DB.billing && U5DB.billing.recordPayment) {
+        const invoice = U5DB.billing.getAll().find(i => i.id === id);
+        if (invoice) {
+            const balance = Math.max(0, Number(invoice.totalAmount || 0) - Number(invoice.paidAmount || 0));
+            U5DB.billing.recordPayment(id, balance, 'Admin desk');
+        }
+    } else {
+        let invoices = getStore("invoices");
+        invoices = invoices.map(i => {
+            if (i.id === id) {
+                const balance = Math.max(0, Number(i.totalAmount || 0) - Number(i.paidAmount || 0));
+                return { ...i, paidAmount: i.totalAmount, status: 'paid', paidAt: new Date().toISOString() };
+            }
+            return i;
+        });
+        setStore("invoices", invoices);
+    }
+    
+    showTab('finance');
+    updateStats();
+    alert("Invoice marked as paid!");
+}
+
+function deleteInvoice(id) {
+    if (!confirm("Delete this invoice?")) return;
+    let invoices = getStore("invoices").filter(i => i.id !== id);
+    setStore("invoices", invoices);
+    showTab('finance');
+    updateStats();
+}
+// ================= DISCIPLINE TAB =================
+function renderDisciplineTab(container) {
+    const actions = getStore("discipline") || getStore("discipline_incidents") || [];
+    const staff = JSON.parse(localStorage.getItem('u5_staff') || '[]');
+    const doctors = getStore("doctors");
+    
+    // Helper to get employee name
+    const getEmployeeName = (employeeId) => {
+        const s = staff.find(st => st.empId === employeeId || st.id === employeeId);
+        if (s) return s.name;
+        const d = doctors.find(doc => doc.id === employeeId);
+        if (d) return d.name;
+        return employeeId || 'Unknown';
+    };
+
+    const warnings = actions.filter(a => a.type === 'Warning' || a.type === 'Verbal Warning' || a.type === 'Written Notice').length;
+    const suspensions = actions.filter(a => a.type === 'Suspension').length;
+    const terminations = actions.filter(a => a.type === 'Termination').length;
+
+    container.innerHTML = `
+        <!-- Discipline Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon yellow"><i class="bi bi-exclamation-triangle"></i></div>
+                <h3 class="stat-value">${warnings}</h3>
+                <p class="stat-label">Warnings</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="bi bi-pause-circle"></i></div>
+                <h3 class="stat-value">${suspensions}</h3>
+                <p class="stat-label">Suspensions</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red"><i class="bi bi-x-circle"></i></div>
+                <h3 class="stat-value">${terminations}</h3>
+                <p class="stat-label">Terminations</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="bi bi-clipboard2-check"></i></div>
+                <h3 class="stat-value">${actions.length}</h3>
+                <p class="stat-label">Total Records</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Records Table -->
+            <div class="col-lg-7">
+                <div class="main-card">
+                    <div class="card-header-custom">
+                        <h5><i class="bi bi-clipboard2-check me-2"></i>Disciplinary Records</h5>
+                    </div>
+                    
+                    ${actions.length === 0 ? `
+                        <div class="text-center py-5 text-muted">
+                            <i class="bi bi-shield-check" style="font-size: 4rem;"></i>
+                            <p class="mt-3">No disciplinary records.</p>
+                            <small>All staff are in good standing.</small>
+                        </div>
+                    ` : `
+                        <div class="table-responsive">
+                            <table class="table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Type</th>
+                                        <th>Note</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${actions.map(action => `
+                                        <tr>
+                                            <td>
+                                                <strong>${getEmployeeName(action.employeeId)}</strong>
+                                                <br><small class="text-muted">${action.employeeId}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge-status bg-${
+                                                    action.type === 'Termination' ? 'declined' :
+                                                    action.type === 'Suspension' ? 'pending' : 'accepted'
+                                                }">${action.type}</span>
+                                            </td>
+                                            <td><small>${action.note || ''}</small></td>
+                                            <td>${new Date(action.createdAt || action.date).toLocaleDateString()}</td>
+                                            <td>
+                                                <button class="btn btn-sm-custom btn-decline" 
+                                                    onclick="deleteDisciplineRecord('${action.id}')">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `}
+                </div>
+            </div>
+
+            <!-- Add Form -->
+            <div class="col-lg-5">
+                <div class="main-card">
+                    <h5 class="text-white mb-3">
+                        <i class="bi bi-plus-circle me-2"></i>Report Incident
+                    </h5>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Employee</label>
+                        <select class="form-select-custom" id="disciplineEmployee">
+                            <option value="">Select employee...</option>
+                            ${staff.map(s => `
+                                <option value="${s.empId}">${s.name} (${s.empId}) - ${s.role}</option>
+                            `).join('')}
+                            ${doctors.map(d => `
+                                <option value="${d.id}">${d.name} - Doctor</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Incident Type</label>
+                        <select class="form-select-custom" id="disciplineType">
+                            <option value="Warning">⚠️ Warning</option>
+                            <option value="Written Notice">📝 Written Notice</option>
+                            <option value="Verbal Warning">🗣️ Verbal Warning</option>
+                            <option value="Suspension">🚫 Suspension</option>
+                            <option value="Termination">❌ Termination</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Description / Notes</label>
+                        <textarea class="form-control-custom" id="disciplineNote" rows="4" 
+                                  placeholder="Describe the incident in detail..."></textarea>
+                    </div>
+                    
+                    <button class="btn btn-danger w-100" onclick="addDisciplineRecord()">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Record Incident
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function addDisciplineRecord() {
+    const employeeId = document.getElementById('disciplineEmployee')?.value;
+    const type = document.getElementById('disciplineType')?.value;
+    const note = document.getElementById('disciplineNote')?.value.trim();
+
+    if (!employeeId) { alert('Please select an employee!'); return; }
+    if (!note) { alert('Please enter a description!'); return; }
+
+    if (U5DB && U5DB.addDisciplinaryAction) {
+        U5DB.addDisciplinaryAction(employeeId, { type, note });
+    } else {
+        let actions = getStore("discipline") || [];
+        actions.unshift({
+            id: 'DISC-' + Date.now(),
+            employeeId, type, note,
+            status: 'open',
+            createdAt: new Date().toISOString(),
+            createdBy: (JSON.parse(localStorage.getItem('u5_session') || '{}')).name || 'Admin'
+        });
+        setStore("discipline", actions);
+    }
+
+    showTab('discipline');
+    alert(`${type} recorded successfully.`);
+}
+
+function deleteDisciplineRecord(id) {
+    if (!confirm('Delete this disciplinary record?')) return;
+    let actions = (getStore("discipline") || getStore("discipline_incidents") || []).filter(a => a.id !== id);
+    setStore("discipline", actions);
+    showTab('discipline');
+}
+
+// ================= DOCTORS TAB =================
+function renderDoctors(container) {
+    const doctors = getStore("doctors");
+    const specs = getStore("specializations");
+
+    container.innerHTML = `
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0">
+                    <i class="bi bi-heart-pulse me-2"></i>Doctor Management
+                    <span class="badge bg-success ms-2">${doctors.length} Total</span>
+                </h5>
+                <button class="btn btn-primary" onclick="openDoctorModal()">
+                    <i class="bi bi-plus-lg me-1"></i> Add Doctor
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Specialization</th>
+                            <th>License</th>
+                            <th>Fee</th>
+                            <th>Exp.</th>
+                            <th>Account</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${doctors.length === 0 ? 
+                            '<tr><td colspan="9" class="text-center text-muted py-4">No doctors found</td></tr>' :
+                            doctors.map(d => `
+                                <tr>
+                                    <td>${d.id}</td>
+                                    <td><strong>${d.name}</strong></td>
+                                    <td>${d.email}</td>
+                                    <td>${d.specialization}</td>
+                                    <td>${d.license}</td>
+                                    <td>$${d.fee}</td>
+                                    <td>${d.experience} yrs</td>
+                                    <td>
+                                        <span class="badge-status bg-${d.status === 'active' ? 'accepted' : 'cancelled'}">
+                                            ${d.status}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-light btn-sm-action" 
+                                                onclick="editDoctor(${d.id})" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-outline-light btn-sm-action text-danger" 
+                                                onclick="deleteDoctor(${d.id})" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function openDoctorModal(id = null) {
+    // Populate specialization dropdown
+    const specs = getStore("specializations");
+    document.getElementById("docSpecialization").innerHTML = 
+        '<option value="">Select Specialization...</option>' +
+        specs.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+
+    if (id) {
+        const doctors = getStore("doctors");
+        const doc = doctors.find(d => d.id === id);
+        if (doc) {
+            document.getElementById("doctorModalTitle").innerHTML = 
+                '<i class="bi bi-pencil-square me-2"></i> Edit Doctor';
+            document.getElementById("doctorId").value = doc.id;
+            document.getElementById("docName").value = doc.name;
+            document.getElementById("docEmail").value = doc.email;
+            document.getElementById("docSpecialization").value = doc.specialization;
+            document.getElementById("docLicense").value = doc.license;
+            document.getElementById("docFee").value = doc.fee;
+            document.getElementById("docExperience").value = doc.experience;
+            document.getElementById("docStatus").value = doc.status;
+            document.getElementById("docBio").value = doc.bio || '';
+        }
+    } else {
+        document.getElementById("doctorModalTitle").innerHTML = 
+            '<i class="bi bi-heart-pulse me-2"></i> Add Doctor';
+        document.getElementById("doctorForm").reset();
+        document.getElementById("doctorId").value = '';
+    }
+
+    new bootstrap.Modal(document.getElementById("doctorModal")).show();
+}
+
+function editDoctor(id) {
+    openDoctorModal(id);
+}
+
+function saveDoctor() {
+    const id = document.getElementById("doctorId").value;
+    const name = document.getElementById("docName").value.trim();
+    const email = document.getElementById("docEmail").value.trim();
+    const specialization = document.getElementById("docSpecialization").value;
+    const license = document.getElementById("docLicense").value.trim();
+    const fee = document.getElementById("docFee").value;
+    const experience = document.getElementById("docExperience").value;
+    const status = document.getElementById("docStatus").value;
+    const bio = document.getElementById("docBio").value.trim();
+
+    // Validation
+    if (!name || !email || !specialization || !license || !fee) {
+        alert("Please fill all required fields!");
+        return;
+    }
+
+    const doctor = {
+        id: id ? parseInt(id) : Date.now(),
+        name,
+        email,
+        specialization,
+        license,
+        fee: parseInt(fee),
+        experience: parseInt(experience) || 0,
+        status,
+        bio
+    };
+
+    let doctors = getStore("doctors");
+
+    if (id) {
+        // Update existing
+        doctors = doctors.map(d => d.id === doctor.id ? doctor : d);
+    } else {
+        // Add new
+        doctors.push(doctor);
+    }
+
+    setStore("doctors", doctors);
+
+    // Close modal
+    bootstrap.Modal.getInstance(document.getElementById("doctorModal")).hide();
+
+    // Refresh table
+    showTab('doctors');
+    updateStats();
+
+    // Feedback
+    alert(id ? "Doctor updated successfully!" : "Doctor added successfully!");
+}
+
+function deleteDoctor(id) {
+    if (!confirm("Are you sure you want to delete this doctor? This action cannot be undone.")) return;
+
+    let doctors = getStore("doctors").filter(d => d.id !== id);
+    setStore("doctors", doctors);
+
+    showTab('doctors');
+    updateStats();
+    alert("Doctor deleted successfully!");
+}
+
+// ================= SPECIALIZATIONS TAB =================
+function renderSpecializations(container) {
+    const specs = getStore("specializations");
+    const doctors = getStore("doctors");
+
+    container.innerHTML = `
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0">
+                    <i class="bi bi-clipboard2-pulse me-2"></i>Specialization Management
+                    <span class="badge bg-success ms-2">${specs.length} Total</span>
+                </h5>
+                <button class="btn btn-primary" onclick="openSpecModal()">
+                    <i class="bi bi-plus-lg me-1"></i> Add Specialization
+                </button>
+            </div>
+
+            <div class="row g-3">
+                ${specs.map(s => {
+                    const docCount = doctors.filter(d => d.specialization === s.name).length;
+                    return `
+                        <div class="col-md-4 col-lg-3">
+                            <div class="specialty-card">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="mb-0">${s.name}</h6>
+                                    <span class="doctor-count">${docCount}</span>
+                                </div>
+                                <p class="text-muted small mb-3">${s.description || 'No description'}</p>
+                                <small class="text-muted">${docCount} doctor(s) registered</small>
+                                <div class="mt-2">
+                                    <button class="btn btn-outline-light btn-sm-action me-1" 
+                                        onclick="editSpec(${s.id})" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-outline-light btn-sm-action text-danger" 
+                                        onclick="deleteSpec(${s.id})" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+                ${specs.length === 0 ? 
+                    '<div class="col-12 text-center text-muted py-4">No specializations found</div>' : ''}
+            </div>
+        </div>
+    `;
+}
+
+function openSpecModal(id = null) {
+    if (id) {
+        const specs = getStore("specializations");
+        const spec = specs.find(s => s.id === id);
+        if (spec) {
+            document.getElementById("specModalTitle").innerHTML = 
+                '<i class="bi bi-pencil-square me-2"></i> Edit Specialization';
+            document.getElementById("specId").value = spec.id;
+            document.getElementById("specName").value = spec.name;
+            document.getElementById("specDesc").value = spec.description || '';
+        }
+    } else {
+        document.getElementById("specModalTitle").innerHTML = 
+            '<i class="bi bi-clipboard2-pulse me-2"></i> Add Specialization';
+        document.getElementById("specForm").reset();
+        document.getElementById("specId").value = '';
+    }
+
+    new bootstrap.Modal(document.getElementById("specModal")).show();
+}
+
+function editSpec(id) {
+    openSpecModal(id);
+}
+
+function saveSpecialization() {
+    const id = document.getElementById("specId").value;
+    const name = document.getElementById("specName").value.trim();
+    const description = document.getElementById("specDesc").value.trim();
+
+    if (!name) {
+        alert("Please enter a specialization name!");
+        return;
+    }
+
+    const spec = {
+        id: id ? parseInt(id) : Date.now(),
+        name,
+        description
+    };
+
+    let specs = getStore("specializations");
+
+    if (id) {
+        specs = specs.map(s => s.id === spec.id ? spec : s);
+    } else {
+        specs.push(spec);
+    }
+
+    setStore("specializations", specs);
+
+    bootstrap.Modal.getInstance(document.getElementById("specModal")).hide();
+    showTab('specializations');
+    updateStats();
+    alert(id ? "Specialization updated!" : "Specialization added!");
+}
+
+function deleteSpec(id) {
+    if (!confirm("Delete this specialization? Doctors under this specialty will need reassignment.")) return;
+
+    let specs = getStore("specializations").filter(s => s.id !== id);
+    setStore("specializations", specs);
+
+    showTab('specializations');
+    updateStats();
+    alert("Specialization deleted!");
+}
+
+// ================= PATIENTS TAB =================
+function renderPatients(container) {
+    const patients = getStore("patients");
+
+    container.innerHTML = `
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0">
+                    <i class="bi bi-people me-2"></i>Patient Management
+                    <span class="badge bg-success ms-2">${patients.length} Total</span>
+                </h5>
+                <button class="btn btn-primary" onclick="addPatient()">
+                    <i class="bi bi-plus-lg me-1"></i> Add Patient
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Blood Group</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${patients.map(p => `
+                            <tr>
+                                <td>${p.id}</td>
+                                <td><strong>${p.name}</strong></td>
+                                <td>${p.email}</td>
+                                <td>${p.bloodGroup || 'N/A'}</td>
+                                <td>${p.phone || 'N/A'}</td>
+                                <td>
+                                    <button class="btn btn-outline-light btn-sm-action text-danger" 
+                                        onclick="deletePatient(${p.id})" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                        ${patients.length === 0 ? 
+                            '<tr><td colspan="6" class="text-center text-muted py-4">No patients registered</td></tr>' : ''}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function addPatient() {
+    const name = prompt("Enter patient name:");
+    if (!name) return;
+    
+    const email = prompt("Enter patient email:");
+    if (!email) return;
+
+    const bloodGroup = prompt("Enter blood group (optional):");
+    const phone = prompt("Enter phone number (optional):");
+
+    let patients = getStore("patients");
+    patients.push({
+        id: Date.now(),
+        name,
+        email,
+        bloodGroup: bloodGroup || '',
+        phone: phone || ''
+    });
+    setStore("patients", patients);
+
+    showTab('patients');
+    updateStats();
+    alert("Patient added successfully!");
+}
+
+function deletePatient(id) {
+    if (!confirm("Delete this patient?")) return;
+
+    let patients = getStore("patients").filter(p => p.id !== id);
+    setStore("patients", patients);
+
+    showTab('patients');
+    updateStats();
+    alert("Patient deleted!");
+}
+
+// ================= APPOINTMENTS TAB =================
+function renderAppointments(container) {
+    const appointments = getStore("appointments");
+    const today = new Date().toISOString().split('T')[0];
+
+    container.innerHTML = `
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0">
+                    <i class="bi bi-calendar-check me-2"></i>Appointment Management
+                    <span class="badge bg-success ms-2">${appointments.length} Total</span>
+                </h5>
+                <div>
+                    <select class="form-select d-inline-block w-auto me-2" 
+                        onchange="filterAppointments(this.value)" id="appointmentFilter">
+                        <option value="all">All Appointments</option>
+                        <option value="pending">Pending</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="completed">Completed</option>
+                        <option value="declined">Declined</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="addAppointment()">
+                        <i class="bi bi-plus-lg me-1"></i> New Appointment
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table" id="appointmentsTable">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Specialty</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${appointments.map(a => `
+                            <tr data-status="${a.status}">
+                                <td><strong>${a.patientName}</strong></td>
+                                <td>${a.doctorName}</td>
+                                <td>${a.specialization}</td>
+                                <td>${a.date}</td>
+                                <td>${a.time}</td>
+                                <td>
+                                    <span class="badge-status bg-${a.status}">
+                                        ${a.status}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        ${a.status === 'pending' ? `
+                                            <button class="btn btn-outline-light btn-sm-action text-success" 
+                                                onclick="updateAppointmentStatus('${a.id}', 'accepted')" title="Accept">
+                                                <i class="bi bi-check-lg"></i>
+                                            </button>
+                                            <button class="btn btn-outline-light btn-sm-action text-danger" 
+                                                onclick="updateAppointmentStatus('${a.id}', 'declined')" title="Decline">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        ` : ''}
+                                        <button class="btn btn-outline-light btn-sm-action text-danger" 
+                                            onclick="deleteAppointment('${a.id}')" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                        ${appointments.length === 0 ? 
+                            '<tr><td colspan="7" class="text-center text-muted py-4">No appointments found</td></tr>' : ''}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function addAppointment() {
+    const doctors = getStore("doctors").filter(d => d.status === 'active');
+    if (doctors.length === 0) {
+        alert("No active doctors available!");
+        return;
+    }
+
+    const patientName = prompt("Enter patient name:");
+    if (!patientName) return;
+
+    const doctorNames = doctors.map(d => d.name).join("\n");
+    const doctorName = prompt("Enter doctor name:\n\nAvailable doctors:\n" + doctorNames);
+    if (!doctorName) return;
+
+    const doctor = doctors.find(d => d.name === doctorName);
+    if (!doctor) {
+        alert("Doctor not found!");
+        return;
+    }
+
+    const date = prompt("Enter date (YYYY-MM-DD):", new Date().toISOString().split('T')[0]);
+    if (!date) return;
+
+    const time = prompt("Enter time (e.g., 10:00 AM):", "10:00 AM");
+    if (!time) return;
+
+    let appointments = getStore("appointments");
+    appointments.push({
+        id: window.U5DB ? U5DB.generateId() : Date.now(),
+        patientName,
+        patientEmail: (getStore("patients").find(p => p.name === patientName) || {}).email || '',
+        patientId: (getStore("patients").find(p => p.name === patientName) || {}).id || '',
+        doctorId: doctor.id,
+        doctorName: doctor.name,
+        doctorEmail: doctor.email,
+        specialization: doctor.specialization,
+        date,
+        time,
+        fee: doctor.fee || 0,
+        status: "pending"
+    });
+    setStore("appointments", appointments);
+
+    showTab('appointments');
+    updateStats();
+    alert("Appointment created!");
+}
+
+function filterAppointments(filter) {
+    const rows = document.querySelectorAll('#appointmentsTable tbody tr');
+    rows.forEach(row => {
+        if (filter === 'all' || row.dataset.status === filter) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function updateAppointmentStatus(id, status) {
+    if (window.U5DB?.appointments) {
+        U5DB.appointments.updateStatus(id, status);
+    } else {
+        let appointments = getStore("appointments");
+        appointments = appointments.map(a => a.id === id ? { ...a, status } : a);
+        setStore("appointments", appointments);
+    }
+
+    showTab('appointments');
+    updateStats();
+}
+
+function deleteAppointment(id) {
+    if (!confirm("Delete this appointment?")) return;
+
+    if (window.U5DB?.appointments) {
+        U5DB.appointments.delete(id);
+    } else {
+        let appointments = getStore("appointments").filter(a => a.id !== id);
+        setStore("appointments", appointments);
+    }
+
+    showTab('appointments');
+    updateStats();
+    alert("Appointment deleted!");
+}
+
+// ================= OPERATIONS TAB =================
+function renderOperations(container) {
+    const prescriptions = getStore("prescriptions");
+    const labTests = getStore("lab_tests");
+    const invoices = getStore("invoices");
+    const inventory = getStore("pharmacy_inventory");
+    const lowStock = inventory.filter(m => Number(m.quantity || 0) <= Number(m.minStock || 0));
+    const pendingPrescriptions = prescriptions.filter(p => (p.pharmacyStatus || p.status) !== 'dispensed');
+    const pendingLabs = labTests.filter(t => t.status !== 'completed');
+    const pendingInvoices = invoices.filter(i => i.status !== 'paid');
+
+    container.innerHTML = `
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="table-container h-100">
+                    <h5 class="text-white mb-3"><i class="bi bi-capsule-pill me-2"></i>Pharmacy Queue</h5>
+                    ${pendingPrescriptions.length === 0 ? '<p class="text-muted">No pending prescriptions.</p>' : `
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead><tr><th>Patient</th><th>Medicine</th><th>Status</th><th></th></tr></thead>
+                                <tbody>
+                                    ${pendingPrescriptions.map(p => `
+                                        <tr>
+                                            <td>${p.patientName || 'Patient'}</td>
+                                            <td>${p.medicineName}</td>
+                                            <td><span class="badge-status bg-${p.pharmacyStatus === 'dispensed' ? 'completed' : 'pending'}">${p.pharmacyStatus || 'pending'}</span></td>
+                                            <td><button class="btn btn-sm btn-outline-light" onclick="dispensePrescription('${p.id}')">Dispense</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `}
+                    <hr>
+                    <h6 class="text-white">Low Stock</h6>
+                    ${lowStock.length === 0 ? '<p class="text-muted small">Inventory looks healthy.</p>' : lowStock.map(m => `
+                        <div class="d-flex justify-content-between small mb-2">
+                            <span>${m.name}</span><strong class="text-warning">${m.quantity} left</strong>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="table-container h-100">
+                    <h5 class="text-white mb-3"><i class="bi bi-droplet me-2"></i>Laboratory Queue</h5>
+                    ${pendingLabs.length === 0 ? '<p class="text-muted">No pending lab orders.</p>' : `
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead><tr><th>Patient</th><th>Test</th><th>Status</th><th></th></tr></thead>
+                                <tbody>
+                                    ${pendingLabs.map(t => `
+                                        <tr>
+                                            <td>${t.patientName || 'Patient'}</td>
+                                            <td>${t.testName}</td>
+                                            <td><span class="badge-status bg-pending">${t.status}</span></td>
+                                            <td><button class="btn btn-sm btn-outline-light" onclick="addLabResult('${t.id}')">Result</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `}
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="table-container h-100">
+                    <h5 class="text-white mb-3"><i class="bi bi-receipt me-2"></i>Billing Queue</h5>
+                    ${pendingInvoices.length === 0 ? '<p class="text-muted">No pending invoices.</p>' : `
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead><tr><th>Patient</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+                                <tbody>
+                                    ${pendingInvoices.map(i => `
+                                        <tr>
+                                            <td>${i.patientName || 'Patient'}</td>
+                                            <td>$${Math.max(0, Number(i.totalAmount || 0) - Number(i.paidAmount || 0))}</td>
+                                            <td><span class="badge-status bg-${i.status === 'partial' ? 'accepted' : 'pending'}">${i.status}</span></td>
+                                            <td><button class="btn btn-sm btn-outline-light" onclick="markInvoicePaid('${i.id}')">Pay</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function dispensePrescription(id) {
+    if (!confirm("Mark this prescription as dispensed?")) return;
+    U5DB.prescriptions.dispense(id, 'admin');
+    showTab('operations');
+    updateStats();
+}
+
+function addLabResult(id) {
+    const result = prompt("Enter lab result summary:");
+    if (!result) return;
+    U5DB.laboratory.addResult(id, result);
+    showTab('operations');
+    updateStats();
+}
+
+function markInvoicePaid(id) {
+    const invoice = U5DB.billing.getAll().find(i => i.id === id);
+    if (!invoice) return;
+    const balance = Math.max(0, Number(invoice.totalAmount || 0) - Number(invoice.paidAmount || 0));
+    if (balance > 0) U5DB.billing.recordPayment(id, balance, 'Admin desk');
+    showTab('operations');
+    updateStats();
+}
+
+// ================= REPORTS TAB =================
+function renderReports(container) {
+    const doctors = getStore("doctors");
+    const appointments = getStore("appointments");
+    const specs = getStore("specializations");
+
+    const totalRevenue = appointments
+        .filter(a => a.status === 'completed')
+        .reduce((sum, a) => {
+            const doc = doctors.find(d => d.name === a.doctorName);
+            return sum + (doc ? doc.fee : 0);
+        }, 0);
+
+    container.innerHTML = `
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="table-container">
+                    <h5 class="text-white mb-3"><i class="bi bi-graph-up me-2"></i>Quick Reports</h5>
+                    <table class="table">
+                        <tbody>
+                            <tr><td>Total Doctors</td><td class="text-end fw-bold">${doctors.length}</td></tr>
+                            <tr><td>Active Doctors</td><td class="text-end fw-bold">${doctors.filter(d => d.status === 'active').length}</td></tr>
+                            <tr><td>Total Appointments</td><td class="text-end fw-bold">${appointments.length}</td></tr>
+                            <tr><td>Pending Appointments</td><td class="text-end fw-bold">${appointments.filter(a => a.status === 'pending').length}</td></tr>
+                            <tr><td>Completed Appointments</td><td class="text-end fw-bold">${appointments.filter(a => a.status === 'completed').length}</td></tr>
+                            <tr><td>Total Revenue</td><td class="text-end fw-bold text-success">$${totalRevenue}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="table-container">
+                    <h5 class="text-white mb-3"><i class="bi bi-pie-chart me-2"></i>Specialty Distribution</h5>
+                    <table class="table">
+                        <thead>
+                            <tr><th>Specialty</th><th class="text-end">Doctors</th></tr>
+                        </thead>
+                        <tbody>
+                            ${specs.map(s => `
+                                <tr>
+                                    <td>${s.name}</td>
+                                    <td class="text-end fw-bold">${doctors.filter(d => d.specialization === s.name).length}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ================= HELPERS =================
+function updateStats() {
+    const doctors = getStore("doctors");
+    const patients = getStore("patients");
+    const appointments = getStore("appointments");
+    const specs = getStore("specializations");
+    const today = new Date().toISOString().split('T')[0];
+
+    document.getElementById("totalDoctors").textContent = doctors.length;
+    document.getElementById("totalPatients").textContent = patients.length;
+    document.getElementById("totalSpecs").textContent = specs.length;
+
+    const todayApps = appointments.filter(a => a.date === today);
+    document.getElementById("todayAppointments").textContent = todayApps.length;
+
+    document.getElementById("pendingApps").textContent = appointments.filter(a => a.status === 'pending').length;
+
+    const revenue = appointments
+        .filter(a => a.status === 'completed')
+        .reduce((sum, a) => {
+            const doc = doctors.find(d => d.name === a.doctorName);
+            return sum + (doc ? doc.fee : 0);
+        }, 0);
+    document.getElementById("totalRevenue").textContent = '$' + revenue;
+}
+
+function handleGlobalSearch() {
+    const query = document.getElementById("globalSearch").value.toLowerCase();
+    if (!query) return;
+
+    // Search across all data
+    const doctors = getStore("doctors").filter(d => 
+        d.name.toLowerCase().includes(query) || 
+        d.specialization.toLowerCase().includes(query)
+    );
+
+    if (doctors.length > 0) {
+        showTab('doctors');
+        alert(`Found ${doctors.length} doctor(s) matching "${query}"`);
+    }
+}
+
+function logout() {
+    localStorage.removeItem("u5_session");
+    window.location.href = "index.html";
+}
+
+U5Announcements.renderBar('announcementBar');
+</script>
+<!-- AI Assistant CSS -->
+<link rel="stylesheet" href="asset/css/u5-ai.css">
+
+<!-- AI Widget (add after stat cards row) -->
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <!-- AI ASSISTANT WIDGET -->
+        <div class="ai-widget" id="aiWidget">
+            <div class="ai-header">
+                <div class="ai-header-left">
+                    <i class="bi bi-robot"></i>
+                    <h6>U5 AI Clinical Assistant</h6>
+                </div>
+                <div class="ai-status">
+                    <span class="ai-status-dot"></span>
+                    <span>Active Monitoring</span>
+                </div>
+            </div>
+            <div class="ai-body" id="aiSuggestions">
+                <div class="text-center text-muted py-3">
+                    <i class="bi bi-hourglass-split" style="font-size: 2rem;"></i>
+                    <p class="mt-2">AI analyzing system data...</p>
+                </div>
+            </div>
+            <div class="ai-footer">
+                <div class="ai-quick-stats" id="aiQuickStats"></div>
+                <button class="ai-toggle" onclick="toggleAIChat()" title="Open AI Chat">
+                    <i class="bi bi-chat-dots-fill"></i> Chat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Chat Mode (hidden by default) -->
+<div class="ai-chat-mode" id="aiChatMode">
+    <div class="ai-header" style="cursor: pointer;" onclick="toggleAIChat()">
+        <div class="ai-header-left">
+            <i class="bi bi-robot"></i>
+            <h6>AI Chat</h6>
+        </div>
+        <button class="btn-close btn-close-white" style="font-size: 0.7rem;"></button>
+    </div>
+    <div class="ai-chat-messages" id="aiChatMessages">
+        <div class="ai-chat-message">
+            <div class="ai-chat-avatar ai"><i class="bi bi-robot"></i></div>
+            <div class="ai-chat-bubble">
+                Hello! I'm your AI Clinical Assistant. I monitor system activity and can help with patient insights, scheduling, and more. How can I assist you?
+            </div>
+        </div>
+    </div>
+    <div class="ai-chat-input-area">
+        <input type="text" class="ai-chat-input" id="aiChatInput" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter')sendAIMessage()">
+        <button class="ai-chat-send" onclick="sendAIMessage()">
+            <i class="bi bi-send-fill"></i>
+        </button>
+    </div>
+</div>
+
+<!-- AI Engine Script -->
+<script src="asset/js/u5-ai.js"></script>
+
+<script>
+// ================= AI INITIALIZATION =================
+let aiAssistant;
+
+(function initAI() {
+    const session = JSON.parse(localStorage.getItem("u5_session") || "{}");
+    aiAssistant = new U5AIAssistant(session.role || 'admin', 'admin-dashboard');
+    
+    // Initial suggestions
+    aiAssistant.trackAction('dashboard_loaded');
+    renderAISuggestions();
+    renderAIQuickStats();
+    
+    // Refresh AI every 30 seconds
+    setInterval(() => {
+        aiAssistant.trackAction('auto_refresh');
+        renderAISuggestions();
+        renderAIQuickStats();
+    }, 30000);
+})();
+
+// ================= PAYROLL VIEW =================
+function renderPayroll(container) {
+    if (!U5AuthGuard || !U5AuthGuard.canAccess('payroll')) {
+        container.innerHTML = '<div class="main-card"><p class="text-muted">Access denied.</p></div>';
+        return;
+    }
+    const summary = (U5DB && U5DB.payroll) ? U5DB.payroll.getSummary() : { total: 0, count: 0, averageSalary: 0 };
+    const items = (U5DB && U5DB.payroll) ? U5DB.payroll.getAll() : [];
+
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom d-flex justify-content-between align-items-center">
+                <h5><i class="bi bi-wallet2 me-2"></i>Payroll</h5>
+                <div>
+                    <strong>Total:</strong> $${summary.total.toLocaleString()} &nbsp;
+                    <small class="text-muted">(${summary.count} staff, avg $${summary.averageSalary.toLocaleString()})</small>
+                </div>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr><th>#</th><th>Name</th><th>Role</th><th>Department</th><th class="text-end">Salary</th></tr>
+                    </thead>
+                    <tbody>
+                        ${items.map((it, i) => `
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>${it.name}</td>
+                                <td>${it.role}</td>
+                                <td>${it.department || '-'}</td>
+                                <td class="text-end">$${Number(it.salary || 0).toLocaleString()}</td>
+                            </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+// ================= RENDER AI SUGGESTIONS =================
+function renderAISuggestions() {
+    const suggestions = aiAssistant.getSuggestions();
+    const container = document.getElementById('aiSuggestions');
+    
+    if (suggestions.length === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted py-3">
+                <i class="bi bi-check-circle-fill" style="font-size: 2rem; color: #34d399;"></i>
+                <p class="mt-2">All systems optimal. No alerts.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = suggestions.map(s => `
+        <div class="ai-suggestion" onclick="${s.action && s.action.func ? s.action.func + '()' : (s.action && s.action.tab ? `showTab('${s.action.tab}')` : '')}">
+            <div class="ai-suggestion-header">
+                <div class="ai-suggestion-icon ${s.color || 'info'}">
+                    <i class="bi ${s.icon}"></i>
+                </div>
+                <p class="ai-suggestion-title">${s.title}</p>
+            </div>
+            <p class="ai-suggestion-message">${s.message}</p>
+            ${s.action ? `
+                <a href="javascript:void(0)" class="ai-suggestion-action" onclick="event.stopPropagation(); ${s.action.func ? s.action.func + '()' : `showTab('${s.action.tab}')`}">
+                    ${s.action.text} <i class="bi bi-arrow-right-short"></i>
+                </a>
+            ` : ''}
+        </div>
+    `).join('');
+}
+
+// ================= RENDER AI QUICK STATS =================
+function renderAIQuickStats() {
+    const stats = aiAssistant.getQuickStats();
+    document.getElementById('aiQuickStats').innerHTML = `
+        <span class="ai-stat"><i class="bi bi-hourglass-split"></i> ${stats.pendingApps} pending</span>
+        <span class="ai-stat"><i class="bi bi-calendar-check"></i> ${stats.todayApps} today</span>
+        <span class="ai-stat"><i class="bi bi-exclamation-triangle-fill"></i> ${stats.urgentCases} urgent</span>
+    `;
+}
+
+// ================= AI CHAT =================
+function toggleAIChat() {
+    const chatMode = document.getElementById('aiChatMode');
+    chatMode.classList.toggle('open');
+    if (chatMode.classList.contains('open')) {
+        document.getElementById('aiChatInput').focus();
+    }
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('aiChatInput');
+    const message = input.value.trim();
+    if (!message) return;
+    
+    const chatMessages = document.getElementById('aiChatMessages');
+    
+    // Add user message
+    chatMessages.innerHTML += `
+        <div class="ai-chat-message user">
+            <div class="ai-chat-avatar user"><i class="bi bi-person-fill"></i></div>
+            <div class="ai-chat-bubble">${message}</div>
+        </div>
+    `;
+    
+    input.value = '';
+    
+    // Simulate AI thinking
+    setTimeout(() => {
+        const response = generateAIResponse(message);
+        chatMessages.innerHTML += `
+            <div class="ai-chat-message">
+                <div class="ai-chat-avatar ai"><i class="bi bi-robot"></i></div>
+                <div class="ai-chat-bubble">${response}</div>
+            </div>
+        `;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 800);
+}
+
+function generateAIResponse(message) {
+    const msg = message.toLowerCase();
+    const ctx = aiAssistant.contextData;
+    
+    if (msg.includes('appointment') || msg.includes('schedule')) {
+        return `📅 There are currently <strong>${ctx.todayAppointments.length}</strong> appointments today and <strong>${ctx.pendingAppointments.length}</strong> pending. Would you like me to show you the details?`;
+    }
+    if (msg.includes('doctor') || msg.includes('physician')) {
+        return `👨‍⚕️ We have <strong>${ctx.activeDoctors.length}</strong> active doctors across <strong>${ctx.specializations.length}</strong> specialties. Dr. James Wilson (Cardiology) has the most appointments today.`;
+    }
+    if (msg.includes('patient')) {
+        return `🏥 There are <strong>${ctx.patients.length}</strong> registered patients in the system. Is there a specific patient you'd like to look up?`;
+    }
+    if (msg.includes('revenue') || msg.includes('finance')) {
+        return `💰 I can help analyze revenue trends. Would you like me to generate a financial report for this month?`;
+    }
+    if (msg.includes('help') || msg.includes('what can you do')) {
+        return `🤖 I can help with:<br>• Monitoring appointments & detecting backlogs<br>• Suggesting workload optimizations<br>• Alerting on anomalies (no-shows, revenue drops)<br>• Quick navigation to relevant sections<br>• Patient follow-up reminders<br><br>Just ask me anything!`;
+    }
+    
+    return `I understand you're asking about "${message}". Let me analyze the system data... Based on current metrics, everything is running smoothly. Is there anything specific I can help you with?`;
+}
+
+// ================= TRACK ACTIONS FROM EXISTING FUNCTIONS =================
+// Add aiAssistant.trackAction() to your existing functions:
+
+const originalShowTab = showTab;
+showTab = function(tab) {
+    aiAssistant.trackAction('view_' + tab, { tab });
+    originalShowTab(tab);
+};
+
+const originalSaveDoctor = saveDoctor;
+saveDoctor = function() {
+    aiAssistant.trackAction('save_doctor');
+    originalSaveDoctor();
+    renderAISuggestions();
+};
+
+const originalDeleteDoctor = deleteDoctor;
+deleteDoctor = function(id) {
+    aiAssistant.trackAction('delete_doctor', { id });
+    originalDeleteDoctor(id);
+    renderAISuggestions();
+};
+
+const originalUpdateAppointmentStatus = updateAppointmentStatus;
+updateAppointmentStatus = function(id, status) {
+    aiAssistant.trackAction('update_appointment', { id, status });
+    originalUpdateAppointmentStatus(id, status);
+    renderAISuggestions();
+};
+</script>
+<!-- ================= AUTH GUARD SCRIPT ================= -->
+<script src="asset/js/u5-auth-guard.js"></script>
+
+<script>
+// ================= PROTECTED ACTIONS ON LANDING PAGE =================
+
+// Wrap all data-sensitive buttons with auth guard
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Protect "View Patient Records" type links
+    document.querySelectorAll('[data-protected="patient_records"]').forEach(el => {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!U5AuthGuard.canAccess('patient_records')) return;
+            // Proceed with action
+            window.location.href = 'patient-records.html';
+        });
+    });
+    
+    // Protect "View Payroll" type links
+    document.querySelectorAll('[data-protected="payroll"]').forEach(el => {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!U5AuthGuard.canAccess('payroll')) return;
+            // Proceed with action
+            window.location.href = 'payroll.html';
+        });
+    });
+    
+    // Protect billing access
+    document.querySelectorAll('[data-protected="billing_details"]').forEach(el => {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!U5AuthGuard.canAccess('billing_details')) return;
+            // Proceed with action
+            window.location.href = 'billing.html';
+        });
+    });
+    
+    // Protect analytics deep-dive
+    document.querySelectorAll('[data-protected="revenue_reports"]').forEach(el => {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!U5AuthGuard.canAccess('revenue_reports')) return;
+            // Proceed with action
+            window.location.href = 'reports.html';
+        });
+    });
+});
+
+// ================= UPDATE CONTACT SECTION - ADD PROTECTED LINKS =================
+// Add these protected buttons inside the analytics/solutions sections
+function addProtectedActions() {
+    
+    // In Solutions section - make "View Demo" buttons check auth
+    document.querySelectorAll('.solution-card .btn').forEach(btn => {
+        const solutionType = btn.closest('.solution-card').querySelector('h5').textContent.toLowerCase();
+        
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (solutionType.includes('admin')) {
+                if (!U5AuthGuard.canAccess('system_config')) return;
+                window.location.href = 'admin-dashboard.html';
+            } else if (solutionType.includes('doctor')) {
+                if (!U5AuthGuard.canAccess('patient_records')) return;
+                window.location.href = 'doctor-dashboard.html';
+            } else if (solutionType.includes('nurse')) {
+                if (!U5AuthGuard.canAccess('patient_vitals')) return;
+                // Nurse dashboard not built yet
+                alert("👩‍⚕️ Nurse Dashboard coming soon! Register to get early access.");
+            } else if (solutionType.includes('patient')) {
+                // Patient access is less restricted
+                window.location.href = 'patient-dashboard.html';
+            }
+        });
+    });
+}
+
+// Run after page loads
+window.addEventListener('load', addProtectedActions);
+// Add to admin-dashboard.html script section
+
+// Protect payroll section
+function showPayrollSection() {
+    if (!U5AuthGuard.canAccess('payroll')) return;
+    // ... render payroll section
+}
+
+// Protect patient records access
+function viewPatientDetails(patientId) {
+    if (!U5AuthGuard.canAccess('patient_records')) return;
+    // ... show patient details
+}
+
+// Protect billing details
+function viewBillingDetails(invoiceId) {
+    if (!U5AuthGuard.canAccess('billing_details')) return;
+    // ... show billing details
+}
+
+// Wrap existing functions with auth checks
+const originalViewReports = viewReports;
+viewReports = function() {
+    if (!U5AuthGuard.canAccess('revenue_reports')) return;
+    originalViewReports();
+};
+
+// ================= PROTECT FOOTER QUICK ACTIONS =================
+document.addEventListener('DOMContentLoaded', function() {
+    // Protect "Staff Login" link
+    const staffLoginLink = document.querySelector('.footer-links a[href="#"]:nth-child(2)');
+    if (staffLoginLink && staffLoginLink.textContent.includes('Staff Login')) {
+        staffLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const staffModal = new bootstrap.Modal(document.getElementById("staffLoginModal"));
+            staffModal.show();
+        });
+    }
+    
+    // Protect "Create Hospital Account"
+    const createAccountLink = document.querySelector('.footer-links a[href="#"]:nth-child(3)');
+    if (createAccountLink && createAccountLink.textContent.includes('Hospital Account')) {
+        createAccountLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+            registerModal.show();
+        });
+    }
+});
+</script>
+
+
+</body>
+</html>

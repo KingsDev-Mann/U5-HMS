@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - U5 HMS</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="stylesheet" href="asset/css/Landing.css">
+    <link rel="stylesheet" href="asset/css/u5-ai.css">
+    <link rel="stylesheet" href="asset/css/u5-ui.css">
+
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #052e24;
+            --accent: #34d399;
+            --bg: #0b1f17;
+            --card: rgba(255,255,255,0.06);
+            --border: rgba(16,185,129,0.25);
+            --text: #d1fae5;
+            --muted: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg) !important;
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .doctor-header {
+            background: rgba(11,31,23,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .doctor-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(16,185,129,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+
+        /* AVAILABILITY TOGGLE */
+        .availability-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .availability-toggle.available {
+            background: rgba(16,185,129,0.15);
+            border: 1px solid rgba(16,185,129,0.4);
+            color: #34d399;
+        }
+
+        .availability-toggle.unavailable {
+            background: rgba(248,113,113,0.15);
+            border: 1px solid rgba(248,113,113,0.4);
+            color: #f87171;
+        }
+
+        .availability-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .available .availability-dot { background: #34d399; animation: pulse 2s infinite; }
+        .unavailable .availability-dot { background: #f87171; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* STAT CARDS */
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 22px;
+            backdrop-filter: blur(12px);
+            transition: 0.3s;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(16,185,129,0.1);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon.primary { background: rgba(16,185,129,0.2); color: #34d399; }
+        .stat-icon.blue { background: rgba(59,130,246,0.2); color: #60a5fa; }
+        .stat-icon.orange { background: rgba(251,146,60,0.2); color: #fb923c; }
+        .stat-icon.purple { background: rgba(167,139,250,0.2); color: #a78bfa; }
+        .stat-icon.red { background: rgba(248,113,113,0.2); color: #f87171; }
+        .stat-icon.yellow { background: rgba(251,191,36,0.2); color: #fbbf24; }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* MAIN CARDS */
+        .main-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            margin-bottom: 20px;
+        }
+
+        .card-header-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card-header-custom h5 {
+            color: #fff;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* TABLE */
+        .table-custom {
+            color: var(--text);
+            margin: 0;
+            width: 100%;
+        }
+
+        .table-custom thead th {
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 15px;
+        }
+
+        .table-custom tbody td {
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .table-custom tbody tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .table-custom tbody tr.emergency {
+            background: rgba(248,113,113,0.08);
+            border-left: 3px solid #f87171;
+        }
+
+        /* BADGES */
+        .badge-status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        .bg-pending { background: rgba(251,191,36,0.2); color: #fbbf24; }
+        .bg-accepted { background: rgba(59,130,246,0.2); color: #60a5fa; }
+        .bg-completed { background: rgba(16,185,129,0.2); color: #34d399; }
+        .bg-declined { background: rgba(248,113,113,0.2); color: #f87171; }
+        .bg-cancelled { background: rgba(148,163,184,0.2); color: #94a3b8; }
+        .bg-emergency { background: rgba(248,113,113,0.3); color: #fca5a5; }
+
+        /* BUTTONS */
+        .btn-primary-custom {
+            background: var(--primary) !important;
+            border: none !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--accent) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-custom {
+            border: 1px solid var(--border) !important;
+            color: var(--accent) !important;
+            background: transparent !important;
+            border-radius: 12px !important;
+            padding: 10px 20px;
+            transition: 0.3s;
+        }
+
+        .btn-outline-custom:hover {
+            background: rgba(16,185,129,0.1) !important;
+        }
+
+        .btn-sm-custom {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            border-radius: 8px !important;
+        }
+
+        .btn-accept {
+            background: rgba(16,185,129,0.15) !important;
+            color: #34d399 !important;
+            border: 1px solid rgba(16,185,129,0.4) !important;
+        }
+
+        .btn-accept:hover {
+            background: rgba(16,185,129,0.3) !important;
+        }
+
+        .btn-decline {
+            background: rgba(248,113,113,0.15) !important;
+            color: #f87171 !important;
+            border: 1px solid rgba(248,113,113,0.4) !important;
+        }
+
+        .btn-decline:hover {
+            background: rgba(248,113,113,0.3) !important;
+        }
+
+        /* FORM CONTROLS */
+        .form-control-custom {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid var(--border) !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 12px 16px;
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.15) !important;
+            outline: none;
+        }
+
+        .form-select-custom {
+            background-color: rgba(255,255,255,0.05) !important;
+            border: 1px solid var(--border) !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 12px 40px 12px 16px !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2334d399' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 12px center !important;
+            background-size: 16px 12px !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+            cursor: pointer;
+        }
+
+        .form-select-custom option {
+            background: #0b1f17 !important;
+            color: #d1fae5 !important;
+        }
+
+        /* TABS */
+        .nav-pills-custom {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .nav-pills-custom .nav-link {
+            color: var(--muted) !important;
+            border-radius: 12px;
+            padding: 10px 20px;
+            margin-right: 8px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-pills-custom .nav-link.active {
+            background: rgba(16,185,129,0.2) !important;
+            color: var(--accent) !important;
+            font-weight: 600;
+        }
+
+        .nav-pills-custom .nav-link:hover:not(.active) {
+            background: rgba(255,255,255,0.05);
+            color: #fff !important;
+        }
+
+        /* MODAL OVERRIDES */
+        .modal-content {
+            background: rgba(8,20,15,0.97) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 24px !important;
+            backdrop-filter: blur(30px);
+            color: #fff;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--border) !important;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--border) !important;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .doctor-header { padding: 12px 15px; }
+            .stat-value { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body onload="initDoctorDashboard()">
+
+<!-- ================= DOCTOR HEADER ================= -->
+<div class="doctor-header">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <div class="doctor-avatar">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </div>
+
+<!-- Announcer -->
+<div id="announcementBar"></div>
+
+                <div>
+                    <h5 class="text-white mb-0" id="doctorNameDisplay">Doctor</h5>
+                    <small class="text-muted" id="doctorSpecialty"></small>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <!-- Availability Toggle -->
+                <div class="availability-toggle available" id="availabilityToggle" onclick="toggleAvailability()">
+                    <span class="availability-dot"></span>
+                    <span id="availabilityText">Available</span>
+                </div>
+
+                <span id="greetingDisplay" class="text-muted d-none d-lg-inline"></span>
+
+                <button class="btn btn-outline-custom btn-sm" onclick="refreshDashboard()">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="doctorLogout()">
+                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container-fluid py-4 px-4">
+
+    <!-- STAT CARDS -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('appointments')">
+                <div class="stat-icon primary"><i class="bi bi-calendar-check-fill"></i></div>
+                <h3 class="stat-value" id="todayAppointments">0</h3>
+                <p class="stat-label">Today's Appointments</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('appointments')">
+                <div class="stat-icon yellow"><i class="bi bi-hourglass-split"></i></div>
+                <h3 class="stat-value" id="pendingCount">0</h3>
+                <p class="stat-label">Pending Requests</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('patients')">
+                <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+                <h3 class="stat-value" id="totalMyPatients">0</h3>
+                <p class="stat-label">My Patients</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('prescriptions')">
+                <div class="stat-icon purple"><i class="bi bi-capsule-pill"></i></div>
+                <h3 class="stat-value" id="prescriptionsToday">0</h3>
+                <p class="stat-label">Prescriptions Today</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card" onclick="switchTab('lab-orders')">
+                <div class="stat-icon red"><i class="bi bi-droplet-fill"></i></div>
+                <h3 class="stat-value" id="labOrdersCount">0</h3>
+                <p class="stat-label">Lab Orders</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="bi bi-star-fill"></i></div>
+                <h3 class="stat-value" id="ratingDisplay">4.9</h3>
+                <p class="stat-label">Rating</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI WIDGET -->
+    <div class="ai-widget mb-4" id="aiWidget">
+        <div class="ai-header">
+            <div class="ai-header-left">
+                <i class="bi bi-robot"></i>
+                <h6>U5 AI Clinical Assistant</h6>
+            </div>
+            <div class="ai-status">
+                <span class="ai-status-dot"></span>
+                <span id="aiStatusText">Monitoring...</span>
+            </div>
+        </div>
+        <div class="ai-body" id="aiSuggestionsBody">
+            <div class="text-center text-muted py-3">
+                <i class="bi bi-hourglass-split" style="font-size: 2rem;"></i>
+                <p class="mt-2">AI analyzing your schedule...</p>
+            </div>
+        </div>
+        <div class="ai-footer">
+            <div class="ai-quick-stats" id="aiQuickStats"></div>
+            <button class="ai-toggle" onclick="toggleAIChat()" title="Chat with AI">
+                <i class="bi bi-chat-dots-fill"></i> Ask AI
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Chat Panel -->
+    <div class="ai-chat-mode" id="aiChatMode">
+        <div class="ai-header" style="cursor: pointer;" onclick="toggleAIChat()">
+            <div class="ai-header-left">
+                <i class="bi bi-robot"></i>
+                <h6>AI Clinical Chat</h6>
+            </div>
+            <button class="btn-close btn-close-white" style="font-size: 0.7rem;"></button>
+        </div>
+        <div class="ai-chat-messages" id="aiChatMessages">
+            <div class="ai-chat-message">
+                <div class="ai-chat-avatar ai"><i class="bi bi-robot"></i></div>
+                <div class="ai-chat-bubble">
+                    Welcome, Doctor! I'm monitoring your schedule and patient flow. How can I assist you today?
+                </div>
+            </div>
+        </div>
+        <div class="ai-chat-input-area">
+            <input type="text" class="ai-chat-input" id="aiChatInput"
+                   placeholder="Ask about patients, schedule..."
+                   onkeypress="if(event.key==='Enter')sendAIMessage()">
+            <button class="ai-chat-send" onclick="sendAIMessage()">
+                <i class="bi bi-send-fill"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <ul class="nav nav-pills-custom mb-4" id="doctorTabs">
+        <li class="nav-item">
+            <a class="nav-link active" onclick="switchTab('appointments')" href="javascript:void(0)">
+                <i class="bi bi-calendar-check-fill me-1"></i> Appointments
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('patients')" href="javascript:void(0)">
+                <i class="bi bi-people-fill me-1"></i> Patients
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('prescriptions')" href="javascript:void(0)">
+                <i class="bi bi-capsule-pill me-1"></i> Prescriptions
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('lab-orders')" href="javascript:void(0)">
+                <i class="bi bi-droplet-fill me-1"></i> Lab Orders
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('payments')" href="javascript:void(0)">
+                <i class="bi bi-cash-stack me-1"></i> Payments
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('profile')" href="javascript:void(0)">
+                <i class="bi bi-person-lines-fill me-1"></i> Profile
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="switchTab('availability')" href="javascript:void(0)">
+                <i class="bi bi-clock-fill me-1"></i> Availability
+            </a>
+        </li>
+    </ul>
+
+    <!-- TAB CONTENT -->
+    <div id="tabContent"></div>
+
+</div>
+
+<!-- ================= PRESCRIPTION MODAL ================= -->
+<div class="modal fade" id="prescriptionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-prescription2 me-2"></i>Write Prescription</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="prescriptionForm">
+                    <input type="hidden" id="prescPatientId">
+                    <input type="hidden" id="prescPatientName">
+                    <input type="hidden" id="prescPatientEmail">
+                    <input type="hidden" id="prescAppointmentId">
+                    <div class="mb-3">
+                        <label class="form-label">Patient</label>
+                        <input type="text" class="form-control-custom" id="prescPatientDisplay" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Medicine Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control-custom" id="prescMedicine" placeholder="e.g., Amoxicillin 250mg" required>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Dosage</label>
+                            <input type="text" class="form-control-custom" id="prescDosage" placeholder="e.g., 1 tablet">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Duration</label>
+                            <input type="text" class="form-control-custom" id="prescDuration" placeholder="e.g., 7 days">
+                        </div>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">Instructions</label>
+                        <textarea class="form-control-custom" id="prescInstructions" rows="2" placeholder="e.g., Take after meals"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary-custom" onclick="savePrescription()">
+                    <i class="bi bi-check-lg me-1"></i> Save Prescription
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= LAB ORDER MODAL ================= -->
+<div class="modal fade" id="labOrderModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-droplet-fill me-2"></i>Order Lab Test</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="labOrderForm">
+                    <input type="hidden" id="labPatientId">
+                    <input type="hidden" id="labPatientEmail">
+                    <input type="hidden" id="labAppointmentId">
+                    <div class="mb-3">
+                        <label class="form-label">Patient</label>
+                        <input type="text" class="form-control-custom" id="labPatientDisplay" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Test <span class="text-danger">*</span></label>
+                        <select class="form-select-custom" id="labTestSelect" required>
+                            <option value="">Select test...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control-custom" id="labNotes" rows="2" placeholder="Clinical notes for lab..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary-custom" onclick="saveLabOrder()">
+                    <i class="bi bi-send-fill me-1"></i> Order Test
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= DECLINE REASON MODAL ================= -->
+<div class="modal fade" id="declineModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-x-circle me-2"></i>Decline Appointment</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="declineAppointmentId">
+                <div class="mb-3">
+                    <label class="form-label">Reason for declining</label>
+                    <textarea class="form-control-custom" id="declineReason" rows="3" placeholder="e.g., Schedule conflict, emergency surgery..."></textarea>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="suggestAlternative">
+                    <label class="form-check-label text-muted" for="suggestAlternative">
+                        Suggest alternative slots
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-decline" onclick="confirmDecline()">
+                    <i class="bi bi-x-lg me-1"></i> Decline Appointment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="asset/js/u5-db.js"></script>
+<script src="asset/js/u5-ai.js"></script>
+<script src="asset/js/u5-auth-guard.js"></script>
+<script src="asset/js/u5-announcements.js"></script>
+<script src="asset/js/u5-ui.js"></script>
+
+<script>
+// ================= SESSION CHECK =================
+let currentDoctor = null;
+
+function initDoctorDashboard() {
+    const session = JSON.parse(localStorage.getItem("u5_session"));
+
+    if (!session) {
+        alert("Please login to access your dashboard.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    if (session.role !== 'doctor') {
+        alert("This dashboard is for doctors only.");
+        window.location.href = session.role + "-dashboard.html";
+        return;
+    }
+
+    const doctorRecord = U5DB?.findDoctorByAny ? U5DB.findDoctorByAny(session.id || session.email || session.name) : null;
+    currentDoctor = { ...doctorRecord, ...session };
+
+    document.getElementById("doctorNameDisplay").textContent = session.name || "Doctor";
+    document.getElementById("doctorSpecialty").textContent = 
+        (session.department || session.specialization || "General Medicine") + " • ID: " + (session.empId || 'N/A');
+
+    const hour = new Date().getHours();
+    let greeting = "Good Morning";
+    if (hour >= 12 && hour < 17) greeting = "Good Afternoon";
+    if (hour >= 17) greeting = "Good Evening";
+    document.getElementById("greetingDisplay").textContent = greeting + ", Dr.";
+
+    const availability = (U5DB && U5DB.doctors) ? U5DB.doctors.getAvailability(currentDoctor.id) : { status: 'available' };
+    const toggle = document.getElementById("availabilityToggle");
+    const toggleText = document.getElementById("availabilityText");
+    if (toggle && toggleText) {
+        toggle.classList.toggle('available', availability.status === 'available');
+        toggle.classList.toggle('unavailable', availability.status !== 'available');
+        toggleText.textContent = availability.status === 'available' ? 'Available' : 'Unavailable';
+    }
+
+    // Init AI
+    if (typeof U5AIAssistant !== 'undefined') {
+        window.aiAssistant = new U5AIAssistant('doctor', 'doctor-dashboard');
+        window.aiAssistant.trackAction('dashboard_loaded');
+    }
+
+    switchTab('appointments');
+    updateAllStats();
+    renderAISuggestions();
+    renderAIQuickStats();
+
+    setInterval(() => {
+        renderAISuggestions();
+        renderAIQuickStats();
+    }, 45000);
+}
+
+// ================= TAB SWITCHING =================
+function switchTab(tab) {
+    document.querySelectorAll('#doctorTabs .nav-link').forEach(link => link.classList.remove('active'));
+    const clickedLink = document.querySelector(`#doctorTabs .nav-link[onclick*="${tab}"]`);
+    if (clickedLink) clickedLink.classList.add('active');
+
+    const container = document.getElementById('tabContent');
+
+    switch(tab) {
+        case 'appointments': renderAppointments(container); break;
+        case 'patients': renderPatients(container); break;
+        case 'prescriptions': renderPrescriptions(container); break;
+        case 'lab-orders': renderLabOrders(container); break;
+        case 'availability': renderAvailability(container); break;
+        default: renderAppointments(container);
+    }
+
+    updateAllStats();
+    renderAISuggestions();
+    renderAIQuickStats();
+}
+
+// ================= APPOINTMENTS VIEW =================
+function renderAppointments(container) {
+    const myApps = getMyAppointments();
+    const today = new Date().toISOString().split('T')[0];
+
+    const todayApps = myApps.filter(a => a.date === today);
+    const pendingApps = myApps.filter(a => a.status === 'pending');
+    const upcomingApps = myApps.filter(a => 
+        ['accepted'].includes(a.status) && a.date >= today
+    ).sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
+
+    container.innerHTML = `
+        <!-- Pending Requests -->
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-hourglass-split me-2"></i>Pending Requests (${pendingApps.length})</h5>
+            </div>
+            ${pendingApps.length === 0 ? `
+                <div class="text-center py-3 text-muted">
+                    <i class="bi bi-check-circle-fill text-success"></i> No pending requests
+                </div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead><tr><th>Patient</th><th>Date</th><th>Time</th><th>Specialty</th><th>Symptoms</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            ${pendingApps.map(a => `
+                                <tr class="${a.isEmergency ? 'emergency' : ''}">
+                                    <td>
+                                        <strong>${a.patientName}</strong>
+                                        ${a.isEmergency ? '<span class="badge-status bg-emergency ms-1">⚠️ Emergency</span>' : ''}
+                                    </td>
+                                    <td>${a.date}</td>
+                                    <td><strong>${a.time}</strong></td>
+                                    <td>${a.specialization}</td>
+                                    <td><small class="text-muted">${a.symptomsDescription || 'N/A'}</small></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm-custom btn-accept" onclick="acceptAppointment('${a.id}')">
+                                                <i class="bi bi-check-lg"></i> Accept
+                                            </button>
+                                            <button class="btn btn-sm-custom btn-decline" onclick="openDeclineModal('${a.id}')">
+                                                <i class="bi bi-x-lg"></i> Decline
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+
+        <!-- Today's Schedule -->
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-calendar-check-fill me-2"></i>Today's Schedule (${todayApps.length})</h5>
+            </div>
+            ${todayApps.length === 0 ? `
+                <div class="text-center py-3 text-muted">
+                    <i class="bi bi-calendar2-x"></i> No appointments today
+                </div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead><tr><th>Time</th><th>Patient</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            ${todayApps.sort((a,b) => a.time.localeCompare(b.time)).map(a => `
+                                <tr>
+                                    <td><strong>${a.time}</strong></td>
+                                    <td>${a.patientName}</td>
+                                    <td><span class="badge-status bg-${a.status}">${a.status}</span></td>
+                                    <td>
+                                        ${a.status === 'accepted' ? `
+                                            <button class="btn btn-sm-custom btn-outline-custom" onclick="completeAppointment('${a.id}')">
+                                                <i class="bi bi-check-all"></i> Complete
+                                            </button>
+                                            <button class="btn btn-sm-custom btn-outline-custom" onclick="writePrescription('${a.id}', '${a.patientName}', '${a.patientEmail || ''}', '${a.patientId || ''}')">
+                                                <i class="bi bi-prescription2"></i> Prescribe
+                                            </button>
+                                            <button class="btn btn-sm-custom btn-outline-custom" onclick="openLabOrderModal('${a.id}', '${a.patientName}', '${a.patientEmail || ''}', '${a.patientId || ''}')">
+                                                <i class="bi bi-droplet"></i> Lab
+                                            </button>
+                                        ` : ''}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+
+        <!-- Upcoming -->
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-calendar2-week-fill me-2"></i>Upcoming Appointments (${upcomingApps.length})</h5>
+            </div>
+            ${upcomingApps.length === 0 ? `
+                <div class="text-center py-3 text-muted">No upcoming appointments</div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead><tr><th>Date</th><th>Time</th><th>Patient</th><th>Status</th></tr></thead>
+                        <tbody>
+                            ${upcomingApps.slice(0, 10).map(a => `
+                                <tr>
+                                    <td>${a.date}</td>
+                                    <td><strong>${a.time}</strong></td>
+                                    <td>${a.patientName}</td>
+                                    <td><span class="badge-status bg-${a.status}">${a.status}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+// ================= PATIENTS VIEW =================
+function renderPatients(container) {
+    const myApps = getMyAppointments();
+    const uniquePatients = [...new Map(myApps.map(a => [a.patientEmail || a.patientName, a])).values()];
+
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-people-fill me-2"></i>My Patients (${uniquePatients.length})</h5>
+            </div>
+            ${uniquePatients.length === 0 ? `
+                <div class="text-center py-4 text-muted">No patients yet</div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead><tr><th>Patient</th><th>Last Visit</th><th>Total Visits</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            ${uniquePatients.map(p => {
+                                const patientApps = myApps.filter(a => 
+                                    (a.patientEmail || a.patientName) === (p.patientEmail || p.patientName)
+                                );
+                                const lastVisit = patientApps.filter(a => a.status === 'completed').sort((a,b) => b.date.localeCompare(a.date))[0];
+                                return `
+                                    <tr>
+                                        <td><strong>${p.patientName}</strong></td>
+                                        <td>${lastVisit ? lastVisit.date : 'N/A'}</td>
+                                        <td>${patientApps.length}</td>
+                                        <td>
+                                            <button class="btn btn-sm-custom btn-outline-custom" onclick="writePrescription('${p.id || ''}', '${p.patientName}', '${p.patientEmail || ''}', '${p.patientId || ''}')">
+                                                <i class="bi bi-prescription2"></i> Prescribe
+                                            </button>
+                                            <button class="btn btn-sm-custom btn-outline-custom" onclick="openLabOrderModal('${p.id || ''}', '${p.patientName}', '${p.patientEmail || ''}', '${p.patientId || ''}')">
+                                                <i class="bi bi-droplet"></i> Lab
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+// ================= PRESCRIPTIONS VIEW =================
+function renderPrescriptions(container) {
+    const prescriptions = (U5DB && U5DB.prescriptions) ? U5DB.prescriptions.getByDoctor(currentDoctor.name) : [];
+
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-capsule-pill me-2"></i>My Prescriptions (${prescriptions.length})</h5>
+            </div>
+            ${prescriptions.length === 0 ? `
+                <div class="text-center py-4 text-muted">No prescriptions written yet</div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead><tr><th>Patient</th><th>Medicine</th><th>Dosage</th><th>Duration</th><th>Date</th><th>Status</th></tr></thead>
+                        <tbody>
+                            ${prescriptions.map(p => `
+                                <tr>
+                                    <td>${p.patientName}</td>
+                                    <td><strong>${p.medicineName}</strong></td>
+                                    <td>${p.dosage || 'N/A'}</td>
+                                    <td>${p.duration || 'N/A'}</td>
+                                    <td>${new Date(p.prescribedAt).toLocaleDateString()}</td>
+                                    <td><span class="badge-status bg-${p.status || 'active'}">${p.status || 'Active'}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+// ================= LAB ORDERS VIEW =================
+function renderLabOrders(container) {
+    const labTests = (U5DB && U5DB.laboratory) ? U5DB.laboratory.getTests().filter(t => t.doctorName === currentDoctor.name) : [];
+
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-droplet-fill me-2"></i>Lab Orders (${labTests.length})</h5>
+                <button class="btn btn-outline-custom btn-sm" onclick="openLabOrderModal()">
+                    <i class="bi bi-plus-lg"></i> New Order
+                </button>
+            </div>
+            ${labTests.length === 0 ? `
+                <div class="text-center py-4 text-muted">No lab orders yet</div>
+            ` : `
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead><tr><th>Patient</th><th>Test</th><th>Ordered</th><th>Status</th><th>Result</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            ${labTests.map(t => `
+                                <tr>
+                                    <td>${t.patientName}</td>
+                                    <td><strong>${t.testName}</strong></td>
+                                    <td>${new Date(t.orderedAt).toLocaleDateString()}</td>
+                                    <td><span class="badge-status bg-${t.status === 'completed' ? 'completed' : 'pending'}">${t.status}</span></td>
+                                    <td>${t.result || '<span class="text-muted">Pending</span>'}</td>
+                                    <td>
+                                        ${t.status !== 'completed' ? `
+                                            <button class="btn btn-sm-custom btn-outline-custom" onclick="completeLabTest('${t.id}')">
+                                                Add Result
+                                            </button>
+                                        ` : ''}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `}
+        </div>
+    `;
+}
+
+// ================= AVAILABILITY VIEW =================
+function renderAvailability(container) {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const availability = (U5DB && U5DB.doctors) ? U5DB.doctors.getAvailability(currentDoctor.id) : { status: 'available', schedule: {} };
+    const today = days[new Date().getDay() - 1] || days[0];
+
+    container.innerHTML = `
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h5><i class="bi bi-clock-fill me-2"></i>Manage Availability</h5>
+            </div>
+            <p class="text-muted mb-3">Set your weekly schedule and update your current status.</p>
+            <div class="row g-3">
+                ${days.map(day => {
+                    const daySchedule = availability.schedule?.[day] || {};
+                    return `
+                    <div class="col-md-6 col-lg-3">
+                        <div class="p-3 rounded" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border);">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-white">${day}</strong>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="avail_${day}"
+                                           ${daySchedule.enabled ? 'checked' : ''} onchange="updateDayAvailability('${day}', this.checked)">
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <input type="time" class="form-control-custom form-control-sm" id="start_${day}" value="${daySchedule.start || '09:00'}" style="font-size: 0.8rem;">
+                                <span class="text-muted">to</span>
+                                <input type="time" class="form-control-custom form-control-sm" id="end_${day}" value="${daySchedule.end || '17:00'}" style="font-size: 0.8rem;">
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }).join('')}
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-primary-custom" onclick="saveAvailability()">
+                    <i class="bi bi-check-lg me-1"></i> Save Schedule
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// ================= APPOINTMENT ACTIONS =================
+function acceptAppointment(id) {
+    if (!confirm("Accept this appointment?")) return;
+    if (U5DB && U5DB.appointments) {
+        U5DB.appointments.updateStatus(id, 'accepted');
+    }
+    alert("✅ Appointment accepted!");
+    switchTab('appointments');
+    updateAllStats();
+    renderAISuggestions();
+}
+
+function openDeclineModal(id) {
+    document.getElementById("declineAppointmentId").value = id;
+    new bootstrap.Modal(document.getElementById("declineModal")).show();
+}
+
+function confirmDecline() {
+    const id = document.getElementById("declineAppointmentId").value;
+    const reason = document.getElementById("declineReason").value || 'Not specified';
+    if (U5DB && U5DB.appointments) {
+        U5DB.appointments.updateStatus(id, 'declined', reason);
+    }
+    bootstrap.Modal.getInstance(document.getElementById("declineModal")).hide();
+    alert("Appointment declined.");
+    switchTab('appointments');
+    updateAllStats();
+    renderAISuggestions();
+}
+
+function completeAppointment(id) {
+    if (!confirm("Mark this appointment as completed?")) return;
+    if (U5DB && U5DB.appointments) {
+        U5DB.appointments.updateStatus(id, 'completed');
+    }
+    alert("✅ Appointment marked as completed.");
+    switchTab('appointments');
+    updateAllStats();
+}
+
+// ================= PRESCRIPTION ACTIONS =================
+function writePrescription(appointmentId, patientName, patientEmail = '', patientId = '') {
+    const appointment = U5DB?.appointments?.getAll().find(a => a.id === appointmentId);
+    document.getElementById("prescPatientId").value = patientId || appointment?.patientId || '';
+    document.getElementById("prescPatientName").value = patientName;
+    document.getElementById("prescPatientEmail").value = patientEmail || appointment?.patientEmail || '';
+    document.getElementById("prescAppointmentId").value = appointmentId || '';
+    document.getElementById("prescPatientDisplay").value = patientName;
+    document.getElementById("prescMedicine").value = '';
+    document.getElementById("prescDosage").value = '';
+    document.getElementById("prescDuration").value = '';
+    document.getElementById("prescInstructions").value = '';
+    new bootstrap.Modal(document.getElementById("prescriptionModal")).show();
+}
+
+function savePrescription() {
+    const patientName = document.getElementById("prescPatientName").value;
+    const patientId = document.getElementById("prescPatientId").value;
+    const patientEmail = document.getElementById("prescPatientEmail").value;
+    const appointmentId = document.getElementById("prescAppointmentId").value;
+    const medicine = document.getElementById("prescMedicine").value.trim();
+    const dosage = document.getElementById("prescDosage").value.trim();
+    const duration = document.getElementById("prescDuration").value.trim();
+    const instructions = document.getElementById("prescInstructions").value.trim();
+
+    if (!medicine) { alert("Please enter medicine name!"); return; }
+
+    if (U5DB && U5DB.prescriptions) {
+        U5DB.prescriptions.create({
+            appointmentId,
+            patientId,
+            patientName,
+            patientEmail,
+            doctorId: currentDoctor.id,
+            doctorName: currentDoctor.name,
+            doctorEmail: currentDoctor.email,
+            medicineName: medicine,
+            dosage,
+            duration,
+            instructions
+        });
+    }
+
+    bootstrap.Modal.getInstance(document.getElementById("prescriptionModal")).hide();
+    alert("✅ Prescription saved!");
+    switchTab('prescriptions');
+    updateAllStats();
+}
+
+// ================= LAB ORDER ACTIONS =================
+function openLabOrderModal(appointmentId = '', patientName = '', patientEmail = '', patientId = '') {
+    const appointment = U5DB?.appointments?.getAll().find(a => a.id === appointmentId);
+    const tests = (U5DB && U5DB.laboratory && U5DB.laboratory.getTestCatalog) ? 
+        U5DB.laboratory.getTestCatalog() : [];
+    document.getElementById("labTestSelect").innerHTML = 
+        '<option value="">Select test...</option>' +
+        tests.map(t => `<option value="${t.name}" data-price="${t.price || 0}">${t.name} - $${t.price || 0}</option>`).join('');
+    document.getElementById("labAppointmentId").value = appointmentId || '';
+    document.getElementById("labPatientId").value = patientId || appointment?.patientId || '';
+    document.getElementById("labPatientEmail").value = patientEmail || appointment?.patientEmail || '';
+    document.getElementById("labPatientDisplay").value = patientName || appointment?.patientName || '';
+    new bootstrap.Modal(document.getElementById("labOrderModal")).show();
+}
+
+function saveLabOrder() {
+    const testName = document.getElementById("labTestSelect").value;
+    const selectedTest = document.getElementById("labTestSelect").selectedOptions[0];
+    const patientName = document.getElementById("labPatientDisplay").value;
+    const notes = document.getElementById("labNotes").value;
+    if (!testName) { alert("Please select a test!"); return; }
+    if (!patientName || patientName === 'Select patient from Appointments tab') {
+        alert("Please order lab tests from an appointment or patient row first.");
+        return;
+    }
+
+    if (U5DB && U5DB.laboratory) {
+        U5DB.laboratory.orderTest({
+            appointmentId: document.getElementById("labAppointmentId").value,
+            patientId: document.getElementById("labPatientId").value,
+            patientName,
+            patientEmail: document.getElementById("labPatientEmail").value,
+            doctorId: currentDoctor.id,
+            doctorName: currentDoctor.name,
+            doctorEmail: currentDoctor.email,
+            testName,
+            price: Number(selectedTest?.dataset.price || 0),
+            notes
+        });
+    }
+
+    bootstrap.Modal.getInstance(document.getElementById("labOrderModal")).hide();
+    alert("✅ Lab test ordered!");
+    switchTab('lab-orders');
+    updateAllStats();
+}
+
+function completeLabTest(testId) {
+    const result = prompt("Enter lab result summary:");
+    if (!result) return;
+    U5DB.laboratory.addResult(testId, result);
+    alert("Lab result saved and released to patient.");
+    switchTab('lab-orders');
+    updateAllStats();
+}
+
+// ================= AVAILABILITY ACTIONS =================
+function toggleAvailability() {
+    const toggle = document.getElementById("availabilityToggle");
+    const text = document.getElementById("availabilityText");
+    const isAvailable = toggle.classList.contains('available');
+
+    if (isAvailable) {
+        toggle.classList.remove('available');
+        toggle.classList.add('unavailable');
+        text.textContent = 'Unavailable';
+    } else {
+        toggle.classList.remove('unavailable');
+        toggle.classList.add('available');
+        text.textContent = 'Available';
+    }
+}
+
+function updateDayAvailability(day, checked) {
+    const label = document.querySelector(`label[for='avail_${day}']`);
+    if (label) {
+        label.textContent = `${day} ${checked ? '(On)' : '(Off)'}`;
+    }
+}
+
+function saveAvailability() {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const toggle = document.getElementById("availabilityToggle");
+    const status = toggle.classList.contains('available') ? 'available' : 'unavailable';
+
+    const schedule = {};
+    days.forEach(day => {
+        const enabled = document.getElementById(`avail_${day}`)?.checked;
+        const start = document.getElementById(`start_${day}`)?.value || '09:00';
+        const end = document.getElementById(`end_${day}`)?.value || '17:00';
+        schedule[day] = { enabled: Boolean(enabled), start, end };
+    });
+
+    if (U5DB && U5DB.doctors) {
+        U5DB.doctors.updateAvailability(currentDoctor.id, { status, schedule });
+    }
+
+    alert("✅ Schedule saved successfully!");
+}
+
+// ================= AI FUNCTIONS =================
+function renderAISuggestions() {
+    if (!window.aiAssistant) return;
+    const suggestions = window.aiAssistant.getSuggestions();
+    const container = document.getElementById('aiSuggestionsBody');
+    if (!container) return;
+    document.getElementById('aiStatusText').textContent = 
+        suggestions.length > 0 ? suggestions.length + ' alerts' : 'All Clear ✓';
+
+    if (suggestions.length === 0) {
+        container.innerHTML = `<div class="text-center text-muted py-3">
+            <i class="bi bi-check-circle-fill" style="font-size: 2rem; color: #34d399;"></i>
+            <p class="mt-2">All systems optimal.</p></div>`;
+        return;
+    }
+
+    container.innerHTML = suggestions.map(s => `
+        <div class="ai-suggestion" onclick="${s.action?.tab ? `switchTab('${s.action.tab}')` : ''}">
+            <div class="ai-suggestion-header">
+                <div class="ai-suggestion-icon ${s.color || 'info'}"><i class="bi ${s.icon}"></i></div>
+                <p class="ai-suggestion-title">${s.title}</p>
+            </div>
+            <p class="ai-suggestion-message">${s.message}</p>
+            ${s.action ? `<a href="javascript:void(0)" class="ai-suggestion-action" 
+                onclick="event.stopPropagation(); ${s.action.tab ? `switchTab('${s.action.tab}')` : ''}">
+                ${s.action.text} <i class="bi bi-arrow-right-short"></i></a>` : ''}
+        </div>`).join('');
+}
+
+function renderAIQuickStats() {
+    if (!window.aiAssistant) return;
+    const stats = window.aiAssistant.getQuickStats();
+    const container = document.getElementById('aiQuickStats');
+    if (!container) return;
+    container.innerHTML = `
+        <span class="ai-stat"><i class="bi bi-hourglass-split"></i> ${stats.pendingApps} pending</span>
+        <span class="ai-stat"><i class="bi bi-calendar-check"></i> ${stats.todayApps} today</span>`;
+}
+
+function toggleAIChat() {
+    document.getElementById('aiChatMode').classList.toggle('open');
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('aiChatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    const chat = document.getElementById('aiChatMessages');
+    chat.innerHTML += `<div class="ai-chat-message user">
+        <div class="ai-chat-avatar user"><i class="bi bi-person-fill"></i></div>
+        <div class="ai-chat-bubble">${msg}</div></div>`;
+    input.value = '';
+    setTimeout(() => {
+        chat.innerHTML += `<div class="ai-chat-message">
+            <div class="ai-chat-avatar ai"><i class="bi bi-robot"></i></div>
+            <div class="ai-chat-bubble">I'm monitoring ${getMyAppointments().filter(a => a.status === 'pending').length} pending appointments. Let me know if you need help with patient records or scheduling.</div></div>`;
+        chat.scrollTop = chat.scrollHeight;
+    }, 800);
+}
+
+// ================= HELPERS =================
+function getMyAppointments() {
+    const doctorName = currentDoctor.name;
+    if (U5DB && U5DB.appointments) {
+        return U5DB.appointments.getByDoctor(currentDoctor.id || currentDoctor.email || doctorName);
+    }
+    return JSON.parse(localStorage.getItem("u5_appointments") || "[]")
+        .filter(a => a.doctorName === doctorName);
+}
+
+function updateAllStats() {
+    const apps = getMyAppointments();
+    const today = new Date().toISOString().split('T')[0];
+
+    const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+
+    el("todayAppointments", apps.filter(a => a.date === today).length);
+    el("pendingCount", apps.filter(a => a.status === 'pending').length);
+    el("totalMyPatients", [...new Set(apps.map(a => a.patientName))].length);
+
+    const prescriptions = (U5DB && U5DB.prescriptions) ? 
+        U5DB.prescriptions.getByDoctor(currentDoctor.name) : [];
+    el("prescriptionsToday", prescriptions.filter(p => 
+        new Date(p.prescribedAt).toISOString().split('T')[0] === today
+    ).length);
+
+    const labTests = (U5DB && U5DB.laboratory) ? 
+        U5DB.laboratory.getTests().filter(t => t.doctorName === currentDoctor.name) : [];
+    el("labOrdersCount", labTests.length);
+}
+
+
+function refreshDashboard() {
+    switchTab('appointments');
+    updateAllStats();
+    renderAISuggestions();
+}
+
+function doctorLogout() {
+    if (confirm("Logout?")) {
+        localStorage.removeItem("u5_session");
+        window.location.href = "index.html";
+    }
+}
+
+// Init
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDoctorDashboard);
+} else {
+    initDoctorDashboard();
+}
+</script>
+<script>
+    U5Announcements.renderBar('announcementBar');
+
+
+
+</script>
+
+</body>
+</html>

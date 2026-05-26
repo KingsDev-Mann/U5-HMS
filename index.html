@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>U5 HMS | Enterprise Healthcare Platform</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- AOS Animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-G6C8XS5n2OhQdFl0xyHuexxXbVv4Y7qFBf+3WzpNHFAkg98o4jLWhWn2+4XLJosrt8ra0AAII2ybzpr7vfTgdA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="asset/css/style.css">
+<link rel="stylesheet" href="asset/css/Landing.css">
+<link rel="stylesheet" href="asset/css/u5-ui.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+  <div class="container">
+
+    <a class="navbar-brand logo-text" href="#">U5 HMS</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+
+        <li class="nav-item"><a class="nav-link Active" href="#features_section">Features</a></li>
+        <li class="nav-item"><a class="nav-link" href="#solutions_section">Solutions</a></li>
+        <li class="nav-item"><a class="nav-link" href="#analytics_section">Analytics</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact_section">Contact</a></li>
+
+        <!-- LOGIN BUTTON -->
+        <li class="nav-item ms-lg-3">
+          <button id="loginBtn"
+            class="btn btn-outline"
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal">
+            Login
+          </button>
+        </li>
+
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+          <button class="btn btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#registerModal">
+            Get Started
+          </button>
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <div class="row align-items-center hero-row">
+
+      <div class="col-lg-6 hero-left" data-aos="fade-up" data-aos-delay="150">
+        <h1 class="hero-title">Smarter Healthcare Platform</h1>
+        <p class="hero-subtitle">All-in-one hospital management system with intelligent scheduling, team payroll, and secure patient access.</p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal" title="Create a new user account">
+            Get Started
+          </button>
+
+          <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#staffLoginModal" title="Open staff login panel for employees and clinical staff" aria-label="Open staff login panel for employees and clinical staff">
+            Staff Login
+          </button>
+        </div>
+      </div>
+
+      <div class="col-lg-6 hero-right" data-aos="fade-left" data-aos-delay="200">
+        <div class="hero-card">
+          <div class="mini-widget"><h4>HRM Live</h4><p>Active staff</p></div>
+          <div class="mini-widget blue"><h4>Appointments</h4><p>Today</p></div>
+          <div class="mini-widget green"><h4>Revenue</h4><p>$48k</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================= -->
+<!-- SECTION 1: FEATURES                           -->
+<!-- ID: #features_section                         -->
+<!-- NAV LINK: Features                            -->
+<!-- ============================================= -->
+<section id="features_section" class="features-section">
+  <div class="container">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-5">
+      <span class="section-badge">
+        <i class="bi bi-stars me-2"></i> Platform Features
+      </span>
+      <h2 class="section-title mt-3">Everything Your Hospital Needs</h2>
+      <p class="text-muted mt-2">Comprehensive tools for modern healthcare management</p>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="row g-4">
+      
+      <!-- Feature Card 1: Patient Management -->
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h4>Patient Management</h4>
+          <p>Complete patient registration, medical history tracking, and record management with HIPAA-compliant data storage.</p>
+          <ul class="feature-list">
+            <li><i class="bi bi-check2-circle"></i> Digital registration</li>
+            <li><i class="bi bi-check2-circle"></i> Medical history</li>
+            <li><i class="bi bi-check2-circle"></i> Document upload</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature Card 2: Smart Scheduling -->
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-calendar-check-fill"></i>
+          </div>
+          <h4>Smart Scheduling</h4>
+          <p>AI-powered appointment booking with real-time doctor availability, automated reminders, and conflict detection.</p>
+          <ul class="feature-list">
+            <li><i class="bi bi-check2-circle"></i> Online booking</li>
+            <li><i class="bi bi-check2-circle"></i> Auto reminders</li>
+            <li><i class="bi bi-check2-circle"></i> Conflict detection</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature Card 3: Clinical Dashboards -->
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <h4>Clinical Dashboards</h4>
+          <p>Role-specific dashboards for doctors, nurses, and staff with real-time patient data and clinical decision support.</p>
+          <ul class="feature-list">
+            <li><i class="bi bi-check2-circle"></i> Role-based views</li>
+            <li><i class="bi bi-check2-circle"></i> Real-time data</li>
+            <li><i class="bi bi-check2-circle"></i> Decision support</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature Card 4: Pharmacy Management -->
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-capsule-pill"></i>
+          </div>
+          <h4>Pharmacy Management</h4>
+          <p>Inventory tracking, prescription management, expiry alerts, and automated reordering system.</p>
+          <ul class="feature-list">
+            <li><i class="bi bi-check2-circle"></i> Stock tracking</li>
+            <li><i class="bi bi-check2-circle"></i> Expiry alerts</li>
+            <li><i class="bi bi-check2-circle"></i> Auto reorder</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature Card 5: Laboratory Integration -->
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-droplet-fill"></i>
+          </div>
+          <h4>Laboratory Integration</h4>
+          <p>Seamless lab test ordering, results tracking, and digital report delivery to patients and doctors.</p>
+          <ul class="feature-list">
+            <li><i class="bi bi-check2-circle"></i> Test ordering</li>
+            <li><i class="bi bi-check2-circle"></i> Result tracking</li>
+            <li><i class="bi bi-check2-circle"></i> Digital reports</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature Card 6: Enterprise Security -->
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <h4>Enterprise Security</h4>
+          <p>Bank-level encryption, role-based access control, audit logs, and full HIPAA compliance built-in.</p>
+          <ul class="feature-list">
+            <li><i class="bi bi-check2-circle"></i> HIPAA compliant</li>
+            <li><i class="bi bi-check2-circle"></i> Role-based access</li>
+            <li><i class="bi bi-check2-circle"></i> Audit trails</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA Button -->
+    <div class="text-center mt-5">
+      <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal">
+        <i class="bi bi-rocket-takeoff me-2"></i> Start Using These Features
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================= -->
+<!-- SECTION 2: SOLUTIONS                          -->
+<!-- ID: #solutions_section                        -->
+<!-- NAV LINK: Solutions                           -->
+<!-- ============================================= -->
+<section id="solutions_section" class="solutions-section">
+  <div class="container">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-5">
+      <span class="section-badge">
+        <i class="bi bi-puzzle-fill me-2"></i> Solutions
+      </span>
+      <h2 class="section-title mt-3">Tailored For Every Role</h2>
+      <p class="text-muted mt-2">Specialized dashboards designed for each healthcare professional</p>
+    </div>
+
+    <!-- Solutions Row 1: Core Roles -->
+    <div class="row g-4 mb-4">
+      
+      <!-- Admin Solution -->
+      <div class="col-md-6 col-lg-3">
+        <div class="solution-card protected">
+          <div class="solution-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <h5>Administrator</h5>
+          <p class="solution-desc">Full system control, user management, analytics, and configuration.</p>
+          
+          <!-- Protected Badges -->
+          <div class="protected-badges mb-3">
+            <span class="badge bg-warning text-dark" title="Requires Admin Access">
+              <i class="bi bi-lock-fill"></i> Payroll Data
+            </span>
+            <span class="badge bg-warning text-dark" title="Requires Admin Access">
+              <i class="bi bi-lock-fill"></i> System Config
+            </span>
+          </div>
+          
+          <button class="btn btn-outline-light btn-sm w-100 mb-2" data-protected="payroll"
+                  onclick="handleProtectedAccess('payroll','admin-dashboard.html#payroll')">
+            <i class="bi bi-wallet2 me-1"></i> View Payroll
+          </button>
+          <button class="btn btn-outline-light btn-sm w-100" data-protected="system_config"
+                  onclick="handleProtectedAccess('system_config', 'admin-dashboard.html')">
+            <i class="bi bi-play-fill me-1"></i> Access Dashboard
+          </button>
+        </div>
+      </div>
+      <br>
+
+      <!-- Doctor Solution -->
+      <div class="col-md-6 col-lg-3">
+        <div class="solution-card protected">
+          <div class="solution-icon">
+            <i class="bi bi-heart-pulse-fill"></i>
+          </div>
+          <h5>Doctors</h5>
+          <p class="solution-desc">Appointment management, patient records, prescriptions, and availability status.</p>
+          
+          <!-- Protected Badges -->
+          <div class="protected-badges mb-3">
+            <span class="badge bg-warning text-dark" title="Requires Doctor Access">
+              <i class="bi bi-lock-fill"></i> Patient Records
+            </span>
+            <span class="badge bg-warning text-dark" title="Requires Doctor Access">
+              <i class="bi bi-lock-fill"></i> Prescriptions
+            </span>
+          </div>
+          
+          <button class="btn btn-outline-light btn-sm w-100" data-protected="patient_records"
+                  onclick="handleProtectedAccess('patient_records', 'doctor-dashboard.html')">
+            <i class="bi bi-play-fill me-1"></i> Access Dashboard
+          </button>
+        </div>
+      </div>
+      <br>
+
+      <!-- Nurse Solution -->
+      <div class="col-md-6 col-lg-3">
+        <div class="solution-card protected">
+          <div class="solution-icon">
+            <i class="bi bi-clipboard2-pulse-fill"></i>
+          </div>
+          <h5>Nurses</h5>
+          <p class="solution-desc">Patient vitals tracking, ward management, medication administration, and care plans.</p>
+          
+          <!-- Protected Badges -->
+          <div class="protected-badges mb-3">
+            <span class="badge bg-warning text-dark" title="Requires Nurse Access">
+              <i class="bi bi-lock-fill"></i> Patient Vitals
+            </span>
+          </div>
+          
+          <button class="btn btn-outline-light btn-sm w-100" data-protected="patient_vitals"
+                  onclick="handleProtectedAccess('patient_vitals', null)">
+            <i class="bi bi-play-fill me-1"></i> Access Dashboard
+          </button>
+        </div>
+      </div>
+      <br>
+
+      <!-- Patient Solution -->
+      <div class="col-md-6 col-lg-3">
+        <div class="solution-card">
+          <div class="solution-icon">
+            <i class="bi bi-person-heart"></i>
+          </div>
+          <h5>Patients</h5>
+          <p class="solution-desc">Book appointments, view medical records, access prescriptions, pay bills, and health tips.</p>
+          
+          <!-- No lock - self-service portal -->
+          <button class="btn btn-outline-light btn-sm w-100" 
+                  onclick="window.location.href='patient-dashboard.html'">
+            <i class="bi bi-play-fill me-1"></i> Access Portal
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <br>
+
+
+    <!-- Solutions Row 2: Support Roles -->
+    <div class="row g-4">
+      
+      <!-- Receptionist -->
+      <div class="col-md-6 col-lg-3">
+        <div class="solution-card protected">
+          <div class="solution-icon">
+            <i class="bi bi-person-badge-fill"></i>
+          </div>
+          <h5>Receptionist</h5>
+          <p class="solution-desc">Patient registration, appointment scheduling, check-in management, and billing counter.</p>
+          
+          <div class="protected-badges mb-3">
+            <span class="badge bg-warning text-dark" title="Requires Receptionist Access">
+              <i class="bi bi-lock-fill"></i> Registration
+            </span>
+          </div>
+          
+          <button class="btn btn-outline-light btn-sm w-100" data-protected="patient_records"
+                  onclick="handleProtectedAccess('patient_records', null)">
+            <i class="bi bi-play-fill me-1"></i> Access Dashboard
+          </button>
+        </div>
+      </div>
+      <br>
+
+      <!-- Pharmacist -->
+      <div class="col-md-6 col-lg-3">
+        <div class="solution-card protected">
+          <div class="solution-icon">
+            <i class="bi bi-capsule-pill"></i>
+          </div>
+          <h5>Pharmacist</h5>
+          <p class="solution-desc">Inventory management, prescription dispensing, stock alerts, and supplier management.</p>
+          
+          <div class="protected-badges mb-3">
+            <span class="badge bg-warning text-dark" title="Requires Pharmacist Access">
+              <i class="bi bi-lock-fill"></i> Inventory
+            </span>
+            <span class="badge bg-warning text-dark" title="Requires Pharmacist Access">
+              <i class="bi bi-lock-fill"></i> Controlled Substances
+            </span>
+          </div>
+          
+          <button class="btn btn-outline-light btn-sm w-100" data-protected="pharmacy_inventory"
+                  onclick="handleProtectedAccess('pharmacy_inventory', null)">
+            <i class="bi bi-play-fill me-1"></i> Access Dashboard
+          </button>
+        </div>
+      </div>
+      <br>
+
+      <!-- Lab Technician -->
+      <div class="col-md-6 col-lg-3">
+        <div class="solution-card protected">
+          <div class="solution-icon">
+            <i class="bi bi-droplet-fill"></i>
+          </div>
+          <h5>Lab Technician</h5>
+          <p class="solution-desc">Test order processing, results entry, sample tracking, and equipment management.</p>
+          
+          <div class="protected-badges mb-3">
+            <span class="badge bg-warning text-dark" title="Requires Lab Technician Access">
+              <i class="bi bi-lock-fill"></i> Test Results
+            </span>
+          </div>
+          
+          <button class="btn btn-outline-light btn-sm w-100" data-protected="patient_lab_results"
+                  onclick="handleProtectedAccess('patient_lab_results', null)">
+            <i class="bi bi-play-fill me-1"></i> Access Dashboard
+          </button>
+        </div>
+      </div>
+      <br>
+
+      <!-- Accountant -->
+      <div class="col-md-6 col-lg-3">
+        <div class="solution-card protected">
+          <div class="solution-icon">
+            <i class="bi bi-cash-stack"></i>
+          </div>
+          <h5>Accountant</h5>
+          <p class="solution-desc">Revenue tracking, invoice management, insurance claims, and financial reporting.</p>
+          
+          <div class="protected-badges mb-3">
+            <span class="badge bg-warning text-dark" title="Requires Admin Access">
+              <i class="bi bi-lock-fill"></i> Revenue Data
+            </span>
+          </div>
+          
+          <button class="btn btn-outline-light btn-sm w-100" data-protected="revenue_reports"
+                  onclick="handleProtectedAccess('revenue_reports', null)">
+            <i class="bi bi-play-fill me-1"></i> Access Dashboard
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+<br>
+
+
+<!-- ============================================= -->
+<!-- SECTION 3: ANALYTICS                          -->
+<!-- ID: #analytics_section                        -->
+<!-- NAV LINK: Analytics                           -->
+<!-- ============================================= -->
+<section id="analytics_section" class="analytics-section">
+  <div class="container">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-5">
+      <span class="section-badge">
+        <i class="bi bi-graph-up-arrow me-2"></i> Analytics
+      </span>
+      <h2 class="section-title mt-3">Real-Time Hospital Analytics</h2>
+      <p class="text-muted mt-2">Data-driven insights for better healthcare decisions</p>
+    </div>
+
+    <div class="row g-4 align-items-center">
+      
+      <!-- Left: Stats Grid -->
+      <div class="col-lg-6">
+        <div class="analytics-visual">
+          <div class="row g-3">
+            
+            <div class="col-6">
+              <div class="analytics-stat-card">
+                <div class="analytics-stat-icon">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+                <h3 class="counter" data-target="25000">25,000+</h3>
+                <p>Patients Managed</p>
+                <small class="text-success">
+                  <i class="bi bi-arrow-up-short"></i> 12% this month
+                </small>
+              </div>
+            </div>
+            
+            <div class="col-6">
+              <div class="analytics-stat-card">
+                <div class="analytics-stat-icon">
+                  <i class="bi bi-calendar-check-fill"></i>
+                </div>
+                <h3 class="counter" data-target="150000">150,000+</h3>
+                <p>Appointments</p>
+                <small class="text-success">
+                  <i class="bi bi-arrow-up-short"></i> 8% this month
+                </small>
+              </div>
+            </div>
+            
+            <div class="col-6">
+              <div class="analytics-stat-card">
+                <div class="analytics-stat-icon">
+                  <i class="bi bi-heart-pulse-fill"></i>
+                </div>
+                <h3 class="counter" data-target="500">500+</h3>
+                <p>Active Doctors</p>
+                <small class="text-info">
+                  <i class="bi bi-dot"></i> Across 12 specialties
+                </small>
+              </div>
+            </div>
+            
+            <div class="col-6">
+              <div class="analytics-stat-card">
+                <div class="analytics-stat-icon">
+                  <i class="bi bi-hospital-fill"></i>
+                </div>
+                <h3 class="counter" data-target="50">50+</h3>
+                <p>Departments</p>
+                <small class="text-success">
+                  <i class="bi bi-arrow-up-short"></i> 3 new this year
+                </small>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Analytics Features -->
+      <div class="col-lg-6">
+        <div class="analytics-features">
+          <h4 class="text-white mb-4">Advanced Analytics Suite</h4>
+          
+          <div class="analytics-feature-item">
+            <div class="analytics-feature-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="analytics-feature-content">
+              <h6>Real-Time Dashboard</h6>
+              <p>Live updates on appointments, bed occupancy, revenue, and patient flow</p>
+            </div>
+          </div>
+
+          <div class="analytics-feature-item">
+            <div class="analytics-feature-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="analytics-feature-content">
+              <h6>Predictive Analytics</h6>
+              <p>AI-powered forecasting for patient inflow, resource planning, and staffing needs</p>
+            </div>
+          </div>
+
+          <div class="analytics-feature-item">
+            <div class="analytics-feature-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="analytics-feature-content">
+              <h6>Custom Reports</h6>
+              <p>Generate detailed reports for any department, time period, or metric</p>
+            </div>
+          </div>
+
+          <div class="analytics-feature-item">
+            <div class="analytics-feature-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="analytics-feature-content">
+              <h6>Export Ready</h6>
+              <p>Download reports as PDF, Excel, or CSV for presentations and audits</p>
+            </div>
+          </div>
+
+          <div class="analytics-feature-item">
+            <div class="analytics-feature-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="analytics-feature-content">
+              <h6>Compliance Tracking</h6>
+              <p>HIPAA-compliant analytics with audit trails and access logging</p>
+            </div>
+          </div>
+
+          <!-- Protected: Revenue Reports -->
+          <div class="mt-4">
+            <button class="btn btn-primary" data-protected="revenue_reports"
+                    onclick="handleProtectedAccess('revenue_reports', 'admin-dashboard.html')">
+              <i class="bi bi-lock-fill me-2"></i> View Detailed Analytics
+            </button>
+            <small class="text-muted ms-2">Requires admin access</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<br>
+
+
+<!-- ============================================= -->
+<!-- SECTION 4: CONTACT                            -->
+<!-- ID: #contact_section                          -->
+<!-- NAV LINK: Contact                             -->
+<!-- ============================================= -->
+<section id="contact_section" class="contact-section">
+  <div class="container">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-5">
+      <span class="section-badge">
+        <i class="bi bi-telephone-fill me-2"></i> Contact
+      </span>
+      <h2 class="section-title mt-3">Get In Touch</h2>
+      <p class="text-muted mt-2">Have questions? Our team is here to help you get started</p>
+    </div>
+
+    <div class="row g-4">
+      
+      <!-- Left: Contact Information -->
+      <div class="col-lg-5">
+        
+        <!-- Visit Us -->
+        <div class="contact-info-card">
+          <div class="contact-icon">
+            <i class="bi bi-geo-alt-fill"></i>
+          </div>
+          <div class="contact-details">
+            <h6>Visit Our Office</h6>
+            <p>123 Healthcare Avenue<br>Medical District, NY 10001</p>
+            <a href="#" class="contact-link">
+              <i class="bi bi-map"></i> Get Directions
+            </a>
+          </div>
+        </div>
+
+        <!-- Email Us -->
+        <div class="contact-info-card">
+          <div class="contact-icon">
+            <i class="bi bi-envelope-fill"></i>
+          </div>
+          <div class="contact-details">
+            <h6>Email Us</h6>
+            <p>support@u5hms.com<br>sales@u5hms.com</p>
+            <a href="mailto:support@u5hms.com" class="contact-link">
+              <i class="bi bi-send"></i> Send Email
+            </a>
+          </div>
+        </div>
+
+        <!-- Call Us -->
+        <div class="contact-info-card">
+          <div class="contact-icon">
+            <i class="bi bi-telephone-fill"></i>
+          </div>
+          <div class="contact-details">
+            <h6>Call Us</h6>
+            <p>+1 (555) 123-4567<br>Mon-Fri 9am-6pm EST</p>
+            <a href="tel:+15551234567" class="contact-link">
+              <i class="bi bi-telephone"></i> Call Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="contact-social mt-3">
+          <h6 class="text-white mb-2">Follow Us</h6>
+          <div class="social-icons">
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Contact Form -->
+      <div class="col-lg-7">
+        <div class="contact-form-card">
+          <h5 class="mb-4 text-white">
+            <i class="bi bi-chat-dots-fill me-2"></i> Send Us a Message
+          </h5>
+          
+          <form id="contactForm" onsubmit="submitContactForm(event)">
+            <div class="row g-3">
+              
+              <!-- Name -->
+              <div class="col-md-6">
+                <label class="form-label">
+                  Full Name <span class="text-danger">*</span>
+                </label>
+                <div class="input-group-custom">
+                  <i class="bi bi-person-fill"></i>
+                  <input type="text" class="form-control" id="contactName" 
+                         placeholder="Dr. John Smith" required>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="col-md-6">
+                <label class="form-label">
+                  Email Address <span class="text-danger">*</span>
+                </label>
+                <div class="input-group-custom">
+                  <i class="bi bi-envelope-fill"></i>
+                  <input type="email" class="form-control" id="contactEmail" 
+                         placeholder="john@hospital.com" required>
+                </div>
+              </div>
+
+              <!-- Organization -->
+              <div class="col-md-6">
+                <label class="form-label">Organization</label>
+                <div class="input-group-custom">
+                  <i class="bi bi-building"></i>
+                  <input type="text" class="form-control" id="contactOrg" 
+                         placeholder="Hospital or Clinic name">
+                </div>
+              </div>
+
+              <!-- Phone -->
+              <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                <div class="input-group-custom">
+                  <i class="bi bi-telephone-fill"></i>
+                  <input type="tel" class="form-control" id="contactPhone" 
+                         placeholder="+1 (555) 000-0000">
+                </div>
+              </div>
+
+              <!-- Subject -->
+              <div class="col-12">
+                <label class="form-label">
+                  Subject <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="contactSubject" required>
+                  <option value="">Select a topic...</option>
+                  <option value="demo">📅 Request a Demo</option>
+                  <option value="pricing">💰 Pricing Inquiry</option>
+                  <option value="support">🔧 Technical Support</option>
+                  <option value="partnership">🤝 Partnership Opportunity</option>
+                  <option value="integration">🔗 Integration Question</option>
+                  <option value="other">📝 Other</option>
+                </select>
+              </div>
+
+              <!-- Message -->
+              <div class="col-12">
+                <label class="form-label">
+                  Message <span class="text-danger">*</span>
+                </label>
+                <textarea class="form-control" id="contactMessage" rows="5" 
+                          placeholder="Tell us about your needs, questions, or requirements..."
+                          required></textarea>
+              </div>
+
+              <!-- Consent -->
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="contactConsent" required>
+                  <label class="form-check-label text-muted small" for="contactConsent">
+                    I agree to the<a href="#" id="openPrivacyModal" class="privacy-link">
+                    Privacy Policy
+                  </a> and consent to being contacted about U5 HMS services.
+                  </label>
+                </div>
+              </div>
+
+              <!-- Submit -->
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                  <i class="bi bi-send-fill me-2"></i> Send Message
+                </button>
+                <p class="text-muted small text-center mt-2">
+                  <i class="bi bi-shield-check"></i> Your information is secure and encrypted
+                </p>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+function handleProtectedAccess(type, target) {
+  if (typeof U5AuthGuard !== 'undefined' && !U5AuthGuard.canAccess(type)) {
+    alert('Access denied: admin only.');
+    return;
+  }
+  if (target) {
+    window.location.href = target;
+    return;
+  }
+  window.location.href = 'admin-dashboard.html' + (type ? ('#' + type) : '');
+}
+</script>
+<!-- ================= LOGIN MODAL ================= -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content auth-modal">
+
+<div class="modal-header">
+<h5 class="modal-title"><i class="bi bi-box-arrow-in-right me-2"></i>Login</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body auth-body">
+
+<div class="auth-group">
+<label>Email</label>
+<div class="auth-input">
+<i class="bi bi-envelope"></i>
+<input id="loginEmail" type="email" placeholder="Enter your email">
+</div>
+</div>
+
+<div class="auth-group">
+<label>Password</label>
+<div class="auth-input">
+<i class="bi bi-lock"></i>
+<input id="loginPassword" type="password" placeholder="Enter your password">
+</div>
+</div>
+
+<div class="auth-group">
+  <div class="form-text text-muted mt-2">Patient and doctor login is auto-detected by email/password. Use Staff Login for staff accounts.</div>
+</div>
+
+<button class="btn btn-primary w-100" onclick="loginUser()">Login</button>
+<p class="text-center mt-2 text-muted small">Demo accounts: patient@test.com / patient123, jane@email.com / patient123, james@u5hms.com / doctor123. Staff use Staff Login.</p>
+
+<p class="text-center mt-3 auth-switch">
+Don't have an account?
+<a href="#" onclick="switchToRegister(event)">Register</a>
+</p>
+
+<p class="text-center auth-switch">
+Staff login?
+<a href="#" data-bs-toggle="modal" data-bs-target="#staffLoginModal">Go</a>
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="privacyModal" class="modal">
+  <div class="modal-content">
+    
+    <!-- Close Button -->
+    <span class="close-btn">&times;</span>
+
+    <h2>Privacy Policy – U5 HMS</h2>
+
+    <p>
+      At U5 HMS (Hospital Management System), we are committed to protecting
+      the privacy, confidentiality, and security of patient and healthcare data.
+      This Privacy Policy explains how we collect, use, store, and safeguard
+      information within our platform.
+    </p>
+
+    <h3>1. Information We Collect</h3>
+    <p>
+      U5 HMS may collect personal and medical information including patient
+      names, contact details, appointment records, billing information,
+      prescriptions, laboratory results, and healthcare history necessary
+      for hospital management operations.
+    </p>
+
+    <h3>2. How We Use Information</h3>
+    <p>
+      The information collected is used strictly for healthcare administration,
+      patient management, appointment scheduling, billing, reporting,
+      communication, and improving healthcare service delivery.
+    </p>
+
+    <h3>3. Data Security</h3>
+    <p>
+      We implement industry-standard security measures to protect all data
+      against unauthorized access, loss, misuse, or disclosure. Access to
+      sensitive information is restricted to authorized personnel only.
+    </p>
+
+    <h3>4. Confidentiality of Medical Records</h3>
+    <p>
+      Patient medical records are treated with strict confidentiality and are
+      only accessible by authorized healthcare professionals in accordance
+      with applicable healthcare regulations and privacy standards.
+    </p>
+
+    <h3>5. Third-Party Services</h3>
+    <p>
+      U5 HMS does not sell or share patient information with third parties
+      except where required for healthcare operations, legal obligations,
+      or authorized integrations.
+    </p>
+
+    <h3>6. User Responsibilities</h3>
+    <p>
+      Users are responsible for maintaining the confidentiality of their login
+      credentials and ensuring secure access to the system.
+    </p>
+
+    <h3>7. Updates to This Policy</h3>
+    <p>
+      U5 HMS reserves the right to update this Privacy Policy at any time.
+      Continued use of the platform indicates acceptance of any revised terms.
+    </p>
+
+    <h3>8. Contact Us</h3>
+    <p>
+      For questions regarding this Privacy Policy or data handling practices,
+      please contact the U5 HMS support team.
+    </p>
+
+  </div>
+</div>
+
+
+<!-- ================= REGISTER MODAL ================= -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content auth-modal">
+
+<div class="modal-header">
+<h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Register</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body auth-body">
+
+<div class="auth-group">
+<label>Full Name</label>
+<div class="auth-input">
+<i class="bi bi-person"></i>
+<input id="regName" placeholder="Enter your full name">
+</div>
+</div>
+
+<div class="auth-group">
+<label>Email</label>
+<div class="auth-input">
+<i class="bi bi-envelope"></i>
+<input id="regEmail" placeholder="Enter your email">
+</div>
+</div>
+
+<div class="auth-group">
+<label>Password</label>
+<div class="auth-input">
+<i class="bi bi-lock"></i>
+<input id="regPassword" type="password" placeholder="Create a password">
+</div>
+</div>
+
+<div class="auth-group">
+<label>Register As</label>
+<select class="form-select" id="regRole" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; border-radius: 12px; padding: 12px 16px;">
+  <option value="patient">Patient</option>
+  <option value="doctor">Doctor</option>
+</select>
+</div>
+
+<!-- Doctor-specific fields (hidden by default) -->
+<div id="doctorFields" style="display: none;">
+  <div class="auth-group">
+    <label>Specialization</label>
+    <select class="form-select" id="regSpecialization" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; border-radius: 12px; padding: 12px 16px;">
+      <option value="">Select Specialization</option>
+    </select>
+  </div>
+  <div class="auth-group">
+    <label>License Number</label>
+    <div class="auth-input">
+      <i class="bi bi-file-text"></i>
+      <input id="regLicense" placeholder="Enter medical license number">
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-success w-100" onclick="registerUser()">Create Account</button>
+
+<p class="text-center mt-3 auth-switch">
+Already have account?
+<a href="#" onclick="switchToLogin(event)">Login</a>
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<!-- ================= STAFF MODAL ================= -->
+<div class="modal fade" id="staffLoginModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content auth-modal">
+
+<div class="modal-header">
+<h5 class="modal-title"><i class="bi bi-person-badge me-2"></i>Staff Login</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body auth-body">
+
+<div class="auth-group">
+<label>Employee ID</label>
+<div class="auth-input">
+<i class="bi bi-upc"></i>
+<input id="staffId" placeholder="Enter employee ID">
+</div>
+</div>
+
+<div class="auth-group">
+<label>Password</label>
+<div class="auth-input">
+<i class="bi bi-lock"></i>
+<input id="staffPassword" type="password" placeholder="Enter password">
+</div>
+</div>
+
+<button class="btn btn-primary w-100" onclick="staffLogin()">Login</button>
+<p class="text-center mt-2 text-muted small">Hover the Staff Login button or use these IDs: ADMIN-001, DOC-001, GOPD-001, NUR-001, PHARM-001, LAB-001, REC-001, ACC-001. Default staff password is staff123; doctor password is doctor123; admin password is admin123.</p>
+
+<p class="text-center auth-switch">
+Admin?
+<a href="#" onclick="openAdminLogin(event)">Admin Login</a>
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<!-- ================= ADMIN MODAL ================= -->
+<div class="modal fade" id="adminLoginModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content auth-modal">
+
+<div class="modal-header">
+<h5 class="modal-title"><i class="bi bi-shield-lock me-2"></i>Admin Login</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body auth-body">
+
+<div class="auth-group">
+<label>Admin ID</label>
+<div class="auth-input">
+<i class="bi bi-person-workspace"></i>
+<input id="adminId" placeholder="Enter admin ID">
+</div>
+</div>
+
+<div class="auth-group">
+<label>Password</label>
+<div class="auth-input">
+<i class="bi bi-lock"></i>
+<input id="adminPassword" type="password" placeholder="Enter admin password">
+</div>
+</div>
+
+<button class="btn btn-danger w-100" onclick="adminLogin()">Login Admin</button>
+
+<p class="text-center auth-switch">
+<a href="#" onclick="backToStaff(event)">Back to Staff</a>
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+<footer class="footer-news">
+
+    <!-- ================= TOP STATUS BAR ================= -->
+    <div class="footer-topbar">
+
+        <div class="status-indicator">
+            <span class="dot"></span>
+            System Online • 99.9% Uptime
+        </div>
+
+        <div class="ticker">
+            <div class="ticker-track">
+                <span><i class="bi bi-hospital me-1"></i> AI Dashboard released</span>
+                <span><i class="bi bi-graph-up-arrow me-1"></i> HRM automation live</span>
+                <span><i class="bi bi-shield-lock me-1"></i> Security upgraded</span>
+                <span><i class="bi bi-capsule-pill me-1"></i> Faster onboarding</span>
+                <span><i class="bi bi-bar-chart-line me-1"></i> Analytics improved</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= NEWSLETTER ================= -->
+    <div class="footer-newsletter container">
+
+        <div class="newsletter-text">
+            <h5>
+                <i class="bi bi-envelope-paper me-2"></i>
+                Stay updated
+            </h5>
+            <p>Get hospital system updates, releases & AI insights.</p>
+        </div>
+
+        <div class="newsletter-form">
+            <input type="email" placeholder="Enter your email">
+            <button>
+                <i class="bi bi-send"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ================= MAIN FOOTER CONTENT ================= -->
+    <div class="container py-5">
+
+        <div class="row g-4">
+
+            <!-- BRAND -->
+            <div class="col-lg-4">
+                <h3 class="footer-logo">U5 HMS</h3>
+
+                <p class="footer-text">
+                    A modern hospital operating system combining healthcare,
+                    HRM, analytics, and automation into one intelligent platform.
+                </p>
+
+                <div class="footer-badges">
+                    <span>HIPAA Ready</span>
+                    <span>Enterprise Grade</span>
+                    <span>Cloud Powered</span>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="col-lg-3">
+                <h5>Quick Actions</h5>
+
+                <ul class="footer-links">
+                    <li><a href="#">Book Demo</a></li>
+                    <li><a href="#">Staff Login</a></li>
+                    <li><a href="#">Create Hospital Account</a></li>
+                    <li><a href="#">System Status</a></li>
+                </ul>
+            </div>
+
+            <!-- RESOURCES -->
+            <div class="col-lg-3">
+                <h5>Resources</h5>
+
+                <ul class="footer-links">
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">API Access</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+
+            <!-- CONTACT -->
+            <div class="col-lg-2">
+                <h5>Contact</h5>
+
+                <ul class="footer-links">
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Sales</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <!-- ================= BOTTOM BAR ================= -->
+        <div class="footer-bottom mt-5">
+
+            <p>
+                © <span id="year"></span> U5 HMS — All Rights Reserved.
+            </p>
+
+            <div class="footer-social">
+                <i class="bi bi-twitter"></i>
+                <i class="bi bi-linkedin"></i>
+                <i class="bi bi-facebook"></i>
+                <i class="bi bi-github"></i>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<!-- YEAR SCRIPT -->
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<!-- ================= JS ================= -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="asset/js/u5-db.js"></script>
+<script src="asset/js/u5-announcements.js"></script>
+<script src="asset/js/u5-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-1Q1xchO3QC4yeVh3eS+Hl65ShnMgPfTd3sre92tRGZl/Bwc6lFodm4aQckf4Dy/eKE2dWzSAw7EwwZhM5b6a9A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+      if (window.AOS) AOS.init({ duration: 800, once: true, mirror: false });
+  });
+</script>
+
+<script>
+// ================= AUTH SYSTEM =================
+const AuthPocket = {
+    register(user){
+        let users = JSON.parse(localStorage.getItem("u5_users")) || [];
+        if(users.find(u=>u.email===user.email)) return {success:false, message:"Email already exists"};
+        
+        const newUser = {
+            ...user,
+            password: btoa(user.password),
+            id: Date.now(),
+            createdAt: new Date().toISOString()
+        };
+        
+        users.push(newUser);
+        localStorage.setItem("u5_users", JSON.stringify(users));
+        
+        // If registering as doctor, also add to doctors list
+        if(user.role === "doctor" && user.specialization) {
+            let doctors = window.U5DB ? U5DB.doctors.getAll() : (JSON.parse(localStorage.getItem("u5_doctors")) || []);
+            doctors.push({
+                id: newUser.id,
+                name: user.name,
+                email: user.email,
+                specialization: user.specialization,
+                license: user.license || "PENDING",
+                fee: 100,
+                experience: 0,
+                status: "active",
+                bio: ""
+            });
+            if (window.U5DB) U5DB.setStore("doctors", doctors);
+            else localStorage.setItem("u5_doctors", JSON.stringify(doctors));
+        }
+        
+        // If registering as patient, also add to patients list
+        if(user.role === "patient") {
+            let patients = window.U5DB ? U5DB.patients.getAll() : (JSON.parse(localStorage.getItem("u5_patients")) || []);
+            patients.push({
+                id: newUser.id,
+                name: user.name,
+                email: user.email,
+                bloodGroup: "",
+                phone: ""
+            });
+            if (window.U5DB) U5DB.setStore("patients", patients);
+            else localStorage.setItem("u5_patients", JSON.stringify(patients));
+        }
+        
+        return {success: true};
+    },
+
+    login(email, password){
+        let users = JSON.parse(localStorage.getItem("u5_users")) || [];
+        const user = users.find(u => u.email === email && u.password === btoa(password));
+        if(!user) return {success: false, message: "Invalid credentials"};
+        
+        const session = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            specialization: user.specialization || null
+        };
+        
+        localStorage.setItem("u5_session", JSON.stringify(session));
+        return {success: true, user: session};
+    },
+
+    staffLogin(id, password){
+        let staff = JSON.parse(localStorage.getItem("u5_staff")) || [];
+        const user = staff.find(s => s.empId === id && s.password === btoa(password));
+        if(!user) return {success: false, message: "Invalid credentials"};
+        
+        const session = {
+            id: user.id || Date.now(),
+            name: user.name,
+            empId: user.empId,
+            role: user.role,
+            department: user.department || null
+        };
+        
+        localStorage.setItem("u5_session", JSON.stringify(session));
+        return {success: true, user: session};
+    },
+
+    getSession(){
+        return JSON.parse(localStorage.getItem("u5_session"));
+    }
+};
+
+// ================= SHOW/HIDE DOCTOR FIELDS =================
+document.getElementById("regRole").addEventListener("change", function() {
+    const doctorFields = document.getElementById("doctorFields");
+    if(this.value === "doctor") {
+        doctorFields.style.display = "block";
+        loadSpecializations();
+    } else {
+        doctorFields.style.display = "none";
+    }
+});
+
+function loadSpecializations() {
+    const specs = JSON.parse(localStorage.getItem("u5_specializations")) || [];
+    const select = document.getElementById("regSpecialization");
+    
+    if(specs.length === 0) {
+        // Default specializations
+        const defaultSpecs = [
+            "Cardiology", "Dermatology", "Dentistry", "Ophthalmology",
+            "Physiotherapy", "Neurology", "Urology", "Pediatrics",
+            "ENT", "Orthopedics", "Psychiatry", "Gynecology"
+        ];
+        select.innerHTML = '<option value="">Select Specialization</option>' +
+            defaultSpecs.map(s => `<option value="${s}">${s}</option>`).join('');
+    } else {
+        select.innerHTML = '<option value="">Select Specialization</option>' +
+            specs.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+    }
+}
+
+// ================= AUTH FUNCTIONS =================
+function registerUser(){
+    const name = document.getElementById("regName").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const password = document.getElementById("regPassword").value.trim();
+    const role = document.getElementById("regRole").value;
+    
+    if(!name || !email || !password) {
+        alert("Please fill all required fields!");
+        return;
+    }
+    
+    const userData = {
+        name,
+        email,
+        password,
+        role
+    };
+    
+    // Add doctor-specific fields if registering as doctor
+    if(role === "doctor") {
+        const specialization = document.getElementById("regSpecialization").value;
+        const license = document.getElementById("regLicense").value.trim();
+        
+        if(!specialization) {
+            alert("Please select a specialization!");
+            return;
+        }
+        
+        userData.specialization = specialization;
+        userData.license = license;
+    }
+    
+    const res = AuthPocket.register(userData);
+    
+    if(res.success){
+        alert("Registration successful! Please login.");
+        const registerModal = document.getElementById("registerModal");
+        bootstrap.Modal.getInstance(registerModal).hide();
+        
+        // Reset form
+        document.getElementById("regName").value = '';
+        document.getElementById("regEmail").value = '';
+        document.getElementById("regPassword").value = '';
+        document.getElementById("doctorFields").style.display = "none";
+        
+        setTimeout(() => {
+            const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+            loginModal.show();
+        }, 300);
+    } else {
+        alert(res.message);
+    }
+}
+
+function loginUser(){
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    
+    if(!email || !password) {
+        alert("Please fill all fields!");
+        return;
+    }
+    
+    const res = AuthPocket.login(email, password);
+    
+    if(res.success){
+        const loginModal = document.getElementById("loginModal");
+        const instance = bootstrap.Modal.getInstance(loginModal);
+        if (instance) instance.hide();
+        
+        // Redirect based on detected role
+        setTimeout(() => {
+            U5UI.redirectByRole(res.user.role, 0);
+        }, 300);
+    } else {
+        alert(res.message);
+    }
+}
+
+function staffLogin(){
+    const empId = document.getElementById("staffId").value.trim();
+    const password = document.getElementById("staffPassword").value.trim();
+    
+    if(!empId || !password) {
+        alert("Please fill all fields!");
+        return;
+    }
+    
+    const res = AuthPocket.staffLogin(empId, password);
+    
+    if(res.success){
+        const staffLoginModal = document.getElementById("staffLoginModal");
+        bootstrap.Modal.getInstance(staffLoginModal).hide();
+        
+        // Redirect based on staff role
+        setTimeout(() => {
+            U5UI.redirectByRole(res.user.role, 0);
+        }, 300);
+    } else {
+        alert(res.message);
+    }
+}
+
+function adminLogin(){
+    const empId = document.getElementById("adminId").value.trim();
+    const password = document.getElementById("adminPassword").value.trim();
+
+    const res = AuthPocket.staffLogin(empId, password);
+
+    if(!res.success){
+        alert(res.message);
+        return;
+    }
+
+    // HARD ROLE CHECK
+    if(res.user.role !== "admin"){
+        alert("Access denied: Admins only");
+        return;
+    }
+
+    // CLEAN SESSION
+    const session = {
+        name: res.user.name,
+        empId: res.user.empId,
+        role: "admin"
+    };
+
+    localStorage.setItem("u5_session", JSON.stringify(session));
+
+    // Close modal safely
+    const modalEl = document.getElementById("adminLoginModal");
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if(modal) modal.hide();
+
+    // Remove any remaining backdrops
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+    document.body.classList.remove('modal-open');
+
+    // Redirect
+    window.location.href = "admin-dashboard.html";
+}
+
+function openAdminLogin(e){
+    e.preventDefault();
+    const staffModal = bootstrap.Modal.getInstance(document.getElementById("staffLoginModal"));
+    if(staffModal) staffModal.hide();
+    
+    setTimeout(() => {
+        const adminModal = new bootstrap.Modal(document.getElementById("adminLoginModal"));
+        adminModal.show();
+    }, 300);
+}
+
+function backToStaff(e){
+    e.preventDefault();
+    const adminModal = bootstrap.Modal.getInstance(document.getElementById("adminLoginModal"));
+    if(adminModal) adminModal.hide();
+    
+    setTimeout(() => {
+        const staffModal = new bootstrap.Modal(document.getElementById("staffLoginModal"));
+        staffModal.show();
+    }, 300);
+}
+
+function switchToRegister(e){
+    e.preventDefault();
+    const loginModal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+    if(loginModal) loginModal.hide();
+    
+    setTimeout(() => {
+        const registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+        registerModal.show();
+    }, 300);
+}
+
+function switchToLogin(e){
+    e.preventDefault();
+    const registerModal = bootstrap.Modal.getInstance(document.getElementById("registerModal"));
+    if(registerModal) registerModal.hide();
+    
+    setTimeout(() => {
+        const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+        loginModal.show();
+    }, 300);
+}
+
+// ================= SEED DATA =================
+(function seedData(){
+    // Seed specializations
+    if(!localStorage.getItem("u5_specializations")){
+        const specs = [
+            { id: 1, name: "Cardiology", description: "Heart and cardiovascular system" },
+            { id: 2, name: "Dermatology", description: "Skin, hair, and nail disorders" },
+            { id: 3, name: "Dentistry", description: "Oral health and dental care" },
+            { id: 4, name: "Ophthalmology", description: "Eye and vision care" },
+            { id: 5, name: "Physiotherapy", description: "Physical rehabilitation" },
+            { id: 6, name: "Neurology", description: "Brain and nervous system" },
+            { id: 7, name: "Urology", description: "Urinary tract system" },
+            { id: 8, name: "Pediatrics", description: "Children's health" },
+            { id: 9, name: "ENT", description: "Ear, Nose, and Throat" },
+            { id: 10, name: "Orthopedics", description: "Bone and joint disorders" },
+            { id: 11, name: "Psychiatry", description: "Mental health" },
+            { id: 12, name: "Gynecology", description: "Women's health" }
+        ];
+        localStorage.setItem("u5_specializations", JSON.stringify(specs));
+    }
+    
+    // Seed admin
+    let staff = JSON.parse(localStorage.getItem("u5_staff")) || [];
+    if(!staff.find(s => s.empId === "ADMIN-001")){
+        staff.push({
+            id: Date.now(),
+            name: "System Admin",
+            empId: "ADMIN-001",
+            password: btoa("admin123"),
+            role: "admin",
+            department: "IT"
+        });
+        localStorage.setItem("u5_staff", JSON.stringify(staff));
+    }
+    
+    // Seed sample doctors as staff
+    if(!staff.find(s => s.empId === "DOC-001")){
+        staff.push({
+            id: Date.now() + 1,
+            name: "Dr. James Wilson",
+            empId: "DOC-001",
+            password: btoa("doctor123"),
+            role: "doctor",
+            department: "Cardiology"
+        });
+        localStorage.setItem("u5_staff", JSON.stringify(staff));
+    }
+    
+    // Seed sample patients as users
+    let users = JSON.parse(localStorage.getItem("u5_users")) || [];
+    if(!users.find(u => u.email === "patient@test.com")){
+        users.push({
+            id: Date.now(),
+            name: "John Doe",
+            email: "patient@test.com",
+            password: btoa("patient123"),
+            role: "patient",
+            createdAt: new Date().toISOString()
+        });
+        localStorage.setItem("u5_users", JSON.stringify(users));
+        
+        // Also add to patients
+        let patients = JSON.parse(localStorage.getItem("u5_patients")) || [];
+        patients.push({
+            id: Date.now(),
+            name: "John Doe",
+            email: "patient@test.com",
+            bloodGroup: "O+",
+            phone: "555-0101"
+        });
+        localStorage.setItem("u5_patients", JSON.stringify(patients));
+    }
+
+    if(!users.find(u => u.email === "james@u5hms.com")){
+        users.push({
+            id: Date.now() + 1,
+            name: "Dr. James Wilson",
+            email: "james@u5hms.com",
+            password: btoa("doctor123"),
+            role: "doctor",
+            specialization: "Cardiology",
+            license: "LIC-001",
+            createdAt: new Date().toISOString()
+        });
+        localStorage.setItem("u5_users", JSON.stringify(users));
+    }
+})();
+
+// Prevent modal backdrop issues
+document.addEventListener('hidden.bs.modal', function () {
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+        if(!document.querySelector('.modal.show')) {
+            backdrop.remove();
+        }
+    });
+    if(!document.querySelector('.modal.show')) {
+        document.body.classList.remove('modal-open');
+    }
+});
+</script>
+
+<script>
+  const openPrivacyModal = document.querySelector(".open-privacy-modal");
+  const privacyModal = document.querySelector(".privacy-modal");
+  const closePrivacyModal = document.querySelector(".close-privacy-modal");
+
+  openPrivacyModal.addEventListener("click", function(e) {
+    e.preventDefault();
+    privacyModal.style.display = "block";
+  });
+
+  closePrivacyModal.addEventListener("click", function() {
+    privacyModal.style.display = "none";
+  });
+
+  window.addEventListener("click", function(e) {
+    if (e.target === privacyModal) {
+      privacyModal.style.display = "none";
+    }
+  });
+</script>
+</body>
+</html>
